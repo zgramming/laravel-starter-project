@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('user', [UserController::class, 'index'])->name('user');
+
+Route::get('example', [ExampleController::class, 'index'])->name('example');
+Route::get('example-datatable',[ExampleController::class,'exampleDatatable']);

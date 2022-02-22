@@ -1,9 +1,9 @@
+{{-- Jquery --}}
+<script src="{{asset('assets/vendors/jquery/jquery.min.js')}}"></script>
+
 {{-- Scroll JS --}}
 <script src="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-
-{{-- Jquery --}}
-<script src="{{asset('assets/vendors/jquery/jquery.min.js')}}"></script>
 
 {{-- DataTable --}}
 <script src="{{asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js')}}"></script>
