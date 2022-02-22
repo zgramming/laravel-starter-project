@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('pattern', 100);
             $table->string('icon_name', 50)->nullable();
             $table->enum('status', ['active', 'not_active', 'none']);
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

@@ -21,8 +21,8 @@ return new class extends Migration
 
             /// Jangan lupa di casting pada model nantinya menjadi array
             $table->json('allowed_access');
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
 
             $table->foreign('app_group_user_id')->references('id')->on('app_group_user')->cascadeOnDelete();

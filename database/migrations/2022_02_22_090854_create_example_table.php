@@ -19,11 +19,11 @@ return new class extends Migration
             $table->text('description');
             $table->date('birth_date');
             $table->double('current_money');
-            $table->text('profile_image');
+            $table->text('profile_image')->nullable();
             /// Jangan lupa di casting di model menjadi array
-            $table->json('hobby');
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->json('hobby')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
 
             $table->timestamps();
         });
