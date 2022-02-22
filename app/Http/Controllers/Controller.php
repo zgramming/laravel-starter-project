@@ -11,11 +11,4 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function testing(){
-
-    }
-
-    public function testing2(){
-
-    }
 }
