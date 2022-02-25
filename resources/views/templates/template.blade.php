@@ -6,10 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     @include("templates.imports.top_import")
-    @yield("extend-css","")
-
-    @include("templates.imports.bot_import")
-    @yield("extend-js","")
+    @yield("extends-css","")
 
     <title>@yield('title_header','Default Title')</title>
 </head>
@@ -42,4 +39,6 @@
     </div>
 </div>
 <!-- END MODAL BOOTSTRAP -->
+@include("templates.imports.bot_import")
+@yield("extends-js","")
 </html>
