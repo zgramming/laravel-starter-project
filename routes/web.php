@@ -18,4 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('user', [UserController::class, 'index'])->name('user');
 
 Route::get('example', [ExampleController::class, 'index'])->name('example');
-Route::get('example-datatable',[ExampleController::class,'exampleDatatable']);
+Route::get('example-datatable', [ExampleController::class, 'exampleDatatable']);
+
+Route::get("example/create-modal", [ExampleController::class, 'form_modal']);
+Route::get("example/create", [ExampleController::class, 'form_page']);
+Route::get("example/{id_example}/update-modal", [ExampleController::class, 'form_modal']);

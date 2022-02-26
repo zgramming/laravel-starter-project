@@ -27,18 +27,11 @@
         </div>
     </div>
 </body>
+
 <!-- START MODAL BOOTSTRAP -->
-<div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" data-backdrop="false">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div id="modal-view">
-
-
-            </div>
-        </div>
-    </div>
-</div>
+@include("templates.components.modal.modal_default")
 <!-- END MODAL BOOTSTRAP -->
+
 @include("templates.imports.bot_import")
 @yield("extends-js","")
 </html>

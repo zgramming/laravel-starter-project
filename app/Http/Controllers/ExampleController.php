@@ -63,4 +63,16 @@ class ExampleController extends Controller
 
         return view('error.notfound');
     }
+
+    public function form_page(int $id = 0)
+    {
+        $keys = [];
+        return view('modules.example.forms.form_page', $keys);
+    }
+
+    public function form_modal(int $id = 0)
+    {
+        $keys = [];
+        return view("modules.example.forms.form_modal", $keys);
+    }
 }

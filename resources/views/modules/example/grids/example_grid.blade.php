@@ -6,7 +6,10 @@
 
 @section('content')
 <div class="d-flex flex-sm-column flex-md-row flex-lg-row justify-content-between my-3">
-    <h3>Contoh</h3>
+    <div>
+        <h3>Halaman Example</h3>
+        <p class="text-subtitle text-muted">Halaman untuk dokumentasi developer</p>
+    </div>
     <nav aria-label="breadcrumb" class="breadcrumb-header">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Dokumentasi</a></li>
@@ -21,41 +24,43 @@
             <div class="card-header">
                 <b>Table Standar</b>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="table-responsive">
 
-                    <table class="table" style="width: 100%">
-                        <thead>
-                        <tr>
-                            <th style="min-width: 50px">No</th>
-                            <th style="min-width: 200px">Nama</th>
-                            <th style="min-width: 200px">Deskripsi</th>
-                            <th style="min-width: 200px">Birth Date</th>
-                            <th style="min-width: 200px">Current Money</th>
-                            <th style="min-width: 200px">Profile Image</th>
-                            <th style="min-width: 200px">Hobby</th>
-                            <th style="min-width: 200px">Created At</th>
-                            <th style="min-width: 200px">Updated At</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @for($i=1; $i<=20; $i++)
+                        <table class="table" style="width: 100%">
+                            <thead>
                             <tr>
-                                <td>{{ $i }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <th style="min-width: 50px">No</th>
+                                <th style="min-width: 200px">Nama</th>
+                                <th style="min-width: 200px">Deskripsi</th>
+                                <th style="min-width: 200px">Birth Date</th>
+                                <th style="min-width: 200px">Current Money</th>
+                                <th style="min-width: 200px">Profile Image</th>
+                                <th style="min-width: 200px">Hobby</th>
+                                <th style="min-width: 200px">Created At</th>
+                                <th style="min-width: 200px">Updated At</th>
                             </tr>
-                        @endfor
-                        </tbody>
-                        <tfoot></tfoot>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @for($i=1; $i<=20; $i++)
+                                <tr>
+                                    <td>{{ $i }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            @endfor
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,85 +73,87 @@
             <div class="card-header">
                 <b>Table DataTable</b>
             </div>
-            <div class="card-body">
-                <div class="table-filter mb-3">
-                    <div class="row">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="table-filter mb-3">
+                        <div class="row">
 
-                        <div class="col-sm-12 col-md-4 mb-sm-3">
-                            <div class="d-flex flex-row">
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="text" class="form-control" placeholder="Cari berdasarkan..." >
-                                    <div class="form-control-icon">
-                                        <i class="bi bi-search"></i>
+                            <div class="col-sm-12 col-md-4 mb-sm-3">
+                                <div class="d-flex flex-row">
+                                    <div class="form-group position-relative has-icon-left">
+                                        <input type="text" class="form-control" placeholder="Cari berdasarkan..." >
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-search"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mx-2">
-                                    <button type="button" class="btn btn-light toggle-more-filter"><i class="fa fa-plus"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 col-md-8 mb-sm-3">
-                            <div class="form-group">
-                                <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
-                                    <div class="buttons">
-                                        <button type="button" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</button>
-                                        <button type="button" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</button>
-                                        <button type="button" class="btn btn-info"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</button>
-                                        <button type="button" class="btn btn-dark"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</button>
-
+                                    <div class="mx-2">
+                                        <button type="button" class="btn btn-light toggle-more-filter"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-12 col-md-12 toggle-more-filter-content">
-                            <div class="col-sm-6 col-md-3">
+                            <div class="col-sm-12 col-md-8 mb-sm-3">
                                 <div class="form-group">
-                                    <select class="choices form-select">
-                                        <option value="square">Square</option>
-                                        <option value="rectangle">Rectangle</option>
-                                        <option value="rombo">Rombo</option>
-                                        <option value="romboid">Romboid</option>
-                                        <option value="trapeze">Trapeze</option>
-                                        <option value="traible">Triangle</option>
-                                        <option value="polygon">Polygon</option>
-                                    </select>
+                                    <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
+                                        <div class="buttons">
+                                            <a href="{{url('example/create')}}" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
+                                            <a href="#" class="btn btn-success" onclick="openBox('{{url('example/create-modal')}}',{})"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</a>
+                                            <a href="" class="btn btn-info"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
+                                            <a href="" class="btn btn-dark"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 toggle-more-filter-content">
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <select class="choices form-select">
+                                            <option value="square">Square</option>
+                                            <option value="rectangle">Rectangle</option>
+                                            <option value="rombo">Rombo</option>
+                                            <option value="romboid">Romboid</option>
+                                            <option value="trapeze">Trapeze</option>
+                                            <option value="traible">Triangle</option>
+                                            <option value="polygon">Polygon</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="table-responsive">
+                        <table class="table" style="width: 100%" id="table-datatable">
+                            <thead>
+                            <tr>
+                                <th style="min-width: 50px">No</th>
+                                <th style="min-width: 200px">Nama</th>
+                                <th style="min-width: 200px">Deskripsi</th>
+                                <th style="min-width: 200px">Birth Date</th>
+                                <th style="min-width: 200px">Current Money</th>
+                                <th style="min-width: 200px">Profile Image</th>
+                                <th style="min-width: 200px">Hobby</th>
+                                <th style="min-width: 200px">Created At</th>
+                                <th style="min-width: 200px">Updated At</th>
+                                <th style="min-width: 200px">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                    </div>
+
                 </div>
-
-                <div class="table-responsive">
-                    <table class="table" style="width: 100%" id="table-datatable">
-                        <thead>
-                        <tr>
-                            <th style="min-width: 50px">No</th>
-                            <th style="min-width: 200px">Nama</th>
-                            <th style="min-width: 200px">Deskripsi</th>
-                            <th style="min-width: 200px">Birth Date</th>
-                            <th style="min-width: 200px">Current Money</th>
-                            <th style="min-width: 200px">Profile Image</th>
-                            <th style="min-width: 200px">Hobby</th>
-                            <th style="min-width: 200px">Created At</th>
-                            <th style="min-width: 200px">Updated At</th>
-                            <th style="min-width: 200px">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                        <tfoot>
-
-                        </tfoot>
-                    </table>
-                </div>
-
             </div>
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('extends-js')
