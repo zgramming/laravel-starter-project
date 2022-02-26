@@ -17,11 +17,13 @@ return new class extends Migration
             $table->increments('id');
             $table->text('name');
             $table->text('description');
+            $table->integer("job_desk")->nullable();
             $table->date('birth_date');
             $table->double('current_money');
             $table->text('profile_image')->nullable();
             /// Jangan lupa di casting di model menjadi array
             $table->json('hobby')->nullable();
+            $table->enum('status', ['active', 'not_active', 'none'])->nullable()->default('none');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
 
