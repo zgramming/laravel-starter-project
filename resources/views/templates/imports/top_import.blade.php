@@ -12,8 +12,8 @@
 {{-- Datatable --}}
 <link rel="stylesheet" href="{{asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css')}}">
 
-{{-- Select Choises (Select2) --}}
-<link rel="stylesheet" href="{{asset('assets/vendors/choices.js/choices.min.css')}}" />
+{{-- Select2JS --}}
+<link rel="stylesheet" href="{{asset('assets/css/third_party/select2/select2.min.css')}}" />
 
 {{-- Core --}}
 <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
@@ -22,9 +22,32 @@
 <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
 
 <style>
-    .choices__inner{
-        padding: 8px 16px !important;
-        background-color: transparent !important;
+    .select2-container .select2-selection--single{
+        min-height: 40px !important;
+        padding: 6px;
+        color: red;
+    }
+
+    /* Change Border Color */
+    .select2-container--default .select2-selection--single{
         border-radius: 5px !important;
+        border: 1px solid #dce7f1;
+    }
+
+    .select2-container--default .select2-selection--single.is-valid{
+        border: 1px solid #198754 !important;
+    }
+    .select2-container--default .select2-selection--single.is-invalid{
+        border: 1px solid #dc3545 !important;
+    }
+
+    /* Change Color selected value Select2 */
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        color: #607080;
+    }
+
+    span.select2-selection__arrow{
+        top: 8px !important;
+        right: 8px !important;
     }
 </style>

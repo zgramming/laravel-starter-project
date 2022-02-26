@@ -66,7 +66,29 @@ class ExampleController extends Controller
 
     public function form_page(int $id = 0)
     {
-        $keys = [];
+        $hobbies = [
+            'memancing' => 'Memancing',
+            'memasak' => 'Memasak',
+            'menyanyi' => 'Menyanyi'
+        ];
+
+        $statuses = [
+            "active" => "Aktif",
+            "not_active" => "Tidak Aktif"
+        ];
+
+        $jobs = [
+            1   => "Programmer",
+            2   => "Pelawan",
+            3   => "Badut"
+        ];
+
+        $keys = [
+            'hobbies' => $hobbies,
+            'statuses' => $statuses,
+            'jobs' => $jobs,
+        ];
+
         return view('modules.example.forms.form_page', $keys);
     }
 

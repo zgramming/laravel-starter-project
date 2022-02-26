@@ -9,26 +9,29 @@
 <script src="{{asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js')}}"></script>
 
-{{-- Choices Select (Select2) --}}
-<script src="{{asset('assets/vendors/choices.js/choices.min.js')}}"></script>
-
 {{-- Font Awesome 5 --}}
 <script src="{{asset('assets/vendors/fontawesome/all.min.js')}}"></script>
 
 {{-- Jquery Validation --}}
 <script src="{{asset('assets/js/third_party/jquery_validation/jquery.validate.js')}}"></script>
 <script src="{{asset('assets/js/third_party/jquery_validation/additional-methods.js')}}"></script>
+<script src="{{asset('assets/js/third_party/jquery_validation/override-core-method.js')}}"></script>
+<script src="{{asset('assets/js/third_party/jquery_validation/extends-method.js')}}"></script>
+
+{{-- Select2JS --}}
+<script src="{{asset('assets/js/third_party/select2/select2.min.js')}}"></script>
 
 {{-- Core Template --}}
 <script src="{{asset('assets/js/mazer.js')}}"></script>
 
 {{-- Custom File --}}
+<script src="{{asset('assets/js/main.js')}}"></script>
 
 <script type="text/javascript">
 
     $(document).ready(function(e){
-        /// Initialize Select Choices Plugin
-        initSelectChoices();
+        /// Initialize Select2JS
+        initSelect2JS();
 
         /// Initialize Jquery Validation Configuration
         initJqueryValidation();
@@ -101,23 +104,19 @@
         });
     }
 
-    /// Initialize Select Choices Plugin
-    function initSelectChoices(){
-        let choices = document.querySelectorAll('.choices');
-        let initChoice;
-        for(let i=0; i<choices.length;i++) {
-            if (choices[i].classList.contains("multiple-remove")) {
-                initChoice = new Choices(choices[i],
-                {
-                    delimiter: ',',
-                    editItems: true,
-                    maxItemCount: -1,
-                    removeItemButton: true,
-                });
-            }else{
-                initChoice = new Choices(choices[i]);
-            }
-        }
+    function initSelect2JS(){
+
+		/// Initialize select2JS
+		$(".select2-custom").select2({});
+
+        /// Listen on every modal bootstrap open / close
+		/// When open, bind select2JS to dropdownParent Modal
+		/// When close, make it to default again
+		$('.modal').each(function() {
+            $(this).on('hidden.bs.modal', function() {
+                $(".select2-custom").select2({});
+            });
+        });
     }
 
     /// Initialize Jquery Validation Configuration Global
@@ -153,16 +152,32 @@
                 error.addClass( "invalid-feedback" );
 
                 if ( element.prop( "type" ) === "checkbox" ) {
-                    error.insertAfter( element.next( "label" ) );
+                    element.closest('.checkbox-container').after(error);
+                } else if(element.prop("type") === "radio"){
+                    element.closest('.radio-container').after(error);
+                } else if (element.hasClass('select2-custom')) {
+                    element.closest(".combobox-container").after(error);
                 } else {
                     error.insertAfter( element );
                 }
             },
             highlight: function ( element, errorClass, validClass ) {
-                $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+                if($(element).prop("type") === "checkbox" || $(element).prop("type") === "radio" ){
+                    /// Do Nothing, because wan't change color checkbox/radio when valid/invalid
+                }else if($(element).hasClass("select2-custom")){
+                    $(element).closest(".combobox-container").find('.select2-selection--single').addClass("is-invalid").removeClass("is-valid");
+                }else{
+                    $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+                }
             },
             unhighlight: function (element, errorClass, validClass) {
-                $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+                if($(element).prop("type") === "checkbox" || $(element).prop("type") === "radio" ){
+                    /// Do Nothing, because wan't change color checkbox/radio when valid/invalid
+                }else if($(element).hasClass("select2-custom")){
+                    $(element).closest(".combobox-container").find('.select2-selection--single').addClass("is-valid").removeClass("is-invalid");
+                }else{
+                    $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+                }
             }
         });
     }
