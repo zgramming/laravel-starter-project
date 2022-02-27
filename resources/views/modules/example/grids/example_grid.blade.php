@@ -145,6 +145,18 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <input type="text" name="filter_daterangepicker" id="filter_daterangepicker" class="form-control daterangepicker-custom">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <input type="text" name="filter_daterangetimepicker" id="filter_daterangetimepicker" class="form-control daterangetimepicker-custom">
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </fieldset>
                                 </div>
@@ -156,26 +168,22 @@
                     <div class="table-responsive">
                         <table class="table" style="width: 100%" id="table_datatable">
                             <thead>
-                            <tr>
-                                <th style="min-width: 50px">No</th>
-                                <th style="min-width: 200px">Nama</th>
-                                <th style="min-width: 200px">Deskripsi</th>
-                                <th style="min-width: 200px">Birth Date</th>
-                                <th style="min-width: 200px">Current Money</th>
-                                <th style="min-width: 200px">Profile Image</th>
-                                <th style="min-width: 200px">Hobby</th>
-                                <th style="min-width: 200px">Status</th>
-                                <th style="min-width: 200px">Created At</th>
-                                <th style="min-width: 200px">Updated At</th>
-                                <th style="min-width: 200px">Action</th>
-                            </tr>
+                                <tr>
+                                    <th style="min-width: 50px">No</th>
+                                    <th style="min-width: 200px">Nama</th>
+                                    <th style="min-width: 200px">Deskripsi</th>
+                                    <th style="min-width: 200px">Birth Date</th>
+                                    <th style="min-width: 200px">Current Money</th>
+                                    <th style="min-width: 200px">Profile Image</th>
+                                    <th style="min-width: 200px">Hobby</th>
+                                    <th style="min-width: 200px">Status</th>
+                                    <th style="min-width: 200px">Created At</th>
+                                    <th style="min-width: 200px">Updated At</th>
+                                    <th style="min-width: 200px">Action</th>
+                                </tr>
                             </thead>
-                            <tbody>
-
-                            </tbody>
-                            <tfoot>
-
-                            </tfoot>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
                         </table>
                     </div>
 

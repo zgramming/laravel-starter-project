@@ -15,6 +15,9 @@
 {{-- Select2JS --}}
 <link rel="stylesheet" href="{{asset('assets/css/third_party/select2/select2.min.css')}}" />
 
+{{-- Daterange Picker --}}
+<link rel="stylesheet" href="{{asset('assets/css/third_party/daterangepicker/daterangepicker.css')}}" />
+
 {{-- Core --}}
 <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
 
