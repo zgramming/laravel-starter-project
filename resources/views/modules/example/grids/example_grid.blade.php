@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                     <div class="mx-2">
-                                        <button type="button" class="btn btn-light toggle-more-filter"><i class="fa fa-plus"></i></button>
+                                        <button type="button" class="btn btn-light-secondary toggle-more-filter"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                                     <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
                                         <div class="buttons">
                                             <a href="{{url('example/create')}}" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
-                                            <a href="#" class="btn btn-success" onclick="openBox('{{url('example/create-modal')}}')"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</a>
+                                            <a href="#" class="btn btn-success" onclick="openBox('{{url('example/create-modal')}}',{size: 'modal-lg'})"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</a>
                                             <a href="" class="btn btn-info"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
                                             <a href="" class="btn btn-dark"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
                                         </div>
@@ -108,14 +108,11 @@
                             <div class="col-sm-12 col-md-12 toggle-more-filter-content">
                                 <div class="col-sm-6 col-md-3">
                                     <div class="form-group">
-                                        <select name="testing_selectbox" class="choices form-select">
-                                            <option value="square">Square</option>
-                                            <option value="rectangle">Rectangle</option>
-                                            <option value="rombo">Rombo</option>
-                                            <option value="romboid">Romboid</option>
-                                            <option value="trapeze">Trapeze</option>
-                                            <option value="traible">Triangle</option>
-                                            <option value="polygon">Polygon</option>
+                                        <select name="input-job" class="form-select select2-custom">
+                                            <option value="">Pilih Job</option>
+                                            @foreach($jobs as $key => $value)
+                                                <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

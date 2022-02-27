@@ -21,7 +21,7 @@
         <div class="card-content">
             <div class="d-flex flex-row justify-content-end mt-3 me-3">
                 <div class="buttons">
-                    <a href="{{url('example')}}" class="btn btn-light"><span class="btn-label"><i class="fa fa-arrow-left"></i></span> Kembali</a>
+                    <a href="{{url('example')}}" class="btn btn-light-secondary"><span class="btn-label"><i class="fa fa-arrow-left"></i></span> Kembali</a>
                     <button type="submit" class="btn btn-success"><span class="btn-label"><i class="fa fa-save"></i></span>&nbsp;Simpan</button>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 <div class="row mb-3">
                     <label for="input-current-money" class="col-sm-12 col-md-2 col-form-label">Uang Sekarang</label>
                     <div class="col-sm-12 col-md-4">
-                        <input type="text" name="input-current-money" id="input-birth-date" class="form-control" onkeyup="convertCurrency(this)" value="" required>
+                        <input type="text" name="input-current-money" id="input-current-money" class="form-control" onkeyup="convertCurrency(this)" value="" required>
                     </div>
                 </div>
 

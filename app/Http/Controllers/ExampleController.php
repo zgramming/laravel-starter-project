@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Example;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -11,7 +11,29 @@ class ExampleController extends Controller
 {
     public function index()
     {
-        $keys = [];
+        $hobbies = [
+            'memancing' => 'Memancing',
+            'memasak' => 'Memasak',
+            'menyanyi' => 'Menyanyi'
+        ];
+
+        $statuses = [
+            "active" => "Aktif",
+            "not_active" => "Tidak Aktif"
+        ];
+
+        $jobs = [
+            1   => "Programmer",
+            2   => "Pelawan",
+            3   => "Badut"
+        ];
+
+        $keys = [
+            'hobbies' => $hobbies,
+            'statuses' => $statuses,
+            'jobs' => $jobs,
+        ];
+
         return view('modules.example.grids.example_grid', $keys);
     }
 
@@ -39,7 +61,7 @@ class ExampleController extends Controller
             //            $datatable = $datatable->addColumn('print');
             //            $datatable = $datatable->rawColumns(['action','print']);
 
-            $datatable = $datatable->filter(function (\Illuminate\Database\Eloquent\Builder $query) use ($request) {
+            $datatable = $datatable->filter(function (Builder $query) use ($request) {
                 if (!empty($request->get('search'))) {
                     $search = $request->get('search');
                     $query->where('name', 'like', "%" . $search . "%")
@@ -94,7 +116,29 @@ class ExampleController extends Controller
 
     public function form_modal(int $id = 0)
     {
-        $keys = [];
+        $hobbies = [
+            'memancing' => 'Memancing',
+            'memasak' => 'Memasak',
+            'menyanyi' => 'Menyanyi'
+        ];
+
+        $statuses = [
+            "active" => "Aktif",
+            "not_active" => "Tidak Aktif"
+        ];
+
+        $jobs = [
+            1   => "Programmer",
+            2   => "Pelawan",
+            3   => "Badut"
+        ];
+
+        $keys = [
+            'hobbies' => $hobbies,
+            'statuses' => $statuses,
+            'jobs' => $jobs,
+        ];
+
         return view("modules.example.forms.form_modal", $keys);
     }
 }

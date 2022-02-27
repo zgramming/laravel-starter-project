@@ -36,6 +36,9 @@
         /// Initialize Jquery Validation Configuration
         initJqueryValidation();
 
+        /// Listen Modal Bootstrap Open / Close
+        listenModalBootstrap();
+
         /// Set Default Toggle Filter Content to hidden
         $(".toggle-more-filter-content").hide();
 
@@ -179,6 +182,19 @@
                     $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
                 }
             }
+        });
+    }
+
+    function listenModalBootstrap(){
+        $(window).on('shown.bs.modal', function() {
+            $('.select2-custom').select2({
+                dropdownParent: $('#modal-default'),
+            });
+        });
+
+        $(window).on('hidden.bs.modal', function() {
+            /// If modal close, then make select2JS back to default
+            $('.select2-custom').select2({});
         });
     }
 </script>
