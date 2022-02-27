@@ -40,34 +40,34 @@ class Example extends Model
 {
     use HasFactory;
 
-    /// Jika ingin custom nama table
+    // Jika ingin custom nama table
     protected $table = 'example';
 
-    /// Jika ingin custom primary key
-//    protected $primaryKey ='id_example';
+    // Jika ingin custom primary key
+    //  protected $primaryKey ='id_example';
 
-    /// Apakah ID increment/tidak
-//public $incrementing = false;
+    // Apakah ID increment/tidak
+    // public $incrementing = false;
 
-    /// Jika tidak ingin menggunakan [created_at,updated_at], jadikan ini [false]
-//public $timestamps = false;
+    // Jika tidak ingin menggunakan [created_at,updated_at], jadikan ini [false]
+    //public $timestamps = false;
 
-    /// Format timestamp
-//protected $dateFormat='U';
+    // Format timestamp
+    // protected $dateFormat='U';
 
-    /// Jika ingin custom nama [created_at, updated_at]
-//const CREATED_AT = 'creation_date';
-//const UPDATED_AT =  'last_update';
+    // Jika ingin custom nama [created_at, updated_at]
+    // const CREATED_AT = 'creation_date';
+    // const UPDATED_AT =  'last_update';
 
-    /// Custom connection name
-//protected $connection ='connection-name';
+    // Custom connection name
+    // protected $connection ='connection-name';
 
-    /// Memberikan default value
-//public $attributes = [
-//    'delayed' =>false
-//];
+    // Memberikan default value
+    // public $attributes = [
+    //    'delayed' =>false
+    // ];
 
-    /// Membuat kita bisa menggunakan MODELKAMU::create || MODELKAMMU::update
+    // Membuat kita bisa menggunakan MODELKAMU::create || MODELKAMMU::update
     protected $guarded = [];
 
     protected $casts = [
@@ -75,7 +75,7 @@ class Example extends Model
     ];
 
 
-    /// Relationship
+    // Relationship
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

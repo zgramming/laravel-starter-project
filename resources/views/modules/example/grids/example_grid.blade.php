@@ -112,11 +112,10 @@
                                 <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
                                     <div class="form-group">
                                         <div class="buttons">
-                                            <a href="{{url('example/create')}}" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
-                                            <a href="#" class="btn btn-success" onclick="openBox('{{url('example/create-modal')}}',{size: 'modal-lg'})"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</a>
-                                            <a href="" class="btn btn-info"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
                                             <a href="" class="btn btn-info"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
                                             <a href="" class="btn btn-dark"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
+                                            <a href="#" class="btn btn-success" onclick="openBox('{{url('example/create-modal')}}',{size: 'modal-lg'})"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</a>
+                                            <a href="{{url('example/create')}}" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
                                         </div>
                                     </div>
                                 </div>
@@ -165,6 +164,16 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-12">
+                            @if($message = Session::get('success'))
+                                <div class="alert alert-success alert-dismissible show fade">
+                                    {{$message}}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table" style="width: 100%" id="table_datatable">
                             <thead>
@@ -229,6 +238,7 @@
             /// Untuk menambahkan style pada TD, lakukan disini
             /// [https://github.com/yajra/laravel-datatables/issues/456]
             createdRow: function( row, data, dataIndex ) {
+                $( row ).find('td:eq(7)').attr('style','text-align:center; vertical-align:middle;');
                 $( row ).find('td:eq(9)').attr('style','text-align:center; vertical-align:middle;');
             },
 

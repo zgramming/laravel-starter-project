@@ -3,45 +3,57 @@
     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i data-feather="x"></i></button>
 </div>
 <div class="modal-body">
-    <form action="{{url('example/create')}}" method="POST" enctype="multipart/form-data" id="form_validation">
+    <div class="d-flex flex-row flex-fill">
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible show fade w-100">
+                @foreach($errors->all() as $key => $error)
+                    <ul>
+                        <li>{{$error}}</li>
+                    </ul>
+                @endforeach
+
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    </div>
+    <form action="{{ url("example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
 
         <div class="row mb-3">
-            <label for="input-name" class="col-sm-12 col-md-12 col-form-label">Name</label>
+            <label for="input_name" class="col-sm-12 col-md-12 col-form-label">Name</label>
             <div class="col-sm-12 col-md-12">
-                <input type="text" name="input-name" class="form-control" id="input-name" minlength="6" value="" required>
+                <input type="text" name="input_name" class="form-control" id="input_name" minlength="6" value="{{$example?->name}}" required >
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="input_description" class="col-sm-12 col-md-12 col-form-label">Deskripsi</label>
+            <div class="col-sm-12 col-md-12">
+                <textarea name="input_description" id="input_description" class="form-control" rows="3" required>{{$example?->description}}</textarea>
             </div>
         </div>
 
         <div class="row mb-3">
-            <label for="input-description" class="col-sm-12 col-md-12 col-form-label">Deskripsi</label>
+            <label for="input_birth_date" class="col-sm-12 col-md-12 col-form-label">Tanggal Lahir</label>
             <div class="col-sm-12 col-md-12">
-                <textarea name="description" id="input-description" class="form-control" rows="3" minlength="100" required></textarea>
+                <input type="text" name="input_birth_date" id="input_birth_date" class="form-control" placeholder="Pilih Tanggal Lahir" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="{{$example?->birth_date}}" required>
             </div>
         </div>
 
         <div class="row mb-3">
-            <label for="input-birth-date" class="col-sm-12 col-md-12 col-form-label">Tanggal Lahir</label>
+            <label for="input_current_money" class="col-sm-12 col-md-12 col-form-label">Uang Sekarang</label>
             <div class="col-sm-12 col-md-12">
-                <input type="date" name="input-birth-date" id="input-birth-date" class="form-control" value="" required>
+                <input type="text" name="input_current_money" id="input_current_money" class="form-control" onkeyup="convertCurrency(this)" value="{{convertCurrency($example?->current_money)}}" required>
             </div>
         </div>
 
         <div class="row mb-3">
-            <label for="input-current-money" class="col-sm-12 col-md-12 col-form-label">Uang Sekarang</label>
-            <div class="col-sm-12 col-md-12">
-                <input type="text" name="input-current-money" id="input-current-money" class="form-control" onkeyup="convertCurrency(this)" value="" required>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <label for="input-job" class="col-sm-12 col-md-12 col-form-label">Pekerjaan Sekarang</label>
+            <label for="input_job" class="col-sm-12 col-md-12 col-form-label">Pekerjaan Sekarang</label>
             <div class="col-sm-12 col-md-12">
                 <div class="d-flex flex-column">
                     <div class="combobox-container">
-                        <select name="input-job" class="form-select select2-custom">
+                        <select name="input_job" class="form-select select2-custom">
                             <option value="">Pilih Job</option>
                             @foreach($jobs as $key => $value)
-                                <option value="{{$key}}">{{$value}}</option>
+                                <option value="{{$key}}" {{($example?->job_desk == $key ? "selected" : "")}}>{{$value}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -56,8 +68,8 @@
                     <div class="checkbox-container">
                         @foreach($hobbies as $key => $value)
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="input-checkbox-{{$key}}" name="hobbies[]" value="{{$key}}">
-                                <label class="form-check-label" for="input-checkbox-{{$key}}">{{$value}}</label>
+                                <input class="form-check-input" type="checkbox" id="input_hobby_{{$key}}" name="input_hobbies[]" value="{{$key}}" {{in_array($key,$example?->hobby ?? []) ? "checked" : ""}}>
+                                <label class="form-check-label" for="input_hobby_{{$key}}">{{$value}}</label>
                             </div>
                         @endforeach
                     </div>
@@ -66,13 +78,13 @@
         </div>
 
         <div class="row mb-3 align-items-center">
-            <label for="input-status" class="col-sm-12 col-md-12 col-form-label">Status</label>
+            <label for="input_status" class="col-sm-12 col-md-12 col-form-label">Status</label>
             <div class="col-sm-12 col-md-10 ">
                 <div class="d-flex flex-column">
                     <div class="radio-container">
                         @foreach($statuses as $key => $value)
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="input-status" id="input-radio-{{$key}}" value="{{$value}}">
+                                <input class="form-check-input" type="radio" name="input_status" id="input-radio-{{$key}}" value="{{$key}}" {{$example?->status == $key ? "checked" : ""}}>
                                 <label class="form-check-label" for="input-radio-{{$key}}">{{$value}}</label>
                             </div>
                         @endforeach
@@ -82,12 +94,12 @@
         </div>
 
         <div class="row mb-3">
-            <label for="input-profile" class="col-sm-12 col-md-12 col-form-label">Profile Image</label>
+            <label for="input_profile" class="col-sm-12 col-md-12 col-form-label">Profile Image</label>
             <div class="col-sm-12 col-md-12">
-                <input class="form-control" name="input-profile" type="file" id="input-profile" required>
+                <input class="form-control" name="input_profile" type="file" id="input_profile">
             </div>
         </div>
-
+        @csrf
     </form>
 
 </div>
@@ -106,17 +118,17 @@
     $(document).ready(function(){
         $("#form_validation").validate({
             rules : {
-                "input-current-money" : {
+                "input_current_money" : {
                     range : [100000,999999]
                 },
-                "hobbies[]" : {
+                "input_hobbies[]" : {
                     required: true,
                     minlength: 2
                 },
-                "input-status" : {
+                "input_status" : {
                     required :true,
                 },
-                "input-job" : {
+                "input_job" : {
                     required : true,
                 }
             },
