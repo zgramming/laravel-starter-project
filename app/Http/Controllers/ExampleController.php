@@ -19,7 +19,8 @@ class ExampleController extends Controller
 
         $statuses = [
             "active" => "Aktif",
-            "not_active" => "Tidak Aktif"
+            "not_active" => "Tidak Aktif",
+            'none' => "Tidak Diketahui"
         ];
 
         $jobs = [
@@ -62,23 +63,36 @@ class ExampleController extends Controller
             //            $datatable = $datatable->rawColumns(['action','print']);
 
             $datatable = $datatable->filter(function (Builder $query) use ($request) {
-                if (!empty($request->get('search'))) {
-                    $search = $request->get('search');
+                /// $request->get('YOUR_KEY') harus ditambahkan pada konfigurasi Datatable [ajax => data]
+                $search = $request->get('search');
+                $status = $request->get('filter_status');
+
+                if (!empty($search)) {
                     $query->where('name', 'like', "%" . $search . "%")
                         ->orWhere('description', 'like', "%" . $search . "%")
                         ->orWhere('current_money', '=', $search);
                 }
-            }, true);
 
-            $datatable = $datatable->addColumn('action', "
-            <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">
-                <button type=\"button\" class=\"btn btn-light\"><i class=\"fa fa-search\"></i></button>
-                <button type=\"button\" class=\"btn btn-success\"><i class=\"fa fa-plus\"></i></button>
-                <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-edit\"></i></button>
-                <button type=\"button\" class=\"btn btn-danger\"><i class=\"fa fa-trash\"></i></button>
-            </div>
-            ");
-            $datatable = $datatable->rawColumns(['action']);
+                if (!empty($status)) $query->where('status', '=', $status);
+            });
+
+            $datatable = $datatable->addColumn("status", function ($item) {
+                if ($item == "active") return "<span class=\"badge bg-success\">Aktif</span>";
+                if ($item == "not_active") return "<span class=\"badge bg-danger\">Tidak Aktif</span>";
+                return "<span class=\"badge bg-secondary\">None</span>";
+            });
+
+            $datatable = $datatable->addColumn('action', function ($item) {
+                return   "
+                        <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">
+                            <button type=\"button\" class=\"btn btn-light-secondary\"><i class=\"fa fa-search\"></i></button>
+                            <button type=\"button\" class=\"btn btn-success\"><i class=\"fa fa-plus\"></i></button>
+                            <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-edit\"></i></button>
+                            <button type=\"button\" class=\"btn btn-danger\"><i class=\"fa fa-trash\"></i></button>
+                        </div>
+            ";
+            });
+            $datatable = $datatable->rawColumns(['status', 'action']);
             $datatable = $datatable->toJson();
             return $datatable;
         }
@@ -96,7 +110,8 @@ class ExampleController extends Controller
 
         $statuses = [
             "active" => "Aktif",
-            "not_active" => "Tidak Aktif"
+            "not_active" => "Tidak Aktif",
+            'none' => "Tidak Diketahui"
         ];
 
         $jobs = [
@@ -124,7 +139,8 @@ class ExampleController extends Controller
 
         $statuses = [
             "active" => "Aktif",
-            "not_active" => "Tidak Aktif"
+            "not_active" => "Tidak Aktif",
+            'none' => "Tidak Diketahui"
         ];
 
         $jobs = [

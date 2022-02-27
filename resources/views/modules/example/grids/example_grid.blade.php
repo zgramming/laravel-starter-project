@@ -81,13 +81,13 @@
                             <div class="col-sm-12 col-md-6">
                                 <div class="d-flex flex-row">
                                     <div class="form-group position-relative has-icon-left">
-                                        <input type="text" class="form-control" placeholder="Cari berdasarkan..." >
+                                        <input type="text" id="search" class="form-control" placeholder="Cari berdasarkan..." >
                                         <div class="form-control-icon">
                                             <i class="bi bi-search"></i>
                                         </div>
                                     </div>
                                     <div class="form-group mx-2">
-                                        <select name="filter-job" class="form-select select2-custom">
+                                        <select name="filter_job" id="filter_job" class="form-select select2-custom">
                                             <option value="">Pilih Job</option>
                                             @foreach($jobs as $key => $value)
                                                 <option value="{{$key}}">{{$value}}</option>
@@ -95,7 +95,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group mx-2">
-                                        <select name="filter-hobbies" class="form-select select2-custom">
+                                        <select name="filter_hobbies" id="filter_hobbies" class="form-select select2-custom">
                                             <option value="">Pilih Hobby</option>
                                             @foreach($hobbies as $key => $value)
                                                 <option value="{{$key}}">{{$value}}</option>
@@ -130,7 +130,7 @@
 
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <select name="filter-status" class="form-select select2-custom" style="width: 100%;">
+                                                    <select name="filter_status" id="filter_status" class="form-select select2-custom" style="width: 100%;">
                                                         <option value="">Pilih Status</option>
                                                         @foreach($statuses as $key => $value)
                                                             <option value="{{$key}}">{{$value}}</option>
@@ -141,7 +141,7 @@
 
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <input type="text" name="filter-birth-date" id="filter-birth-date" class="form-control" placeholder="Tanggal Lahir" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" >
+                                                    <input type="text" name="filter_birth_date" id="filter_birth_date" class="form-control" placeholder="Tanggal Lahir" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" >
                                                 </div>
                                             </div>
 
@@ -154,7 +154,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table" style="width: 100%" id="table-datatable">
+                        <table class="table" style="width: 100%" id="table_datatable">
                             <thead>
                             <tr>
                                 <th style="min-width: 50px">No</th>
@@ -164,6 +164,7 @@
                                 <th style="min-width: 200px">Current Money</th>
                                 <th style="min-width: 200px">Profile Image</th>
                                 <th style="min-width: 200px">Hobby</th>
+                                <th style="min-width: 200px">Status</th>
                                 <th style="min-width: 200px">Created At</th>
                                 <th style="min-width: 200px">Updated At</th>
                                 <th style="min-width: 200px">Action</th>
@@ -191,7 +192,7 @@
 <script>
     $(document).ready(function(e){
         let url = `{{url('example-datatable')}}`;
-        let jqueryDatatable = $("#table-datatable").DataTable({
+        let jqueryDatatable = $("#table_datatable").DataTable({
             processing: true,
             serverSide: true,
             // [https://www.itsolutionstuff.com/post/laravel-datatables-filter-with-dropdown-exampleexample.html]
@@ -199,6 +200,7 @@
                 url : url,
                 data: function(d){
                     d.search = $('#search').val();
+                    d.filter_status = $("#filter_status").val();
                     // Lakukan seperti ini untuk dropdown / checkbox / radio dll.
                     // d.radio = $("#radioku").val();
                 },
@@ -211,6 +213,7 @@
                 {data: 'current_money'},
                 {data: 'profile_image'},
                 {data: 'hobby'},
+                {data: 'status'},
                 {data: 'created_at'},
                 {data: 'updated_at'},
                 {data: 'action',orderable:false, searchable:false},
@@ -226,6 +229,11 @@
         $("#search").keyup(debounce(function (){
             jqueryDatatable.draw();
         },500));
+
+        $("#filter_status").on('change',function(e){
+            e.preventDefault();
+            jqueryDatatable.draw();
+        })
     });
 </script>
 
