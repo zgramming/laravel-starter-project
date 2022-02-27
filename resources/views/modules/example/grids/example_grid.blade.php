@@ -78,7 +78,7 @@
                     <div class="table-filter mb-3">
                         <div class="row">
 
-                            <div class="col-sm-12 col-md-4 mb-sm-3">
+                            <div class="col-sm-12 col-md-6">
                                 <div class="d-flex flex-row">
                                     <div class="form-group position-relative has-icon-left">
                                         <input type="text" class="form-control" placeholder="Cari berdasarkan..." >
@@ -87,9 +87,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group mx-2">
-                                        <select name="input-job" class="form-select select2-custom">
+                                        <select name="filter-job" class="form-select select2-custom">
                                             <option value="">Pilih Job</option>
                                             @foreach($jobs as $key => $value)
+                                                <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mx-2">
+                                        <select name="filter-hobbies" class="form-select select2-custom">
+                                            <option value="">Pilih Hobby</option>
+                                            @foreach($hobbies as $key => $value)
                                                 <option value="{{$key}}">{{$value}}</option>
                                             @endforeach
                                         </select>
@@ -100,12 +108,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-12 col-md-8 mb-sm-3">
-                                <div class="form-group">
-                                    <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
+                            <div class="col-sm-12 col-md-6 mb-sm-3">
+                                <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
+                                    <div class="form-group">
                                         <div class="buttons">
                                             <a href="{{url('example/create')}}" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
                                             <a href="#" class="btn btn-success" onclick="openBox('{{url('example/create-modal')}}',{size: 'modal-lg'})"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</a>
+                                            <a href="" class="btn btn-info"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
                                             <a href="" class="btn btn-info"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
                                             <a href="" class="btn btn-dark"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
                                         </div>
@@ -113,16 +122,31 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-12 col-md-12 toggle-more-filter-content">
-                                <div class="col-sm-6 col-md-3">
-                                    <div class="form-group">
-                                        <select name="input-job" class="form-select select2-custom">
-                                            <option value="">Pilih Job</option>
-                                            @foreach($jobs as $key => $value)
-                                                <option value="{{$key}}">{{$value}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                            <div class="col-sm-12 col-md-12">
+                                <div class="toggle-more-filter-content">
+                                    <fieldset>
+                                        <legend>Filter Lainnya</legend>
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <select name="filter-status" class="form-select select2-custom" style="width: 100%;">
+                                                        <option value="">Pilih Status</option>
+                                                        @foreach($statuses as $key => $value)
+                                                            <option value="{{$key}}">{{$value}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <input type="text" name="filter-birth-date" id="filter-birth-date" class="form-control" placeholder="Tanggal Lahir" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" >
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
                                 </div>
                             </div>
 
@@ -196,19 +220,7 @@
             createdRow: function( row, data, dataIndex ) {
                 $( row ).find('td:eq(9)').attr('style','text-align:center; vertical-align:middle;');
             },
-            /// [f] = Filter
-            /// [l] = show record [10/20/50/100]
-            /// [r] = Tulisan processing
-            /// [t] = table
-            /// [i] = showing 1 to 2 of 2 entries
-            /// [p] = Pagination
-            dom:
-                "<'row mb-3'<'col-sm-12'tr>>" +
-                "<'row mb-3'<'d-flex flex-row' <l> <'flex-grow-1 align-self-center'<'d-flex flex-row justify-content-center'i>> <p>>>",
-            language: {
-            /// Change label on dropdown length 10 | 50 | 100
-                lengthMenu: "_MENU_"
-            }
+
         });
 
         $("#search").keyup(debounce(function (){

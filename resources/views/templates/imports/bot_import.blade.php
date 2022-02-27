@@ -31,10 +31,13 @@
 
     $(document).ready(function(e){
         /// Initialize Select2JS
-        initSelect2JS();
+        initializeSelect2JS();
 
         /// Initialize Jquery Validation Configuration
-        initJqueryValidation();
+        initializeJqueryValidation();
+
+        /// initialize Datatable default configuration
+        initializeDatatableConfiguration();
 
         /// Listen Modal Bootstrap Open / Close
         listenModalBootstrap();
@@ -107,19 +110,30 @@
         });
     }
 
-    function initSelect2JS(){
+    /// Listen modal bootstrap open / close
+    /// When modal is open, we binding Select2JS to Modal
+    /// When modal is close, we set Select2JS to default again
+    function listenModalBootstrap(){
+        /// When Modal is open, binding it to ID modal
+        $(window).on('shown.bs.modal', function() {
+            $('.select2-custom').select2({
+                dropdownParent: $('#modal-default'),
+            });
+        });
 
-		/// Initialize select2JS
-		$(".select2-custom").select2({});
-
-        /// Listen on every modal bootstrap open / close
-		/// When open, bind select2JS to dropdownParent Modal
-		/// When close, make it to default again
+        /// When close, make it default again
 		$('.modal').each(function() {
             $(this).on('hidden.bs.modal', function() {
                 $(".select2-custom").select2({});
             });
         });
+    }
+
+    //// Initialize Select2JS when
+    function initializeSelect2JS(){
+
+		/// Initialize select2JS
+		$(".select2-custom").select2({});
     }
 
     /// Initialize Jquery Validation Configuration Global
@@ -147,7 +161,7 @@
     /// Example => accept : "image/*, application/pdf"
 
     /// Additional Method Jquery usefull [https://github.com/jquery-validation/jquery-validation/tree/master/src/additional]
-    function initJqueryValidation(){
+    function initializeJqueryValidation(){
         $.validator.setDefaults({
             errorElement: "em",
             errorPlacement: function ( error, element ) {
@@ -185,16 +199,21 @@
         });
     }
 
-    function listenModalBootstrap(){
-        $(window).on('shown.bs.modal', function() {
-            $('.select2-custom').select2({
-                dropdownParent: $('#modal-default'),
-            });
-        });
-
-        $(window).on('hidden.bs.modal', function() {
-            /// If modal close, then make select2JS back to default
-            $('.select2-custom').select2({});
+    function initializeDatatableConfiguration(){
+        $.extend(true,$.fn.dataTable.defaults,{
+            /// [f] = Filter
+            /// [l] = show record [10/20/50/100]
+            /// [r] = Tulisan processing
+            /// [t] = table
+            /// [i] = showing 1 to 2 of 2 entries
+            /// [p] = Pagination
+            dom:
+                "<'row mb-3'<'col-sm-12'tr>>" +
+                "<'row mb-3'<'d-flex flex-row' <l> <'flex-grow-1 align-self-center'<'d-flex flex-row justify-content-center'i>> <p>>>",
+            language: {
+            /// Change label on dropdown length 10 | 50 | 100
+                lengthMenu: "_MENU_"
+            }
         });
     }
 </script>
