@@ -86,6 +86,14 @@
                                             <i class="bi bi-search"></i>
                                         </div>
                                     </div>
+                                    <div class="form-group mx-2">
+                                        <select name="input-job" class="form-select select2-custom">
+                                            <option value="">Pilih Job</option>
+                                            @foreach($jobs as $key => $value)
+                                                <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="mx-2">
                                         <button type="button" class="btn btn-light-secondary toggle-more-filter"><i class="fa fa-plus"></i></button>
                                     </div>
@@ -117,6 +125,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 

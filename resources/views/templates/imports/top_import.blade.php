@@ -22,11 +22,18 @@
 <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
 
 <style>
+    /* START Override Bootstrap Core Form*/
+    .form-control{
+        padding: 0.450rem 0.75rem;
+    }
+    /* END Override Bootstrap Core Form*/
+
     .select2-container .select2-selection--single{
         min-height: 40px !important;
-        padding: 6px;
-        color: red;
+        padding: 0rem 0.250rem;
     }
+
+
 
     /* Change Border Color */
     .select2-container--default .select2-selection--single{
@@ -41,11 +48,14 @@
         border: 1px solid #dc3545 !important;
     }
 
-    /* Change Color selected value Select2 */
+    /* Change Color selected value Select2 && vertical centered text selected value */
     .select2-container--default .select2-selection--single .select2-selection__rendered{
         color: #607080;
+        font-size: 1rem;
+        line-height: 40px !important;
     }
 
+    /* Change position of arrow */
     span.select2-selection__arrow{
         top: 8px !important;
         right: 8px !important;
