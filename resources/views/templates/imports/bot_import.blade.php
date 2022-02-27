@@ -119,6 +119,10 @@
 
         $.get(url,function(data,status,xhr){
             $(".modal-content").html(data);
+        }).fail(function(xhr,status,error){
+            console.log(xhr,status,error);
+            alert(xhr.responseJSON.message);
+            modal.modal('hide');
         });
     }
 
