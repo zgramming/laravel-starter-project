@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constant\Constant;
 use App\Models\Example;
+use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
+use Throwable;
 use Yajra\DataTables\DataTables;
 
 class ExampleController extends Controller
@@ -286,20 +288,28 @@ class ExampleController extends Controller
     /**
      * @param int $id
      * @return Redirector|Application|RedirectResponse
+     * @throws Throwable
      */
     public function delete(int $id = 0): Redirector|Application|RedirectResponse
     {
+        DB::beginTransaction();
         try {
-            $example = Example::findOrFail(120);
+            $example = Example::findOrFail($id);
+
             /// Delete
             $isDeleted =  $example->deleteOrFail();
 
-            /// Check if this data success deleted && have file or not
-            /// If success and have file, we should delete it first.
-            if($isDeleted) if(\Storage::exists($example?->profile_image)) \Storage::delete($example?->profile_image);
+            /// Check if this data success deleted && and has file data
+            /// If [TRUE] Delete the file
+            if($isDeleted && !empty($example?->profile_image)) if(\Storage::exists($example->profile_image)) \Storage::delete($example?->profile_image);
 
+            /// Commit Transaction
+            DB::commit();
             return redirect('example')->with('success','Berhasil menghapus data !!!');
-        }catch (\Throwable $e) {
+        }catch (Throwable $e) {
+            /// Rollback Transaction
+            DB::rollBack();
+
             $message = $e->getMessage();
             $code = $e->getCode();
             return back()->withErrors($message)->withInput();

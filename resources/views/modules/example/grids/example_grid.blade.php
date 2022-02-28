@@ -180,7 +180,7 @@
                                     <th style="min-width: 200px">Current Money</th>
                                     <th style="min-width: 200px">Profile Image</th>
                                     <th style="min-width: 200px">Hobby</th>
-                                    <th style="min-width: 200px">Status</th>
+                                    <th style="min-width: 100px">Status</th>
                                     <th style="min-width: 200px">Created At</th>
                                     <th style="min-width: 200px">Updated At</th>
                                     <th style="min-width: 200px">Action</th>
