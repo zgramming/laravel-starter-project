@@ -1,6 +1,14 @@
 <?php
 
+use Box\Spout\Common\Exception\InvalidArgumentException as InvalidArgumentExceptionAlias;
+use Box\Spout\Common\Exception\IOException;
+use Box\Spout\Common\Exception\UnsupportedTypeException as UnsupportedTypeExceptionAlias;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Box\Spout\Reader\Exception\ReaderNotOpenedException;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\Exception\WriterNotOpenedException;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -92,4 +100,74 @@ function uploadFile(UploadedFile $file,
     if(!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...",400);
 
     return $path."/".$name;
+}
+
+/**
+ * @param string $path
+ * @param array $header
+ * @param Collection $values
+ * @param callable $callback
+ * @return string
+ * @throws IOException
+ * @throws InvalidArgumentExceptionAlias
+ * @throws WriterNotOpenedException
+ */
+function exportSpout(string $path, array $header, Collection $values, callable $callback) : string{
+
+    $writer = WriterEntityFactory::createXLSXWriter();
+    $writer->openToFile($path);
+
+    /// Create Header
+    $header = WriterEntityFactory::createRowFromArray($header);
+    $writer->addRow($header);
+
+    /// Create multiple row content
+    $valuesCollection = $values->map(fn($value)=>WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
+    $writer->addRows($valuesCollection);
+
+    $writer->close();
+
+    return storage_path($path);
+}
+
+/**
+ * @param string $path
+ * @param callable $callback
+ * @return array
+ * @throws IOException
+ * @throws ReaderNotOpenedException
+ * @throws UnsupportedTypeExceptionAlias
+ */
+function importSpout(string $path, callable $callback): array
+{
+    $reader = ReaderEntityFactory::createReaderFromFile($path);
+    $reader->setShouldFormatDates(true);
+    $reader->open($path);
+
+    $tempArr = [];
+    $no = 0 ;
+    foreach ($reader->getSheetIterator() as $sheet){
+        foreach($sheet->getRowIterator() as $row){
+            $cells = $row->toArray();
+
+            /// Skip First Iteration, because we know first row is header
+            if(!is_int($cells[0])) continue;
+
+            $result = $callback($cells);
+            $tempArr[] = $result;
+
+
+            $response = [
+                'message' => 'Reading data '.++$no,
+            ];
+
+            echo response()->json($response);
+
+            flush();
+            ob_flush();
+        }
+    }
+
+    $reader->close();
+    return $tempArr;
 }

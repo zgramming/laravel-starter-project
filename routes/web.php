@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WidgetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,3 +30,15 @@ Route::get("example/update/{id}", [ExampleController::class, 'form_page']);
 Route::post("example/save/{id}",[ExampleController::class,'save']);
 
 Route::delete("example/delete/{id}",[ExampleController::class,'delete']);
+
+
+/**
+ * Widget Controller
+ * To Control Widget [Export, Import, ...]
+ */
+
+//Route::get('widget/export',[WidgetController::class,'form_export']);
+Route::get('widget/export',[WidgetController::class,'export']);
+
+//Route::get('widget/import',[WidgetController::class,'form_import']);
+Route::get('widget/import',[WidgetController::class,'import']);
