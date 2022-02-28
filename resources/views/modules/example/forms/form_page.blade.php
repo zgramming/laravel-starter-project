@@ -151,7 +151,7 @@
             messages : {
 
             }
-        })
+        });
     });
 </script>
 @endsection

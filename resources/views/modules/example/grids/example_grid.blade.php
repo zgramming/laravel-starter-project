@@ -70,10 +70,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <b>Table DataTable</b>
-            </div>
-            <div class="card-content">
+            <div class="card-content mt-3">
                 <div class="card-body">
                     <div class="table-filter mb-3">
                         <div class="row">

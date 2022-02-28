@@ -192,9 +192,8 @@ class ExampleController extends Controller
 
     /**
      * @param int $id
-     * @return Application|RedirectResponse|Redirector
      */
-    public function save(int $id = 0): Redirector|RedirectResponse|Application
+    public function save(int $id = 0)
     {
         /// Rules Available Usefull
         /// 1. accept                       => "Input should be [yes | on | 1 | true]"
@@ -239,6 +238,7 @@ class ExampleController extends Controller
             $example = Example::find($id);
 
             $post = request()->all();
+
             $rules = [
                 'input_name'            =>'required',
                 'input_description'     =>'required',
@@ -252,7 +252,14 @@ class ExampleController extends Controller
             if(!empty($post['input_profile'])) $rules['input_profile'] = "file|image";
 
             $validator = Validator::make($post,$rules);
-            if($validator->fails()) return back()->withErrors($validator->messages())->withInput();
+            if($validator->fails()) {
+                if(!empty($post['form_type'])) return response()->json([
+                    'success' => false,
+                    'errors' => $validator->messages(),
+                ],400);
+
+                return back()->withErrors($validator->messages())->withInput();
+            }
 
             if(!empty($post['input_profile'])) $nameImage = uploadImage($post['input_profile'],Constant::PATH_IMAGE_EXAMPLE, customName:$example?->profile_image ?? null);
 
@@ -276,11 +283,18 @@ class ExampleController extends Controller
             $result = Example::updateOrCreate(['id'=>$id],$data);
             if(!$result) throw new \Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...",400);
 
+            if(!empty($post['form_type'])) {
+                session()->flash('success',"Yess Berhasil Insert / Update");
+                return response()->json(['success'=>true,'message'=>"Yesss Berhasil Insert / Update"],200);
+            }
             return redirect('example')->with('success',!empty($id) ? "Berhasil update" : "Berhasil membuat");
 
         }catch (\Exception $e){
             $message = $e->getMessage();
             $code = $e->getCode();
+
+            if(!empty($post['form_type'])) return response()->json(['errors' => $message],$code);
+
             return back()->withErrors($message)->withInput();
         }
     }

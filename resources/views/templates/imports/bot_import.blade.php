@@ -54,6 +54,9 @@
         /// Initialize Daterange Timepicker
         initializeDaterangePicker({withTimePicker : true});
 
+        /// Initialize AJAX when perform POST/DELETE/PUT/PATCH using AJAX
+        initializeAjax();
+
         /// Set Default Toggle Filter Content to hidden
         $(".toggle-more-filter-content").hide();
 
@@ -68,6 +71,23 @@
         });
     });
 
+    function showErrorsOnModal(errors){
+        alert('Terjadi Error...');
+        /// Make Component Error Before Tag Form
+        $(".modal-container-error").remove();
+        $(".modal-header-custom").append(`
+                <div class="d-flex flex-row flex-fill modal-container-error mt-3">
+                    <div class="alert alert-danger alert-dismissible show fade w-100">
+                        <div class="modal-container-item"></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                `);
+
+        $.each(errors, (key, value) => {
+            $(".modal-container-item").append(`<ul><li>${value}</li></ul>`);
+        });
+    }
     // [https://stackoverflow.com/questions/28948383/how-to-implement-debounce-fn-into-jquery-keyup-event
     // [http://davidwalsh.name/javascript-debounce-function]
     function debounce(func, wait, immediate) {
@@ -257,6 +277,14 @@
 
         $("." + name).daterangepicker(options,function(start,end,label){
             console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+        });
+    }
+
+    function initializeAjax(){
+        $.ajaxSetup({
+            headers : {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
     }
 
