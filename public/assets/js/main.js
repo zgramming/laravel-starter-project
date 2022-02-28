@@ -1,9 +1,9 @@
 function replaceAll(Source, stringToFind, stringToReplace) {
-    var temp = Source;
-    if (temp == undefined) return null;
+    let temp = Source;
+    if (temp === undefined) return null;
 	if(temp === 0 || temp === "") return null;
-    var index = temp.indexOf(stringToFind);
-    while (index != -1) {
+    let index = temp.indexOf(stringToFind);
+    while (index !== -1) {
         temp = temp.replace(stringToFind, stringToReplace);
         index = temp.indexOf(stringToFind);
     }
@@ -11,10 +11,11 @@ function replaceAll(Source, stringToFind, stringToReplace) {
 }
 
 
-function unconvertCurrency(val) {
-    const nilai = replaceAll(val, ",", "");
-	if(isNaN(nilai) || nilai == "") return 0;
-	return parseFloat(nilai);
+function fromCurrency(val) {
+    let result;
+    result = replaceAll(val, ",", "");
+	if(isNaN(result) || result === "") return 0;
+	return parseFloat(result);
 }
 
 function formatCurrency(val,decimal = 4) {
@@ -42,9 +43,9 @@ function formatCurrency(val,decimal = 4) {
         return (((sign) ? '' : '-') + num + "." + x[1].substr(0, decimal));
 }
 
-function convertCurrency(elem,decimal = 4) {
+function toCurrency(elem,decimal = 4) {
 
-    replace = formatCurrency(elem.value.replace(/[\\A-Za-z!"?$%^&*+_={}; ()\-\:'/@#~,?\<>?|`?\]\[]/g, ''),decimal);
-    if (replace.length == 0) replace = 0;
+    let replace = formatCurrency(elem.value.replace(/[\\A-Za-z!"?$%^&*+_={}; ()\-\:'/@#~,?\<>?|`?\]\[]/g, ''), decimal);
+    if (replace.length === 0) replace = 0;
     elem.value = replace;
 }

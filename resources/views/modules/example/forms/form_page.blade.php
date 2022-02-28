@@ -63,7 +63,7 @@
                 <div class="row mb-3">
                     <label for="input_current_money" class="col-sm-12 col-md-2 col-form-label">Uang Sekarang</label>
                     <div class="col-sm-12 col-md-4">
-                        <input type="text" name="input_current_money" id="input_current_money" class="form-control" onkeyup="convertCurrency(this)" value="{{convertCurrency($example?->current_money)}}" required>
+                        <input type="text" name="input_current_money" id="input_current_money" class="form-control" onkeyup="toCurrency(this)" value="{{toCurrency($example?->current_money)}}" required>
                     </div>
                 </div>
 

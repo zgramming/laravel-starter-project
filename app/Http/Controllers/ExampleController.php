@@ -92,14 +92,22 @@ class ExampleController extends Controller
             $datatable = $datatable->addColumn('action', function ($item) {
                 $url = url('example/update/'.$item->id);
                 $urlModal = url('example/update-modal/'.$item->id);
+                $urlDelete = url('example/delete/'.$item->id);
+
+                $field = csrf_field();
+                $method = method_field('DELETE');
                 return   "
-                        <div class=\"btn-group\" role=\"group\" aria-label=\"Basic example\">
-                            <button type=\"button\" class=\"btn btn-light-secondary\"><i class=\"fa fa-search\"></i></button>
-                            <a href=\"$url\"  class=\"btn btn-primary\" ><i class=\"fa fa-edit\"></i></a>
-                            <a href=\"#\" class=\"btn btn-primary\" onclick=\"openBox('$urlModal',{size: 'modal-lg'})\">Modal</a>
-                            <button type=\"button\" class=\"btn btn-danger\"><i class=\"fa fa-trash\"></i></button>
-                        </div>
-            ";
+                    <div class='d-flex flex-row'>
+                        <button type=\"button\" class=\"btn btn-light-secondary mx-1\"><i class=\"fa fa-search\"></i></button>
+                        <a href=\"$url\"  class=\"btn btn-primary mx-1\" ><i class=\"fa fa-edit\"></i></a>
+                        <a href=\"#\" class=\"btn btn-primary mx-1\" onclick=\"openBox('$urlModal',{size: 'modal-lg'})\">Modal</a>
+                        <form action=\"$urlDelete\" method=\"post\">
+                            $field
+                            $method
+                            <button type=\"submit\" class=\"btn btn-danger mx-1\"><i class=\"fa fa-trash\"></i></button>
+                        </form>
+                    </div>
+                ";
             });
 
             return $datatable->rawColumns(['status', 'action'])->toJson();
@@ -250,10 +258,11 @@ class ExampleController extends Controller
                 'name'            => $post['input_name'],
                 'description'     => $post['input_description'],
                 'birth_date'      => $post['input_birth_date'],
-                'current_money'   => unconvertCurrency($post['input_current_money']),
+                'current_money'   => fromCurrency($post['input_current_money']),
                 'job_desk'        => $post['input_job'],
                 'hobby'           => $post['input_hobbies'],
                 'status'          => $post['input_status'],
+
                 /// If Name Image null use profile_image, if profile_image null set default to null
                 'profile_image'   => $nameImage ?? $example?->profile_image ?? null,
             ];
@@ -265,9 +274,32 @@ class ExampleController extends Controller
             $result = Example::updateOrCreate(['id'=>$id],$data);
             if(!$result) throw new \Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...",400);
 
-            return redirect('example')->with(['success'=>!empty($id) ? "Berhasil update" : "Berhasil membuat"]);
+            return redirect('example')->with('success',!empty($id) ? "Berhasil update" : "Berhasil membuat");
 
         }catch (\Exception $e){
+            $message = $e->getMessage();
+            $code = $e->getCode();
+            return back()->withErrors($message)->withInput();
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return Redirector|Application|RedirectResponse
+     */
+    public function delete(int $id = 0): Redirector|Application|RedirectResponse
+    {
+        try {
+            $example = Example::findOrFail(120);
+            /// Delete
+            $isDeleted =  $example->deleteOrFail();
+
+            /// Check if this data success deleted && have file or not
+            /// If success and have file, we should delete it first.
+            if($isDeleted) if(\Storage::exists($example?->profile_image)) \Storage::delete($example?->profile_image);
+
+            return redirect('example')->with('success','Berhasil menghapus data !!!');
+        }catch (\Throwable $e) {
             $message = $e->getMessage();
             $code = $e->getCode();
             return back()->withErrors($message)->withInput();

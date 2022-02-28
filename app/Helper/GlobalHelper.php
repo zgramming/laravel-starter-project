@@ -1,6 +1,6 @@
 <?php
 
-use \Illuminate\Http\UploadedFile;
+use Illuminate\Http\UploadedFile;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
  * @param int $digit
  * @return string
  */
-function convertCurrency($value , int $digit =0 ): string
+function toCurrency($value , int $digit =0 ): string
 {
     return number_format((float) $value, $digit);
 }
@@ -18,7 +18,7 @@ function convertCurrency($value , int $digit =0 ): string
  * @param $value
  * @return int
  */
-function unconvertCurrency($value): int
+function fromCurrency($value): int
 {
     list($value) = explode("]", str_replace("[>", "", $value));
     $value = $value == "" ? "0" : $value;
@@ -67,18 +67,29 @@ function uploadImage(UploadedFile $file,
     $image = Image::make($file->getRealPath());
 
     if($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth,$resizeHeight,fn($constraint) => $constraint->aspectRatio());
-    $store = Storage::put($path."/".$name,$image->encode());
 
+    $store = Storage::put($path."/".$name,$image->encode());
     if(!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...",400);
-    return $name;
+
+    return $path."/".$name;
 }
 
 /**
  * @param UploadedFile $file
  * @param string $path
- * @param string|null $oldFilename
+ * @param string|null $customName
  * @return string
+ * @throws Exception
  */
-function uploadFile(UploadedFile $file, string $path, ?string $oldFilename) :string{
-    return '';
+function uploadFile(UploadedFile $file,
+                    string $path,
+                    ?string $customName = null) :string
+{
+    $name = uniqid().time().".".$file->getClientOriginalExtension();
+    if($customName != null) $name = $customName;
+
+    $store = Storage::put($path."/".$name,$file);
+    if(!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...",400);
+
+    return $path."/".$name;
 }

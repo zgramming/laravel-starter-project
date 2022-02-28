@@ -27,3 +27,5 @@ Route::get("example/create", [ExampleController::class, 'form_page']);
 Route::get("example/update/{id}", [ExampleController::class, 'form_page']);
 
 Route::post("example/save/{id}",[ExampleController::class,'save']);
+
+Route::delete("example/delete/{id}",[ExampleController::class,'delete']);
