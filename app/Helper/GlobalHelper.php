@@ -11,6 +11,25 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use JetBrains\PhpStorm\ArrayShape;
+
+enum ExportFileType : string {
+    case XLSX = "xlsx";
+    case CSV = "csv";
+}
+
+/**
+ * @param string $kode
+ * @param string $message
+ * @param float|null $sleep
+ * @return void
+ */
+function echoFlush(string $kode = "", string $message = "", float|null $sleep=null){
+    echo "\n".json_encode(['success'=>true,'kode'=>$kode,'message'=>$message]);
+    if(!empty($usleep) || $sleep != null) usleep(1000000 * $sleep);
+    flush();
+    ob_flush();
+}
 
 /**
  * @param $value
@@ -102,58 +121,85 @@ function uploadFile(UploadedFile $file,
 }
 
 /**
- * @param string $path
  * @param array $header
  * @param Collection $values
  * @param callable $callback
- * @return string
+ * @param ExportFileType $type
+ * @return array
  * @throws IOException
  * @throws InvalidArgumentExceptionAlias
  * @throws WriterNotOpenedException
  */
-function exportSpout(string $path, array $header, Collection $values, callable $callback) : string{
+#[ArrayShape(['relativePath' => "string", 'url' => "string", 'size' => "string"])]
+function exportSpout(array $header, Collection $values, callable $callback, ExportFileType $type = ExportFileType::XLSX) : array
+{
+    /// For debug purpose, we should check performance time
+//    $startTimer = microtime(true);
+
+    echoFlush("prepare_folder","Sedang menyiapkan folder penyimpanan sementara",0.01);
+    /// Create folder if not exists, when exists do nothing
+    $folder = "temp/export";
+    $storagePath = Storage::disk('public')->path($folder);
+    File::ensureDirectoryExists($storagePath);
 
     $writer = WriterEntityFactory::createXLSXWriter();
-    $writer->openToFile($path);
+    $filename = uniqid().time().".xlsx";
+
+    if($type == ExportFileType::CSV){
+        $writer = WriterEntityFactory::createCSVWriter();
+        $filename = uniqid().time().".csv";
+    }
+
+    $fullpath = $storagePath."/".$filename;
+    $writer->openToFile($fullpath);
 
     /// Create Header
     $header = WriterEntityFactory::createRowFromArray($header);
     $writer->addRow($header);
 
     /// Create multiple row content
-    $valuesCollection = $values->map(fn($value)=>WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
-    $writer->addRows($valuesCollection);
+    $no = 0;
+    foreach($values->chunk(1000) as $chunk){
+        $no = $no + count($chunk);
+        echoFlush("read_row","Membaca Data ke-$no",sleep: 0.020);
+
+        $tempArr = $chunk->map(fn($value) => WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
+        $writer->addRows($tempArr);
+    }
 
     $writer->close();
 
-    return storage_path($path);
+    echo "\n";
+
+    /// For Debug Purpose
+//    $endTimer = microtime(true) - $startTimer;
+    return [
+        'relativePath' =>Storage::disk('public')->path("$folder/$filename"),
+        'url' => asset(Storage::url("$folder/$filename")),
+        'size'=> formatBytes(Storage::disk('public')->size("$folder/$filename")),
+    ];
 }
 
 /**
  * @param UploadedFile $file
  * @param callable $callback
- * @return array
+ * @return Collection
  * @throws IOException
  * @throws ReaderNotOpenedException
  * @throws UnsupportedTypeExceptionAlias
- * @throws Exception
+ * TODO: Allowed memory size of 536870912 bytes exhausted (tried to allocate 8392704 bytes)
  */
-function importSpout(UploadedFile $file, callable $callback): array
-{
-    function echoFlush(string $kode = "", string $message = "", float|null $sleep=null){
-        echo "\n".json_encode(['success'=>true,'kode'=>$kode,'message'=>$message]);
-        if(!empty($usleep) || $sleep != null) usleep(1000000 * $sleep);
-        flush();
-        ob_flush();
-//        ob_start();
-//        ob_clean();
-    }
 
-    echoFlush("prepare_file","Sedang mempersiapkan file untuk diimport",0.01);
+function importSpout(UploadedFile $file, callable $callback): Collection
+{
+    /// For debug purpose, we should check performance time
+    $startTimer = microtime(true);
+
+    echoFlush("prepare_file","Sedang mempersiapkan file untuk diimport",0.0000001);
     $uploadFile = uploadFile(file: $file,path: 'temp/import');
     $storePath = Storage::disk('public')->path($uploadFile);
 
-    echoFlush("load_file","Sedang mempersiapkan file untuk dibaca",0.01);
+    echoFlush("load_file","Sedang mempersiapkan file untuk dibaca",0.0000001);
     $reader = ReaderEntityFactory::createReaderFromFile($storePath);
     $reader->setShouldFormatDates(true);
     $reader->open($storePath);
@@ -170,16 +216,32 @@ function importSpout(UploadedFile $file, callable $callback): array
 
             $result = $callback($cells);
             $tempArr[] = $result;
-            echoFlush("read_row","Sedang membaca data ke-".++$no,0.1);
         }
     }
 
     $reader->close();
 
-    echoFlush("remove_file","Sedang menghapus temporary file import",0.05);
+    echoFlush("remove_file","Sedang menghapus temporary file import",0.005);
     /// Remove Excel if already exist reading
     Storage::disk('public')->delete($uploadFile);
     echo "\n";
 
-    return $tempArr;
+    /// For Debug Purpose
+    $endTimer = microtime(true) - $startTimer;
+//    dd($tempArr);
+    return collect(value: $tempArr);
+}
+
+/**
+ * @param int|float $size
+ * @param int $precision
+ * @return string
+ * reference [https://stackoverflow.com/a/2510540/7360353]
+ */
+function formatBytes(int | float $size, int $precision = 2) : string
+{
+    $base = log($size, 1024);
+    $suffixes = array('', 'K', 'M', 'G', 'T');
+
+    return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
 }

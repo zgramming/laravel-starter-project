@@ -3,51 +3,96 @@
 namespace App\Http\Controllers;
 
 use App\Models\Example;
-use Box\Spout\Common\Exception\InvalidArgumentException;
-use Box\Spout\Common\Exception\IOException;
-use Box\Spout\Common\Exception\UnsupportedTypeException;
-use Box\Spout\Reader\Exception\ReaderNotOpenedException;
-use Box\Spout\Writer\Exception\WriterNotOpenedException;
-use Carbon\Carbon;
-use PHPUnit\Util\Exception;
-use Str;
+
+use ExportFileType;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class WidgetController extends Controller
 {
     public function form_export(){
+        $keys = [];
+        $keys['types'] = array(
+            ExportFileType::XLSX->value => "XLSX",
+            ExportFileType::CSV->value => "CSV",
+        );
 
+        return view('widgets.export_widget',$keys);
     }
 
-    public function form_import(){
+    public function form_import(): Factory|View|Application
+    {
         $keys = [];
         return view('widgets.import_widget',$keys);
     }
 
-
     /**
-     * @throws InvalidArgumentException
-     * @throws IOException
-     * @throws WriterNotOpenedException
+     * @return JsonResponse
      */
-    public function export(){
-    $path = storage_path('/app/public/export/export_spout.xlsx');
-        $path = exportSpout($path,
-            header: ['id','Nama Aku','Deskripsi','Uang Saya'],
-            values:Example::all(),
-            callback: function($item){
-                return [
-                    $item?->id ?? '',
-                    $item?->name ?? '',
-                    $item?->description ?? '',
-                    $item?->current_money ?? '',
-                ];
-        } );
+    public function export(): JsonResponse
+    {
+        try {
+            $post = request()->all();
+            $rules = [
+                'input_type_export' => "required"
+            ];
+
+            $validator = Validator::make($post,$rules);
+            if($validator->fails()) return response()->json([
+                'success' => false,
+                'errors' => $validator->messages(),
+            ], 400);
+
+            $exportedFile = exportSpout(
+                header: ['id',
+                    'name',
+                    'description',
+                    'job_desk',
+                    'birth_date',
+                    'current_money',
+                    'profile_image',
+                    'hobby',
+                    'status'],
+                values:Example::all(),
+                callback: function($item){
+                    return [
+                        $item?->id ?? '',
+                        $item?->name ?? '',
+                        $item?->description ?? '',
+                        $item?->job_desk ?? '',
+                        $item?->birth_date ?? '',
+                        $item?->current_money ?? '',
+                        $item?->profile_image ?? '',
+                        implode(",",$item?->hobby) ?? '',
+                        $item?->status ?? '',
+                    ];
+                },
+                type: ExportFileType::from($post['input_type_export'])
+            );
+
+            $message = "Berhasil export data";
+            return response()->json(
+                [
+                    'message'=>$message,
+                    'success'=> true,
+                    'file' => $exportedFile,
+                    'kode'=>'done',
+                ]
+                ,200);
+
+
+        }catch (Throwable $e){
+            $message = $e->getMessage();
+            $code = $e->getCode();
+            return response()->json(['success'=> false,'errors' => $message],$code ?: 400);
+        }
     }
 
-    public function import_progress(){
-        return Str::random(20);
-    }
-    public function import(): \Illuminate\Http\JsonResponse
+    public function import(): JsonResponse
     {
         try {
             $post = request()->all();
@@ -66,18 +111,23 @@ class WidgetController extends Controller
                 'name' => $item[1] ?: null,
                 'description' => $item[2] ?: null,
                 'job_desk' => $item[3] ?: null,
-                'birth_date' => Carbon::createFromFormat('d/m/Y',$item[4])->format('Y-m-d') ?: null,
+                'birth_date' => date('Y-m-d',strtotime($item[4] ?? null)) ?: null,
                 'current_money' => $item[5] ?: null ,
                 'profile_image' => $item[6] ?: null,
                 'hobby' =>  json_encode(explode(",",$item[7])) ?: null,
-                'status' => $item[8] ?: null,
+                'status' => "active",
             ]);
 
-            Example::insert($values);
+            $no = 0;
+            foreach ($values->chunk(1000) as $chunk){
+                $no = $no + count($chunk);
+                echoFlush('read_row',"Sedang membaca data ke-$no");
+                Example::insert($chunk->toArray());
+            }
+
             $message = "Yess Berhasil Import ".count($values)." Data";
-            session()->flash('success',$message);
             return response()->json(['success'=>true,'kode'=>"done",'message'=>$message,'total_data'=>count($values)],200);
-        }catch (\Throwable $e){
+        }catch (Throwable $e){
             $message = $e->getMessage();
             $code = $e->getCode();
             return response()->json(['success'=> false,'errors' => $message],$code ?: 400);
