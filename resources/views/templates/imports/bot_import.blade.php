@@ -84,9 +84,15 @@
                 </div>
                 `);
 
-        $.each(errors, (key, value) => {
-            $(".modal-container-item").append(`<ul><li>${value}</li></ul>`);
-        });
+        /// If errors is object || array, we should iterate it
+        if(typeof errors === "object" || Array.isArray(errors)){
+            $.each(errors, (key, value) => {
+                $(".modal-container-item").append(`<ul><li>${value}</li></ul>`);
+            });
+        }else{
+            $(".modal-container-item").append(`<ul><li>${errors}</li></ul>`);
+        }
+
     }
     // [https://stackoverflow.com/questions/28948383/how-to-implement-debounce-fn-into-jquery-keyup-event
     // [http://davidwalsh.name/javascript-debounce-function]

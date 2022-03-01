@@ -76,7 +76,7 @@ function uploadImage(UploadedFile $file,
 
     if($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth,$resizeHeight,fn($constraint) => $constraint->aspectRatio());
 
-    $store = Storage::put($path."/".$name,$image->encode());
+    $store = Storage::disk('public')->putFileAs($path,$image->encode(),$name);
     if(!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...",400);
 
     return $path."/".$name;
@@ -96,10 +96,9 @@ function uploadFile(UploadedFile $file,
     $name = uniqid().time().".".$file->getClientOriginalExtension();
     if($customName != null) $name = $customName;
 
-    $store = Storage::put($path."/".$name,$file);
+    $store = Storage::disk('public')->putFileAs($path,$file,$name);
     if(!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...",400);
-
-    return $path."/".$name;
+    return $store;
 }
 
 /**
@@ -131,21 +130,37 @@ function exportSpout(string $path, array $header, Collection $values, callable $
 }
 
 /**
- * @param string $path
+ * @param UploadedFile $file
  * @param callable $callback
  * @return array
  * @throws IOException
  * @throws ReaderNotOpenedException
  * @throws UnsupportedTypeExceptionAlias
+ * @throws Exception
  */
-function importSpout(string $path, callable $callback): array
+function importSpout(UploadedFile $file, callable $callback): array
 {
-    $reader = ReaderEntityFactory::createReaderFromFile($path);
+    function echoFlush(string $kode = "", string $message = "", float|null $sleep=null){
+        echo "\n".json_encode(['success'=>true,'kode'=>$kode,'message'=>$message]);
+        if(!empty($usleep) || $sleep != null) usleep(1000000 * $sleep);
+        flush();
+        ob_flush();
+//        ob_start();
+//        ob_clean();
+    }
+
+    echoFlush("prepare_file","Sedang mempersiapkan file untuk diimport",0.01);
+    $uploadFile = uploadFile(file: $file,path: 'temp/import');
+    $storePath = Storage::disk('public')->path($uploadFile);
+
+    echoFlush("load_file","Sedang mempersiapkan file untuk dibaca",0.01);
+    $reader = ReaderEntityFactory::createReaderFromFile($storePath);
     $reader->setShouldFormatDates(true);
-    $reader->open($path);
+    $reader->open($storePath);
 
     $tempArr = [];
     $no = 0 ;
+
     foreach ($reader->getSheetIterator() as $sheet){
         foreach($sheet->getRowIterator() as $row){
             $cells = $row->toArray();
@@ -155,19 +170,16 @@ function importSpout(string $path, callable $callback): array
 
             $result = $callback($cells);
             $tempArr[] = $result;
-
-
-            $response = [
-                'message' => 'Reading data '.++$no,
-            ];
-
-            echo response()->json($response);
-
-            flush();
-            ob_flush();
+            echoFlush("read_row","Sedang membaca data ke-".++$no,0.1);
         }
     }
 
     $reader->close();
+
+    echoFlush("remove_file","Sedang menghapus temporary file import",0.05);
+    /// Remove Excel if already exist reading
+    Storage::disk('public')->delete($uploadFile);
+    echo "\n";
+
     return $tempArr;
 }

@@ -49,3 +49,12 @@ function toCurrency(elem,decimal = 4) {
     if (replace.length === 0) replace = 0;
     elem.value = replace;
 }
+
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}

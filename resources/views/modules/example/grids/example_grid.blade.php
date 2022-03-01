@@ -109,7 +109,7 @@
                                     <div class="form-group">
                                         <div class="buttons">
                                             <a href="" class="btn btn-info"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
-                                            <a href="" class="btn btn-dark"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
+                                            <a href="#" class="btn btn-dark" onclick="openBox('{{ url('widget/import') }}')"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
                                             <a href="#" class="btn btn-success" onclick="openBox('{{url('example/create-modal')}}',{size: 'modal-lg'})"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</a>
                                             <a href="{{url('example/create')}}" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
                                         </div>

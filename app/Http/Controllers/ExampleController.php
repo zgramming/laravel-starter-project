@@ -284,8 +284,9 @@ class ExampleController extends Controller
             if(!$result) throw new \Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...",400);
 
             if(!empty($post['form_type'])) {
-                session()->flash('success',"Yess Berhasil Insert / Update");
-                return response()->json(['success'=>true,'message'=>"Yesss Berhasil Insert / Update"],200);
+                $message = "Yess Berhasil Insert / Update";
+                session()->flash('success',$message);
+                return response()->json(['success'=>true,'message'=> $message],200);
             }
             return redirect('example')->with('success',!empty($id) ? "Berhasil update" : "Berhasil membuat");
 
@@ -293,7 +294,7 @@ class ExampleController extends Controller
             $message = $e->getMessage();
             $code = $e->getCode();
 
-            if(!empty($post['form_type'])) return response()->json(['errors' => $message],$code);
+            if(!empty($post['form_type'])) return response()->json(['success'=> false,'errors' => $message],$code);
 
             return back()->withErrors($message)->withInput();
         }
