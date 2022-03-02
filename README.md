@@ -66,3 +66,37 @@ Untuk menampilkan isi dari PDF menggunakan plugin <a href="https://mozilla.githu
 Menampilkan gambar di dalam modal, berguna ketika ingin melihat gambar dalam ukuran yang lebih besar.
 
 <img src="github/gif/crud_operation/preview-image.gif">
+
+### Credit
+Terimakasih kepada <a href="https://github.com/zuramai" target="_blank">zuramai</a>  yang telah membuat template <a href="https://github.com/zuramai/mazer" target="_blank">Mazer</a> yang dimana project ini menggunakan template tersebut didalamnya.
+
+
+# Issues
+
+Please file any issues, bugs or feature request as an issue on <a href="https://github.com/zgramming/Basa-Basi-Supabase/issues"><b> Github </b></a>
+
+# Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+<br>
+
+<table border="0" cellspacing="0" cellpadding="0">
+    <thead>
+        <tr>
+            <th>LinkedIn</th>
+            <th>Facebook</th>
+            <th>Instagram</th>
+            <th>Website</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="https://www.linkedin.com/in/zeffry-reynando" target="_blank"><img src="github/social_media/icon_linkedin.png" width=48 height=48></a></td>
+            <td><a href="https://www.facebook.com/zeffry.reynando" target="_blank"><img src="github/social_media/icon_fb.png" width=48 height=48></a></td>
+            <td><a href="https://www.instagram.com/zeffry_reynando" target="_blank"><img src="github/social_media/icon_instagram.png" width=48 height=48></a></td>
+            <td><a href="https://zeffry.dev/" target="_blank"><img src="github/social_media/icon_website.png" width=48 height=48></a></td>
+        </tr>
+    </tbody>
+
+</table>
