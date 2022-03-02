@@ -73,7 +73,7 @@
                         const result = IsJsonString(currentResponse) ? JSON.parse(currentResponse) : "";
                         console.log("current response",result);
                         /// Check if response is error, if [true] show error on modal then stop operation
-                        if(!result.success) {
+                        if(!result.success && IsJsonString(result)) {
                             showErrorsOnModal(result.errors);
                             return false;
                         }
