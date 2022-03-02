@@ -1,3 +1,5 @@
+[![GitHub followers](https://img.shields.io/github/followers/zgramming.svg?style=social&label=Follow&maxAge=2592000)](https://github.com/zgramming?tab=followers)
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
@@ -7,58 +9,60 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+<p align="center">
+  <img src="github/screenshot/logo.jpg">
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Starter Laravel Project
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Dibuatnya project ini karena saya membutuhkan starter project yang didalamnya sudah terdapat fungsi dan template.
+Beberapa fitur yang ada di starter project ini yaitu : 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+### 1. <a href="https://yajrabox.com/docs/laravel-datatables/master/installation" target="_blank">Laravel Yajra Datatable</a>
+Beberapa fitur yang sudah ada untuk datatable yaitu :
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* Search + Debounce
+<img src="github/gif/datatable/1.gif">
+* Filter by Combo box
+<img src="github/gif/datatable/2.gif">
+* Sorting Asc / Desc
+* Custom column (show image, show badge, show button action)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. CRUD Operation
+Pada project ini sudah disediakan contoh form dan fungsi-fungsi yang biasanya sering digunakan, diantaranya : 
 
-## Laravel Sponsors
+#### a. Form Create & Update
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<img src="github/gif/crud_operation/1.gif">
 
-### Premium Partners
+Fitur yang ada dalam form ini yaitu : 
+* Validasi pada sisi client menggunakan <a href="https://jqueryvalidation.org/" target="_blank">Jquery Validation</a>
+* Validasi pada sisi server
+* Preview gambar sebelum upload file
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+#### b. Delete data + image if exists
+Menghapus data pada database dan memeriksa apakah data terkait mempunyai file/image, jika ada image yang terkait hapus juga image/filenya
 
-## Contributing
+<img src="github/gif/crud_operation/2.gif">
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### c. Export Data
+Export data dengan menentukan tipe file yang diinginkan, untuk saat ini mensupport XLSX & CSV.
 
-## Code of Conduct
+<img src="github/gif/crud_operation/export.gif">
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### d. Import Data
+Import data untuk saat ini baru mensupport XLSX, dengan menentukan tiap field yang ada di XLSX dan codingan kamu.
 
-## Security Vulnerabilities
+<img src="github/gif/crud_operation/import.gif">
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### e. Preview Document
+Menampilkan isi dokumen dalam modal.
+Untuk menampilkan isi dari PDF menggunakan plugin <a href="https://mozilla.github.io/pdf.js/" target="_blank">PDFJS</a>
 
-## License
+<img src="github/gif/crud_operation/preview-document.gif">
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### f. Preview Image
+Menampilkan gambar di dalam modal, berguna ketika ingin melihat gambar dalam ukuran yang lebih besar.
+
+<img src="github/gif/crud_operation/preview-image.gif">
