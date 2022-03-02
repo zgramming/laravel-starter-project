@@ -46,12 +46,12 @@ Menghapus data pada database dan memeriksa apakah data terkait mempunyai file/im
 
 <img src="github/gif/crud_operation/2.gif">
 
-#### c. Export Data
+#### c. Export Data (<a href="https://github.com/box/spout" target="_blank">Spout library</a>)
 Export data dengan menentukan tipe file yang diinginkan, untuk saat ini mensupport XLSX & CSV.
 
 <img src="github/gif/crud_operation/export.gif">
 
-#### d. Import Data
+#### d. Import Data (<a href="https://github.com/box/spout" target="_blank">Spout library</a>)
 Import data untuk saat ini baru mensupport XLSX, dengan menentukan tiap field yang ada di XLSX dan codingan kamu.
 
 <img src="github/gif/crud_operation/import.gif">
