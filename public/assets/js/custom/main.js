@@ -58,3 +58,47 @@ function IsJsonString(str) {
     }
     return true;
 }
+
+
+function hideErrorsOnModal(){
+    $(".modal-container-error").remove();
+}
+
+function showErrorsOnModal(errors){
+    console.log('Errors occured on modal : ',errors);
+    $(".modal-container-error").remove();
+    $(".modal-header-custom").append(`
+                <div class="d-flex flex-row flex-fill modal-container-error mt-3">
+                    <div class="alert alert-danger alert-dismissible show fade w-100">
+                        <div class="modal-container-item"></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                `);
+
+    /// If errors is object || array, we should iterate it
+    if(typeof errors === "object" || Array.isArray(errors)){
+        $.each(errors, (key, value) => {
+            $(".modal-container-item").append(`<ul><li>${value}</li></ul>`);
+        });
+    }else{
+        $(".modal-container-item").append(`<ul><li>${errors}</li></ul>`);
+    }
+
+}
+// [https://stackoverflow.com/questions/28948383/how-to-implement-debounce-fn-into-jquery-keyup-event
+// [http://davidwalsh.name/javascript-debounce-function]
+function debounce(func, wait, immediate) {
+    let timeout;
+    return function() {
+        const context = this, args = arguments;
+        const later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        const callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}

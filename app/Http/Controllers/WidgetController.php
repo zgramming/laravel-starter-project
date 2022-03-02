@@ -14,7 +14,34 @@ use Throwable;
 
 class WidgetController extends Controller
 {
-    public function form_export(){
+    /**
+     * @return Factory|View|Application
+     */
+    public function view_document(): Factory|View|Application
+    {
+        $get = request()->all();
+        $keys = $get;
+        $extension = strtolower(pathinfo($get['documentUrl'] ?? "https://zeffry.dev/test_document.pdf", PATHINFO_EXTENSION));
+        $keys['extension'] = $extension;
+
+        $keys['fullUrl'] = $extension == "pdf" ? asset('assets/js/third_party/pdfjs/web/viewer.html?file='.$get['documentUrl']) : "https://view.officeapps.live.com/op/embed.aspx?src=".$get['documentUrl'];
+        return view('widgets.view_document_widget',$keys);
+    }
+
+    /**
+     * @return Factory|View|Application
+     */
+    public function view_image(): Factory|View|Application
+    {
+        $keys = [];
+        return view('widgets.view_image_widget',$keys);
+    }
+
+    /**
+     * @return Factory|View|Application
+     */
+    public function form_export(): Factory|View|Application
+    {
         $keys = [];
         $keys['types'] = array(
             ExportFileType::XLSX->value => "XLSX",
@@ -24,6 +51,9 @@ class WidgetController extends Controller
         return view('widgets.export_widget',$keys);
     }
 
+    /**
+     * @return Factory|View|Application
+     */
     public function form_import(): Factory|View|Application
     {
         $keys = [];
@@ -79,7 +109,7 @@ class WidgetController extends Controller
                 [
                     'message'=>$message,
                     'success'=> true,
-                    'file' => $exportedFile,
+                    'file' => $exportedFile ?? '',
                     'kode'=>'done',
                 ]
                 ,200);
@@ -92,6 +122,9 @@ class WidgetController extends Controller
         }
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function import(): JsonResponse
     {
         try {

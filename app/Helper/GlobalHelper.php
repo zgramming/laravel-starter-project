@@ -133,10 +133,11 @@ function uploadFile(UploadedFile $file,
 #[ArrayShape(['relativePath' => "string", 'url' => "string", 'size' => "string"])]
 function exportSpout(array $header, Collection $values, callable $callback, ExportFileType $type = ExportFileType::XLSX) : array
 {
+
     /// For debug purpose, we should check performance time
 //    $startTimer = microtime(true);
 
-    echoFlush("prepare_folder","Sedang menyiapkan folder penyimpanan sementara",0.01);
+    echoFlush("prepare_folder","Sedang membuat folder penyimpanan sementara",0.01);
     /// Create folder if not exists, when exists do nothing
     $folder = "temp/export";
     $storagePath = Storage::disk('public')->path($folder);
@@ -161,7 +162,7 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
     $no = 0;
     foreach($values->chunk(1000) as $chunk){
         $no = $no + count($chunk);
-        echoFlush("read_row","Membaca Data ke-$no",sleep: 0.020);
+        echoFlush("read_row","Sedang membaca data ke-$no",sleep: 0.020);
 
         $tempArr = $chunk->map(fn($value) => WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
         $writer->addRows($tempArr);
@@ -169,15 +170,18 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
 
     $writer->close();
 
+    echoFlush("prepare_download","Sedang menyiapkan file");
     echo "\n";
 
     /// For Debug Purpose
 //    $endTimer = microtime(true) - $startTimer;
-    return [
+
+    $result = [
         'relativePath' =>Storage::disk('public')->path("$folder/$filename"),
         'url' => asset(Storage::url("$folder/$filename")),
         'size'=> formatBytes(Storage::disk('public')->size("$folder/$filename")),
     ];
+    return $result;
 }
 
 /**
@@ -187,6 +191,7 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
  * @throws IOException
  * @throws ReaderNotOpenedException
  * @throws UnsupportedTypeExceptionAlias
+ * @throws Exception
  * TODO: Allowed memory size of 536870912 bytes exhausted (tried to allocate 8392704 bytes)
  */
 

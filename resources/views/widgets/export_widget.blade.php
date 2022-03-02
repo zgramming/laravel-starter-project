@@ -45,7 +45,7 @@
             }
         });
 
-        $("#form_validation").on('submit',function(e){
+        $('#form_validation').on('submit',function(e){
             e.preventDefault();
             let isValid = $(this).valid();
             if (!isValid) return false;
@@ -87,6 +87,7 @@
                             $(".progress-read-row").remove();
                             $(".container-list-group").append(`<li class="list-group-item list-group-item-success progress-read-row">${result.message}</li>`)
                         }
+                        if(result.kode === "prepare_download") $(".container-list-group").append(`<li class="list-group-item list-group-item-success progress-prepare-download">${result.message}</li>`)
                         if(result.kode === "done"){
                             $(".container-list-group").append(`<li class="list-group-item list-group-item-success progress-remove-file">${result.message}</li>`);
                             window.open(result.file.url,"_blank");
@@ -98,10 +99,10 @@
                     console.log("Data : ",data);
                 },
             }).fail(function(xhr,textStatus){
+                console.log("Failll",xhr);
                 $(".btn-submit").attr('disabled',false);
                 let errors = xhr.responseJSON.errors;
                 showErrorsOnModal(errors);
-                console.log("Failll",xhr);
             }).done(function(xhr,textStatus){
                 $(".btn-submit").attr('disabled',false);
                 console.log("done : ",xhr)

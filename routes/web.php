@@ -36,5 +36,9 @@ Route::delete("example/delete/{id}",[ExampleController::class,'delete']);
 Route::get('widget/export',[WidgetController::class,'form_export']);
 Route::get('widget/import',[WidgetController::class,'form_import']);
 
-Route::post('widget/export',[WidgetController::class,'export']);
-Route::post('widget/import',[WidgetController::class,'import']);
+Route::post('widget/export',[WidgetController::class,'export'])->name('export');
+Route::post('widget/import',[WidgetController::class,'import'])->name('import');
+
+Route::get('widget/view-image',[WidgetController::class,'view_image'])->name('view-image');
+Route::get('widget/view-document',[WidgetController::class,'view_document'])->name('view-document');
+
