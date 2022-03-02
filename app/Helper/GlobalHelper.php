@@ -95,10 +95,9 @@ function uploadImage(UploadedFile $file,
 
     if($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth,$resizeHeight,fn($constraint) => $constraint->aspectRatio());
 
-    $store = Storage::disk('public')->putFileAs($path,$image->encode(),$name);
+    $store = Storage::disk('public')->put($path."/".$name,$image->encode());
     if(!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...",400);
-
-    return $path."/".$name;
+    return Storage::url($path."/".$name);
 }
 
 /**
@@ -115,9 +114,10 @@ function uploadFile(UploadedFile $file,
     $name = uniqid().time().".".$file->getClientOriginalExtension();
     if($customName != null) $name = $customName;
 
-    $store = Storage::disk('public')->putFileAs($path,$file,$name);
+    $store = Storage::disk('public')->put($path."/".$name,$file);
     if(!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...",400);
-    return $store;
+
+    return Storage::url($path."/".$name);
 }
 
 /**

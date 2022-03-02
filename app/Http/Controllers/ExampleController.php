@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Constant\Constant;
 use App\Models\Example;
 use DB;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -47,7 +49,12 @@ class ExampleController extends Controller
         return view('modules.example.grids.example_grid', $keys);
     }
 
-    public function exampleDatatable(Request $request)
+    /**
+     * @param Request $request
+     * @return View|Factory|Application|JsonResponse
+     * @throws Exception
+     */
+    public function exampleDatatable(Request $request): View|Factory|Application|JsonResponse
     {
         if ($request->ajax()) {
 
@@ -57,7 +64,7 @@ class ExampleController extends Controller
             //                ->toJson();
 
             // Option 2 using base condition chaining method
-            $values = Example::where('id', '!=', null)->latest();
+            $values = Example::where('id', '!=', null);
             $datatable = DataTables::of($values);
             $datatable = $datatable->addIndexColumn();
             //            If you only want specific column to show
@@ -83,6 +90,17 @@ class ExampleController extends Controller
                 }
 
                 if (!empty($status)) $query->where('status', '=', $status);
+            });
+
+            $datatable = $datatable->orderColumn('status',function(Builder $query, $order){
+                $query->orderBy('status',$order);
+            });
+
+            $datatable = $datatable->addColumn("profile_image",function(Example $item){
+                if($item?->profile_image == null) return "<span class=\"badge bg-danger\">No Image</span>";
+                $imagePath = asset($item->profile_image);
+
+                return "<a href='#' onclick=\"openImage('$imagePath')\"><img alt='Image error' src='$imagePath' class='img-fluid img-thumbnail' width='100' style=\"min-height: 100px; max-height: 100px;\"></a>";
             });
 
             $datatable = $datatable->addColumn("status", function ($item) {
@@ -112,7 +130,7 @@ class ExampleController extends Controller
                 ";
             });
 
-            return $datatable->rawColumns(['status', 'action'])->toJson();
+            return $datatable->rawColumns(['profile_image','status', 'action'])->toJson();
         }
 
         return view('error.notfound');
@@ -281,7 +299,7 @@ class ExampleController extends Controller
 
             /// If you want return object
             $result = Example::updateOrCreate(['id'=>$id],$data);
-            if(!$result) throw new \Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...",400);
+            if(!$result) throw new Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...",400);
 
             if(!empty($post['form_type'])) {
                 $message = "Yess Berhasil Insert / Update";
@@ -290,7 +308,7 @@ class ExampleController extends Controller
             }
             return redirect('example')->with('success',!empty($id) ? "Berhasil update" : "Berhasil membuat");
 
-        }catch (\Exception $e){
+        }catch (Exception $e){
             $message = $e->getMessage();
             $code = $e->getCode();
 

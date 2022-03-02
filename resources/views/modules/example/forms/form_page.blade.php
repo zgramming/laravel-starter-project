@@ -34,36 +34,41 @@
                                     <li>{{$error}}</li>
                                 </ul>
                             @endforeach
-
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
                 </div>
                 <div class="row mb-3">
                     <label for="input_name" class="col-sm-12 col-md-2 col-form-label">Name</label>
                     <div class="col-sm-12 col-md-4">
-                        <input type="text" name="input_name" class="form-control" id="input_name" minlength="6" value="{{$example?->name}}" required >
+                        <input class="form-control" id="input_name" minlength="6" name="input_name" required
+                               type="text" value="{{$example?->name}}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="input_description" class="col-sm-12 col-md-2 col-form-label">Deskripsi</label>
                     <div class="col-sm-12 col-md-4">
-                        <textarea name="input_description" id="input_description" class="form-control" rows="3" required>{{$example?->description}}</textarea>
+                        <textarea class="form-control" id="input_description" name="input_description" required rows="3">{{$example?->description}}</textarea>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="input_birth_date" class="col-sm-12 col-md-2 col-form-label">Tanggal Lahir</label>
                     <div class="col-sm-12 col-md-4">
-                        <input type="text" name="input_birth_date" id="input_birth_date" class="form-control" placeholder="Pilih Tanggal Lahir" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="{{$example?->birth_date}}" required>
+                        <input class="form-control" id="input_birth_date" name="input_birth_date"
+                               onblur="if(this.value===''){this.type='text'}"
+                               onfocus="(this.type='date')" placeholder="Pilih Tanggal Lahir" required
+                               type="text" value="{{$example?->birth_date}}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label for="input_current_money" class="col-sm-12 col-md-2 col-form-label">Uang Sekarang</label>
                     <div class="col-sm-12 col-md-4">
-                        <input type="text" name="input_current_money" id="input_current_money" class="form-control" onkeyup="toCurrency(this)" value="{{toCurrency($example?->current_money)}}" required>
+                        <input class="form-control" id="input_current_money" name="input_current_money"
+                               onkeyup="toCurrency(this)" required
+                               type="text" value="{{toCurrency($example?->current_money)}}">
                     </div>
                 </div>
 
@@ -72,7 +77,7 @@
                     <div class="col-sm-12 col-md-4">
                         <div class="d-flex flex-column">
                             <div class="combobox-container">
-                                <select name="input_job" class="form-select select2-custom">
+                                <select class="form-select select2-custom" name="input_job">
                                     <option value="">Pilih Job</option>
                                     @foreach($jobs as $key => $value)
                                         <option value="{{$key}}" {{($example?->job_desk == $key ? "selected" : "")}}>{{$value}}</option>
@@ -90,7 +95,9 @@
                             <div class="checkbox-container">
                                 @foreach($hobbies as $key => $value)
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="input_hobby_{{$key}}" name="input_hobbies[]" value="{{$key}}" {{in_array($key,$example?->hobby ?? []) ? "checked" : ""}}>
+                                        <input class="form-check-input" id="input_hobby_{{$key}}" name="input_hobbies[]"
+                                               type="checkbox"
+                                               value="{{$key}}" {{in_array($key,$example?->hobby ?? []) ? "checked" : ""}}>
                                         <label class="form-check-label" for="input_hobby_{{$key}}">{{$value}}</label>
                                     </div>
                                 @endforeach
@@ -106,7 +113,9 @@
                             <div class="radio-container">
                                 @foreach($statuses as $key => $value)
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="input_status" id="input-radio-{{$key}}" value="{{$key}}" {{$example?->status == $key ? "checked" : ""}}>
+                                        <input class="form-check-input" id="input-radio-{{$key}}" name="input_status"
+                                               type="radio"
+                                               value="{{$key}}" {{$example?->status == $key ? "checked" : ""}}>
                                         <label class="form-check-label" for="input-radio-{{$key}}">{{$value}}</label>
                                     </div>
                                 @endforeach
@@ -117,8 +126,11 @@
 
                 <div class="row mb-3">
                     <label for="input_profile" class="col-sm-12 col-md-2 col-form-label">Profile Image</label>
-                    <div class="col-sm-12 col-md-4">
-                        <input class="form-control" name="input_profile" type="file" id="input_profile">
+                    <div class="col-sm-12 col-md-4 d-flex flex-column">
+                        <input class="form-control image-upload-preview" id="input_profile" name="input_profile"
+                               type="file">
+                        <img alt="Image Error" class="img-fluid img-thumbnail image-upload-preview-item mt-3"
+                             style="min-height: 300px; max-height: 1000px;" src="{{ $example?->profile_image ?? asset('assets/images/samples/broken-image.png') }}">
                     </div>
                 </div>
 
@@ -132,6 +144,22 @@
 @section('extends-js')
 <script type="text/javascript">
     $(document).ready(function(){
+
+        $('.image-upload-preview-item').on("error",function(e){
+            $(this).attr('src',"{{ asset('assets/images/samples/broken-image.png') }}");
+        })
+
+        $(".image-upload-preview").on('change',function(e){
+            e.preventDefault();
+            if(this.files && this.files[0]){
+                let reader = new FileReader();
+                reader.onload = function(x){
+                    $(".image-upload-preview-item").attr('src',x.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
         $("#form_validation").validate({
             rules : {
                 "input_current_money" : {
