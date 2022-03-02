@@ -108,7 +108,7 @@
                                     <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
                                         <div class="form-group">
                                             <div class="buttons">
-                                                <a href="#" class="btn btn-warning" onclick="openBox('{{ url('widget/export') }}')"><span class="btn-label"><i class="fa fa-search"></i></span> Gambar</a>
+                                                <a href="#" class="btn btn-warning" onclick="openImage('{{ asset(Storage::url('images/example/621cd8c786a7e1646057671.jpg')) }}')"><span class="btn-label"><i class="fa fa-search"></i></span> Gambar</a>
                                                 <a href="#"
                                                    class="btn btn-danger"
                                                    onclick="openDocument('{{ asset(Storage::url('temp/docs/document.docx')) }}')">

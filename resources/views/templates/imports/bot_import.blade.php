@@ -76,7 +76,8 @@
         openBox(`{{ url('widget/view-image') }}`,{
             parameter : {
                 imageUrl : imageUrl,
-            }
+            },
+            modalScrollable : false,
         });
     }
 

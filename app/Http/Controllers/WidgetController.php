@@ -33,7 +33,9 @@ class WidgetController extends Controller
      */
     public function view_image(): Factory|View|Application
     {
-        $keys = [];
+        $get = request()->all();
+        $keys = $get;
+
         return view('widgets.view_image_widget',$keys);
     }
 
