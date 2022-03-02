@@ -210,8 +210,9 @@ class ExampleController extends Controller
 
     /**
      * @param int $id
+     * @return JsonResponse|Redirector|Application|RedirectResponse
      */
-    public function save(int $id = 0)
+    public function save(int $id = 0): JsonResponse|Redirector|Application|RedirectResponse
     {
         /// Rules Available Usefull
         /// 1. accept                       => "Input should be [yes | on | 1 | true]"

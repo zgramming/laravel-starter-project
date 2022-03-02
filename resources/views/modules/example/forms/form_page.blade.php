@@ -145,21 +145,6 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('.image-upload-preview-item').on("error",function(e){
-            $(this).attr('src',"{{ asset('assets/images/samples/broken-image.png') }}");
-        })
-
-        $(".image-upload-preview").on('change',function(e){
-            e.preventDefault();
-            if(this.files && this.files[0]){
-                let reader = new FileReader();
-                reader.onload = function(x){
-                    $(".image-upload-preview-item").attr('src',x.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-
         $("#form_validation").validate({
             rules : {
                 "input_current_money" : {

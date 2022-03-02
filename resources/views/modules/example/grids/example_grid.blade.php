@@ -99,7 +99,7 @@
                                                 <a href="#" class="btn btn-warning" onclick="openImage('{{ asset(Storage::url('images/example/621cd8c786a7e1646057671.jpg')) }}')"><span class="btn-label"><i class="fa fa-search"></i></span> Gambar</a>
                                                 <a href="#"
                                                    class="btn btn-danger"
-                                                   onclick="openDocument('{{ asset(Storage::url('temp/docs/document.docx')) }}')">
+                                                   onclick="openDocument('{{ asset(Storage::url('temp/pdf/pdf.pdf')) }}')">
                                                     <span class="btn-label"><i class="fa fa-search"></i></span> Document
                                                 </a>
                                                 <a href="#" class="btn btn-info" onclick="openExport()"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>

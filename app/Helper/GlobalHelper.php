@@ -77,6 +77,7 @@ function unconvertDate(string $date = ""): ?string {
  * @param UploadedFile $file
  * @param string $path
  * @param string|null $customName
+ * @param bool $returnRelativePath
  * @param int|null $resizeWidth
  * @param int|null $resizeHeight
  * @return string
@@ -85,6 +86,7 @@ function unconvertDate(string $date = ""): ?string {
 function uploadImage(UploadedFile $file,
                      string       $path,
                      ?string      $customName = null,
+                     bool         $returnRelativePath = false,
                      ?int         $resizeWidth = null,
                      ?int         $resizeHeight = null): string
 {
@@ -95,8 +97,10 @@ function uploadImage(UploadedFile $file,
 
     if($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth,$resizeHeight,fn($constraint) => $constraint->aspectRatio());
 
-    $store = Storage::disk('public')->put($path."/".$name,$image->encode());
+    $store = Storage::disk('public')->putFileAs($path,$image->encode(),$name);
     if(!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...",400);
+
+    if($returnRelativePath) return Storage::path($path."/".$name);
     return Storage::url($path."/".$name);
 }
 
@@ -104,19 +108,23 @@ function uploadImage(UploadedFile $file,
  * @param UploadedFile $file
  * @param string $path
  * @param string|null $customName
+ * @param bool $returnRelativePath
  * @return string
  * @throws Exception
  */
 function uploadFile(UploadedFile $file,
-                    string $path,
-                    ?string $customName = null) :string
+                    string       $path,
+                    ?string      $customName = null,
+                    /// Is usefull when you need relative path [c:/laragon/www/laravel/www/www/www/ww/w]
+                    bool         $returnRelativePath = false) :string
 {
     $name = uniqid().time().".".$file->getClientOriginalExtension();
     if($customName != null) $name = $customName;
 
-    $store = Storage::disk('public')->put($path."/".$name,$file);
+    $store = Storage::disk('public')->putFileAs($path,$file,$name);
     if(!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...",400);
 
+    if($returnRelativePath) return Storage::disk('public')->path($path."/".$name);
     return Storage::url($path."/".$name);
 }
 
@@ -197,17 +205,17 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
 
 function importSpout(UploadedFile $file, callable $callback): Collection
 {
+
     /// For debug purpose, we should check performance time
-    $startTimer = microtime(true);
+//    $startTimer = microtime(true);
 
     echoFlush("prepare_file","Sedang mempersiapkan file untuk diimport",0.0000001);
-    $uploadFile = uploadFile(file: $file,path: 'temp/import');
-    $storePath = Storage::disk('public')->path($uploadFile);
+    $uploadedFile = uploadFile(file: $file,path: 'temp/import',returnRelativePath: true);
 
     echoFlush("load_file","Sedang mempersiapkan file untuk dibaca",0.0000001);
-    $reader = ReaderEntityFactory::createReaderFromFile($storePath);
+    $reader = ReaderEntityFactory::createReaderFromFile($uploadedFile);
     $reader->setShouldFormatDates(true);
-    $reader->open($storePath);
+    $reader->open($uploadedFile);
 
     $tempArr = [];
     $no = 0 ;
@@ -228,11 +236,11 @@ function importSpout(UploadedFile $file, callable $callback): Collection
 
     echoFlush("remove_file","Sedang menghapus temporary file import",0.005);
     /// Remove Excel if already exist reading
-    Storage::disk('public')->delete($uploadFile);
+    Storage::delete($uploadedFile);
     echo "\n";
 
     /// For Debug Purpose
-    $endTimer = microtime(true) - $startTimer;
+//    $endTimer = microtime(true) - $startTimer;
 //    dd($tempArr);
     return collect(value: $tempArr);
 }
