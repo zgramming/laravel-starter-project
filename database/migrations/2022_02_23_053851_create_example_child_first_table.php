@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name',50)->nullable();
             $table->string('description',50)->nullable();
             $table->unsignedInteger('example_id');
-            $table->foreign('example_id')->references('id')->on('example');
+            $table->foreign('example_id')->references('id')->on('example')->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ExampleChildFirst whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExampleChildFirst whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Example $example
  */
 class ExampleChildFirst extends Model
 {

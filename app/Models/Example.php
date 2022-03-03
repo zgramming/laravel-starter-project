@@ -5,20 +5,37 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
+/// Make sure you have install [https://github.com/barryvdh/laravel-ide-helper]
+/// Because it's very usefull for IDE
+/// The command you should be generate is :
+/// 1. php artisan ide-helper:generate
+/// 2. php artisan ide-helper:models
+/// 3. php artisan ide-helper:meta
+///
+/// When you want create new feature, firstly :
+/// 1. php artisan make:controller YOUR_CONTROLLER_NAME
+/// 2. php artisan make:model YOUR_MODEL_NAME
+/// 3. php artisan make:migration create_YOURMIGRATIONNAME_table
+/// 4. php artisan make:seeder YOURMIGRATIONNAME
+
 /**
  * App\Models\Example
  *
  * @property int $id
  * @property string $name
  * @property string $description
+ * @property int|null $job_desk
  * @property string $birth_date
  * @property float $current_money
  * @property string|null $profile_image
  * @property array|null $hobby
+ * @property string|null $status
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\ExampleChildFirst|null $exampleChildFirst
  * @method static \Illuminate\Database\Eloquent\Builder|Example newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Example newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Example query()
@@ -29,12 +46,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Example whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Example whereHobby($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Example whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Example whereJobDesk($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Example whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Example whereProfileImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Example whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Example whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Example whereUpdatedBy($value)
  * @mixin \Eloquent
- * @property-read \App\Models\ExampleChildFirst|null $exampleChildFirst
  */
 class Example extends Model
 {

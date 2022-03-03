@@ -18,6 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('user', [UserController::class, 'index'])->name('user');
 
+/**
+ * Master Kategori & Data
+ */
+
+Route::get('master-category',[]);
+
+/**
+ * Example Tutorial
+ */
 Route::get('example', [ExampleController::class, 'index'])->name('example');
 Route::get('example-datatable', [ExampleController::class, 'exampleDatatable']);
 Route::get("example/create-modal", [ExampleController::class, 'form_modal']);
