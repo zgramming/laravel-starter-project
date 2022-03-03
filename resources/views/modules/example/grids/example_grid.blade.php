@@ -1,3 +1,18 @@
+{{--@extends('templates.template')--}}
+{{--@section('title_header') Halaman User @endsection--}}
+
+{{--@section('extends-css')--}}
+{{--@endsection--}}
+
+{{--@section('content')--}}
+{{--@endsection--}}
+
+{{--@section('extends-js')--}}
+{{--    <script type="text/javascript"></script>--}}
+{{--@endsection--}}
+
+
+
 @extends('templates.template')
 @section('title_header') Halaman User @endsection
 
@@ -194,8 +209,8 @@
 
 <script>
     $(document).ready(function(e){
-        let url = `{{url('example-datatable')}}`;
-        let jqueryDatatable = $("#table_datatable").DataTable({
+        const url = `{{url('example-datatable')}}`;
+        const jqueryDatatable = $("#table_datatable").DataTable({
             processing: true,
             serverSide: true,
             // [https://www.itsolutionstuff.com/post/laravel-datatables-filter-with-dropdown-exampleexample.html]

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ExampleController;
+use App\Http\Controllers\MasterCategoryController;
+use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WidgetController;
 use Illuminate\Support\Facades\Route;
@@ -19,10 +21,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('user', [UserController::class, 'index'])->name('user');
 
 /**
- * Master Kategori & Data
+ * Master Category & Master Data
  */
 
-Route::get('master-category',[]);
+Route::get('master-category',[MasterCategoryController::class,'index'])->name('master-category');
+Route::get('master-category-datatable',[MasterCategoryController::class,'datatable'])->name('master-category-datatable');
+Route::get('master-category/create',[MasterCategoryController::class,'form_modal'])->name('master-category.create');
+Route::get('master-category/update/{code_category}',[MasterCategoryController::class,'form_modal'])->name('master-category.update');
+Route::post('master-category/save/{id}',[MasterCategoryController::class,'save'])->name('master-category.save');
+Route::post('master-category/export',[WidgetController::class,'export'])->name('master-category.export');
+Route::delete('master-category/delete/{id}',[MasterCategoryController::class,'delete'])->name('master-category.delete');
+
+Route::get('master-data/{code-category}',[MasterDataController::class,'index'])->name('master-data');
+Route::get('master-data/{code-category}/create',[MasterDataController::class,'form_modal'])->name('master-data.create');
+Route::get('master-data/{code-category}/update/{code-master}',[MasterDataController::class,'form_modal'])->name('master-data.update');
+Route::post('master-data/save/{id}',[MasterDataController::class,'save'])->name('master-data.save');
 
 /**
  * Example Tutorial

@@ -16,12 +16,12 @@ return new class extends Migration
     {
         Schema::create('master_category', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('master_category_id');
+            $table->unsignedInteger('master_category_id')->nullable();
             $table->string('code',50)->unique();
             $table->string('name',100);
             $table->text('description')->nullable();
             $table->enum('status',Constant::STATUSENUM)->default('active');
-            $table->integer('order');
+            $table->foreign('master_category_id')->references('id')->on('master_category')->cascadeOnDelete();
             $table->timestamps();
         });
     }

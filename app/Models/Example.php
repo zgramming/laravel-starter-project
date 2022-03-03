@@ -100,6 +100,8 @@ class Example extends Model
      */
     public function exampleChildFirst(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
+        /// Foreign Key === Primary Key yang dituju
+        /// Local Key === Foreign Key yang dituju
         return $this->hasOne(ExampleChildFirst::class);
     }
 }

@@ -4,6 +4,12 @@
         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
     </div>
     <ul class="list-group mt-3 container-list-group"></ul>
+    @if($urlFunctionExport == null)
+        <div class="alert alert-warning alert-dismissible show fade w-100">
+            <span>Fungsi export belum di setup, akan menggunakan default export</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 </div>
 <div class="modal-body">
     <form action="{{ url("widget/export") }}" method="POST" enctype="multipart/form-data" id="form_validation">
@@ -52,7 +58,7 @@
 
             const form = $(this);
             let data = new FormData(form[0]);
-            let url = `{{ url("widget/export") }}`;
+            let url = `{{ $urlFunctionExport ?? url("widget/export") }}`;
 
             let totalResponseLength = 0;
             $.ajax({
@@ -99,13 +105,12 @@
                     console.log("Data : ",data);
                 },
             }).fail(function(xhr,textStatus){
-                console.log("Failll",xhr);
+                console.log("XHR Fail Console", xhr);
                 $(".btn-submit").attr('disabled',false);
-                let errors = xhr.responseJSON.errors;
+                let errors = xhr.responseJSON?.errors ?? xhr.responseJSON?.message ?? "Terjadi masalah, coba beberapa saat lagi";
                 showErrorsOnModal(errors);
             }).done(function(xhr,textStatus){
-                $(".btn-submit").attr('disabled',false);
-                console.log("done : ",xhr)
+                console.log("done : ",xhr);
             });
         })
     });

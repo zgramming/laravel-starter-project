@@ -44,7 +44,8 @@ class WidgetController extends Controller
      */
     public function form_export(): Factory|View|Application
     {
-        $keys = [];
+
+        $keys = request()->all();
         $keys['types'] = array(
             ExportFileType::XLSX->value => "XLSX",
             ExportFileType::CSV->value => "CSV",
@@ -58,7 +59,7 @@ class WidgetController extends Controller
      */
     public function form_import(): Factory|View|Application
     {
-        $keys = [];
+        $keys = request()->all();
         return view('widgets.import_widget',$keys);
     }
 

@@ -6,6 +6,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -15,11 +16,11 @@ use Illuminate\Support\Carbon;
  * @property int $master_category_id
  * @property string $code
  * @property string $name
- * @property string $description
+ * @property string|null $description
  * @property string $status
- * @property int $order
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read MasterCategory|null $categoryParent
  * @method static Builder|MasterCategory newModelQuery()
  * @method static Builder|MasterCategory newQuery()
  * @method static Builder|MasterCategory query()
@@ -29,19 +30,22 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MasterCategory whereId($value)
  * @method static Builder|MasterCategory whereMasterCategoryId($value)
  * @method static Builder|MasterCategory whereName($value)
- * @method static Builder|MasterCategory whereOrder($value)
  * @method static Builder|MasterCategory whereStatus($value)
  * @method static Builder|MasterCategory whereUpdatedAt($value)
  * @mixin Eloquent
  */
-
 class MasterCategory extends Model
 {
     use HasFactory;
 
-    // Jika ingin custom nama table
     protected $table = 'master_category';
 
-    // Membuat kita bisa menggunakan MODELKAMU::create || MODELKAMMU::update
     protected $guarded = [];
+
+    public function categoryParent(): HasOne
+    {
+        /// Foreign Key === Primary Key yang dituju
+        /// Local Key === Foreign Key yang dituju
+        return $this->hasOne(MasterCategory::class,'id','master_category_id');
+    }
 }

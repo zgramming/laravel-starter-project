@@ -4,6 +4,12 @@
         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
     </div>
     <ul class="list-group mt-3 container-list-group"></ul>
+    @if($urlFunctionImport == null)
+        <div class="alert alert-warning alert-dismissible show fade w-100">
+            <span>Fungsi import belum di setup, akan menggunakan default import</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 </div>
 
 <div class="modal-body">
@@ -46,8 +52,7 @@
 
             const form = $(this);
             let data = new FormData(form[0]);
-{{--            let url = `{{ url("widget/import") }}`;--}}
-            let url = `{{ url("widget/import") }}`;
+            let url = `{{ $urlFunctionImport ?? url("widget/import") }}`;
 
             let totalResponseLength = 0;
             /// [https://stackoverflow.com/questions/42838609/how-to-flush-php-output-buffer-properly]
@@ -96,16 +101,14 @@
                     // location.reload();
                 }
             }).fail(function(xhr,textStatus){
-                /// When error occured, we enable button then show error on modal
-                console.log("Failll",xhr);
+                console.log("XHR Fail Console", xhr);
                 $(".btn-submit").attr('disabled',false);
-                let errors = xhr.responseJSON.errors;
+                let errors = xhr.responseJSON?.errors ?? xhr.responseJSON?.message ?? "Terjadi masalah, coba beberapa saat lagi";
                 showErrorsOnModal(errors);
             }).done(function(xhr,textStatus){
-                /// When process is done, enable button
-                $(".btn-submit").attr('disabled',false);
-                console.log("done : ",xhr)
+                console.log("done : ",xhr);
             });
+
         });
     });
 </script>

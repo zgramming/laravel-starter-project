@@ -106,12 +106,16 @@
         });
     }
 
-    function openImport(){
-        openBox(`{{ url('widget/import') }}`);
+    function openImport(urlFunctionImport = ""){
+        openBox(`{{ url('widget/import') }}`,{
+            parameter : {urlFunctionImport : urlFunctionImport},
+        });
     }
 
-    function openExport(){
-        openBox(`{{ url('widget/export') }}`);
+    function openExport(urlFunctionExport = ""){
+        openBox(`{{ url('widget/export') }}`,{
+            parameter : {urlFunctionExport : urlFunctionExport}
+        });
     }
 
     function openBox(url ="zeffry.dev",

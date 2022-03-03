@@ -326,6 +326,7 @@ class ExampleController extends Controller
      */
     public function delete(int $id = 0): Redirector|Application|RedirectResponse
     {
+        /// Begin Transactions
         DB::beginTransaction();
         try {
             $example = Example::findOrFail($id);
