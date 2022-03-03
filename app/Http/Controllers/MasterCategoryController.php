@@ -11,11 +11,12 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Throwable;
@@ -98,12 +99,17 @@ class MasterCategoryController extends Controller
             $category = MasterCategory::find($id);
             $post = request()->all();
 
+            $uniqueCode = $category == null ? "unique:master_category" :  Rule::unique('master_category','code')->using(function($query) use($post,$category){
+                $query->where('code', '=', $post['code'])
+                    ->where('id','!=',$category->id);
+            });
+
             $rules = [
-                'input_parent' =>'nullable',
-                'input_name'=>'required',
-                'input_code'=>'required',
-                'input_description'=>'nullable',
-                'input_status'=>'required',
+                'mst_category_id' => ['nullable'],
+                'name'=> ['required'],
+                'code'=> ['required',$uniqueCode],
+                'description'=> ['nullable'],
+                'status'=> ['required'],
             ];
 
             $validator = Validator::make($post,$rules);
@@ -113,22 +119,31 @@ class MasterCategoryController extends Controller
             ],400);
 
             $data = [
-                'master_category_id'=> $post['input_parent'],
-                'name'=> $post['input_name'],
-                'code'=> $post['input_code'],
-                'description'=> $post['input_description'],
-                'status'=> $post['input_status'],
+                'master_category_id'=> $post['mst_category_id'],
+                'name'=> $post['name'],
+                'code'=> $post['code'],
+                'description'=> $post['description'],
+                'status'=> $post['status'],
             ];
 
             $result = MasterCategory::updateOrCreate(['id'=> $id],$data);
             if(!$result) throw new Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...",400);
-            $message = ($category==null) ? "Berhasil tambah kategori dengan kode $post[input_code]" : "Berhasil update kategori dengan kode $post[input_code]";
+            $message = ($category==null) ? "Berhasil tambah kategori dengan kode $post[code]" : "Berhasil update kategori dengan kode $post[code]";
             session()->flash('success',$message);
+
             /// Commit Transaction
             DB::commit();
             return response()->json(['success'=>true,'message'=> $message],200);
 
-        }catch (Throwable $e){
+        } catch(QueryException $e){
+
+            /// Rollback Transaction
+            DB::rollBack();
+
+            $message = $e->getMessage();
+            return response()->json(['success'=> false,'errors' => $message],500);
+        } catch (Throwable $e){
+
             /// Rollback Transaction
             DB::rollBack();
 

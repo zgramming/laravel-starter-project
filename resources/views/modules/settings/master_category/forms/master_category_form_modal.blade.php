@@ -8,11 +8,11 @@
 <div class="modal-body">
     <form action="{{ url("master-category/save",[$masterCategory?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
         <div class="row mb-3">
-            <label for="input_parent" class="col-sm-12 col-md-12 col-form-label">Kategori Induk</label>
+            <label for="mst_category_id" class="col-sm-12 col-md-12 col-form-label">Kategori Induk</label>
             <div class="col-sm-12 col-md-12">
                 <div class="d-flex flex-column">
                     <div class="combobox-container">
-                        <select class="form-select select2-custom" name="input_parent">
+                        <select class="form-select select2-custom" name="mst_category_id">
                             <option value="">Pilih Induk</option>
                             @foreach($masterCategoryParents as $key => $value)
                                 <option value="{{$value?->id}}" {{ ($masterCategory?->categoryParent?->id == $value?->id ? "selected" : "")}}>{{$value?->name ?? ""}}</option>
@@ -24,34 +24,34 @@
         </div>
 
         <div class="row mb-3">
-            <label for="input_name" class="col-sm-12 col-md-12 col-form-label">Nama</label>
+            <label for="name" class="col-sm-12 col-md-12 col-form-label">Nama</label>
             <div class="col-sm-12 col-md-12">
-                <input type="text" name="input_name" class="form-control" id="input_name" value="{{$masterCategory?->name}}" required >
+                <input type="text" name="name" class="form-control" id="name" value="{{$masterCategory?->name}}" required >
             </div>
         </div>
 
         <div class="row mb-3">
-            <label for="input_code" class="col-sm-12 col-md-12 col-form-label">Kode</label>
+            <label for="code" class="col-sm-12 col-md-12 col-form-label">Kode</label>
             <div class="col-sm-12 col-md-12">
-                <input type="text" name="input_code" class="form-control" id="input_code" value="{{$masterCategory?->code}}" required >
+                <input type="text" name="code" class="form-control" id="code" value="{{$masterCategory?->code}}" required >
             </div>
         </div>
 
         <div class="row mb-3">
-            <label for="input_description" class="col-sm-12 col-md-12 col-form-label">Deskripsi</label>
+            <label for="description" class="col-sm-12 col-md-12 col-form-label">Deskripsi</label>
             <div class="col-sm-12 col-md-12">
-                <textarea name="input_description" id="input_description" class="form-control" rows="3" required>{{$masterCategory?->description}}</textarea>
+                <textarea name="description" id="description" class="form-control" rows="3" required>{{$masterCategory?->description}}</textarea>
             </div>
         </div>
 
         <div class="row mb-3 align-items-center">
-            <label for="input_status" class="col-sm-12 col-md-12 col-form-label">Status</label>
+            <label for="status" class="col-sm-12 col-md-12 col-form-label">Status</label>
             <div class="col-sm-12 col-md-10 ">
                 <div class="d-flex flex-column">
                     <div class="radio-container">
                         @foreach($statuses as $key => $value)
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="input_status" id="input-radio-{{$key}}" value="{{$key}}" {{ ($masterCategory?->status ?? 'active') == $key ? "checked" : ""}}>
+                                <input class="form-check-input" type="radio" name="status" id="input-radio-{{$key}}" value="{{$key}}" {{ ($masterCategory?->status ?? 'active') == $key ? "checked" : ""}}>
                                 <label class="form-check-label" for="input-radio-{{$key}}">{{$value}}</label>
                             </div>
                         @endforeach
