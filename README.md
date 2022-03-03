@@ -22,12 +22,16 @@ Beberapa fitur yang ada di starter project ini yaitu :
 ### 1. <a href="https://yajrabox.com/docs/laravel-datatables/master/installation" target="_blank">Laravel Yajra Datatable</a>
 Beberapa fitur yang sudah ada untuk datatable yaitu :
 
-* Search + Debounce
+- [x] Search + Debounce
+
 <img src="github/gif/datatable/1.gif">
-* Filter by Combo box
+
+- [x] Filter by Combo box
+
 <img src="github/gif/datatable/2.gif">
-* Sorting Asc / Desc
-* Custom column (show image, show badge, show button action)
+
+- [x] Sorting Asc / Desc
+- [x] Custom column (show image, show badge, show button action)
 
 ### 2. CRUD Operation
 Pada project ini sudah disediakan contoh form dan fungsi-fungsi yang biasanya sering digunakan, diantaranya : 
