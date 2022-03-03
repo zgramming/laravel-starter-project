@@ -212,6 +212,7 @@ class ExampleController extends Controller
     /**
      * @param int $id
      * @return JsonResponse|Redirector|Application|RedirectResponse
+     * @throws Throwable
      */
     public function save(int $id = 0): JsonResponse|Redirector|Application|RedirectResponse
     {
@@ -253,6 +254,8 @@ class ExampleController extends Controller
         /// 27. uuid                        => "The field under validation must be a valid RFC 4122 (version 1, 3, 4, or 5) universally unique identifier (UUID)."
         ///
 
+        /// Begin Transaction
+        DB::beginTransaction();
         try{
 
             $example = Example::find($id);
@@ -303,6 +306,8 @@ class ExampleController extends Controller
             $result = Example::updateOrCreate(['id'=>$id],$data);
             if(!$result) throw new Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...",400);
 
+            /// Commit Transaction
+            DB::commit();
             if(!empty($post['form_type'])) {
                 $message = "Yess Berhasil Insert / Update";
                 session()->flash('success',$message);
@@ -314,13 +319,17 @@ class ExampleController extends Controller
             /// Rollback Transaction
             DB::rollBack();
             $message = $e->getMessage();
-            return response()->json(['success'=> false,'errors' => $message],500);
-        } catch (Exception $e){
+            if(!empty($post['form_type'])) return response()->json(['success'=> false,'errors' => $message],$code);
+
+            return back()->withErrors($message)->withInput();
+        } catch (Throwable $e){
+            /// Rollback Transaction
+            DB::rollBack();
+
             $message = $e->getMessage();
             $code = $e->getCode();
 
             if(!empty($post['form_type'])) return response()->json(['success'=> false,'errors' => $message],$code);
-
             return back()->withErrors($message)->withInput();
         }
     }
