@@ -10,6 +10,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -309,7 +310,12 @@ class ExampleController extends Controller
             }
             return redirect('example')->with('success',!empty($id) ? "Berhasil update" : "Berhasil membuat");
 
-        }catch (Exception $e){
+        } catch(QueryException $e){
+            /// Rollback Transaction
+            DB::rollBack();
+            $message = $e->getMessage();
+            return response()->json(['success'=> false,'errors' => $message],500);
+        } catch (Exception $e){
             $message = $e->getMessage();
             $code = $e->getCode();
 
@@ -341,12 +347,17 @@ class ExampleController extends Controller
             /// Commit Transaction
             DB::commit();
             return redirect('example')->with('success','Berhasil menghapus data !!!');
-        }catch (Throwable $e) {
+        } catch(QueryException $e){
+            /// Rollback Transaction
+            DB::rollBack();
+            $message = $e->getMessage();
+
+            return back()->withErrors($message)->withInput();
+        } catch (Throwable $e) {
             /// Rollback Transaction
             DB::rollBack();
 
             $message = $e->getMessage();
-            $code = $e->getCode();
             return back()->withErrors($message)->withInput();
         }
     }
