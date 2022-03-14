@@ -1,5 +1,6 @@
 <?php
 
+use App\Constant\Constant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('app_menu', function (Blueprint $table) {
+        Schema::create(Constant::TABLE_APP_MENU, function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('app_modul_id');
             $table->unsignedInteger('app_menu_id_parent');
@@ -26,8 +27,8 @@ return new class extends Migration
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
-            $table->foreign('app_modul_id')->references('id')->on('app_modul');
-            $table->foreign('app_menu_id_parent')->references('id')->on('app_menu');
+            $table->foreign('app_modul_id')->references('id')->on(Constant::TABLE_APP_MODUL);
+            $table->foreign('app_menu_id_parent')->references('id')->on(Constant::TABLE_APP_MENU);
         });
     }
 
@@ -38,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('app_menu');
+        Schema::dropIfExists(Constant::TABLE_APP_MENU);
     }
 };

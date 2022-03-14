@@ -14,14 +14,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('master_category', function (Blueprint $table) {
+        Schema::create(Constant::TABLE_MST_CATEGORY, function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('master_category_id')->nullable();
             $table->string('code',50)->unique();
             $table->string('name',100);
             $table->text('description')->nullable();
             $table->enum('status',Constant::STATUSENUM)->default('active');
-            $table->foreign('master_category_id')->references('id')->on('master_category')->cascadeOnDelete();
+            $table->foreign('master_category_id')->references('id')->on(Constant::TABLE_MST_CATEGORY)->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_category');
+        Schema::dropIfExists(Constant::TABLE_MST_CATEGORY);
     }
 };

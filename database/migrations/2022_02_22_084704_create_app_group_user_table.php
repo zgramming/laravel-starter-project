@@ -1,5 +1,6 @@
 <?php
 
+use App\Constant\Constant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('app_group_user', function (Blueprint $table) {
+        Schema::create(Constant::TABLE_APP_GROUP_USER, function (Blueprint $table) {
             $table->increments('id');
             $table->string('code', 50)->unique();
             $table->string('name', 100);
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('app_group_user');
+        Schema::dropIfExists(Constant::TABLE_APP_GROUP_USER);
     }
 };
