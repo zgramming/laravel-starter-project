@@ -25,17 +25,17 @@ Route::get('user', [UserController::class, 'index'])->name('user');
  */
 
 Route::get('master-category',[MasterCategoryController::class,'index'])->name('master-category');
-Route::get('master-category-datatable',[MasterCategoryController::class,'datatable'])->name('master-category-datatable');
-Route::get('master-category/create',[MasterCategoryController::class,'form_modal'])->name('master-category.create');
-Route::get('master-category/update/{code_category}',[MasterCategoryController::class,'form_modal'])->name('master-category.update');
+Route::get('master-category-datatable',[MasterCategoryController::class,'datatable'])->name('master-category.datatable');
+Route::get('master-category/form_modal/{code_category}',[MasterCategoryController::class,'form_modal'])->name('master-category.form_modal');
 Route::post('master-category/save/{id}',[MasterCategoryController::class,'save'])->name('master-category.save');
 Route::post('master-category/export',[WidgetController::class,'export'])->name('master-category.export');
 Route::delete('master-category/delete/{id}',[MasterCategoryController::class,'delete'])->name('master-category.delete');
 
-Route::get('master-data/{code-category}',[MasterDataController::class,'index'])->name('master-data');
-Route::get('master-data/{code-category}/create',[MasterDataController::class,'form_modal'])->name('master-data.create');
-Route::get('master-data/{code-category}/update/{code-master}',[MasterDataController::class,'form_modal'])->name('master-data.update');
+Route::get('master-data/{code_category}',[MasterDataController::class,'index'])->name('master-data');
+Route::get('master-data/datatable/{code_category}',[MasterDataController::class,'datatable'])->name('master-data.datatable');
+Route::get('master-data/form_modal/{code_category?}/{id?}',[MasterDataController::class,'form_modal'])->name('master-data.form_modal');
 Route::post('master-data/save/{id}',[MasterDataController::class,'save'])->name('master-data.save');
+Route::delete('master-data/delete/{id}',[MasterDataController::class,'delete'])->name('master-data.delete');
 
 /**
  * Example Tutorial

@@ -6,6 +6,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -55,6 +56,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MasterData whereStatus($value)
  * @method static Builder|MasterData whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property-read MasterCategory|null $masterCategory
  */
 class MasterData extends Model
 {
@@ -63,4 +65,11 @@ class MasterData extends Model
     protected $table = 'master_data';
     protected $guarded = [];
 
+    /**
+     * @return BelongsTo
+     */
+    public function masterCategory(): BelongsTo
+    {
+        return $this->belongsTo(MasterCategory::class,'id','master_category_id');
+    }
 }

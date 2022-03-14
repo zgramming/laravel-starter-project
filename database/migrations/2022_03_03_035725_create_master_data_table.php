@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('name',100);
             $table->text('description')->nullable();
             $table->enum('status', Constant::STATUSENUM)->default('active');
-            $table->integer('order');
             $table->string('parameter1_key',50)->nullable();
             $table->string('parameter2_key',50)->nullable();
             $table->string('parameter3_key',50)->nullable();

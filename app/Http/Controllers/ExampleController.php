@@ -57,84 +57,81 @@ class ExampleController extends Controller
      */
     public function exampleDatatable(Request $request): View|Factory|Application|JsonResponse
     {
-        if ($request->ajax()) {
+        if(!$request->ajax()) return view('error.notfound');
 
-            // Option 1 using chaining method
-            //            $datatable =  DataTables::of(Example::all())
-            //                ->addIndexColumn()
-            //                ->toJson();
+        // Option 1 using chaining method
+        //            $datatable =  DataTables::of(Example::all())
+        //                ->addIndexColumn()
+        //                ->toJson();
 
-            // Option 2 using base condition chaining method
-            $values = Example::where('id', '!=', null);
-            $datatable = DataTables::of($values);
-            $datatable = $datatable->addIndexColumn();
-            //            If you only want specific column to show
-            //            $datatable = $datatable->only(['name','birth_date']);
+        // Option 2 using base condition chaining method
+        $values = Example::whereNotNull('id');
+        $datatable = DataTables::of($values);
+        $datatable = $datatable->addIndexColumn();
+        //            If you only want specific column to show
+        //            $datatable = $datatable->only(['name','birth_date']);
 
-            //            If you want edit return object
-            //            $datatable = $datatable->editColumn('name',fn($item)=>"Nama Aku ".$item->name);
+        //            If you want edit return object
+        //            $datatable = $datatable->editColumn('name',fn($item)=>"Nama Aku ".$item->name);
 
-            //            If you want add new column out of return object
-            //            $datatable = $datatable->addColumn('action');
-            //            $datatable = $datatable->addColumn('print');
-            //            $datatable = $datatable->rawColumns(['action','print']);
+        //            If you want add new column out of return object
+        //            $datatable = $datatable->addColumn('action');
+        //            $datatable = $datatable->addColumn('print');
+        //            $datatable = $datatable->rawColumns(['action','print']);
 
-            $datatable = $datatable->filter(function (Builder $query) use ($request) {
-                /// $request->get('YOUR_KEY') harus ditambahkan pada konfigurasi Datatable [ajax => data]
-                $search = $request->get('search');
-                $status = $request->get('filter_status');
+        $datatable = $datatable->filter(function (Builder $query) use ($request) {
+            /// $request->get('YOUR_KEY') harus ditambahkan pada konfigurasi Datatable [ajax => data]
+            $search = $request->get('search');
+            $status = $request->get('filter_status');
 
-                if (!empty($search)) {
-                    $query->where('name', 'like', "%" . $search . "%")
-                        ->orWhere('description', 'like', "%" . $search . "%")
-                        ->orWhere('current_money', '=', $search);
-                }
+            if (!empty($search)) {
+                $query->where('name', 'like', "%" . $search . "%")
+                    ->orWhere('description', 'like', "%" . $search . "%")
+                    ->orWhere('current_money', '=', $search);
+            }
 
-                if (!empty($status)) $query->where('status', '=', $status);
-            });
+            if (!empty($status)) $query->where('status', '=', $status);
+        });
 
-            $datatable = $datatable->orderColumn('status',function(Builder $query, $order){
-                $query->orderBy('status',$order);
-            });
+        $datatable = $datatable->orderColumn('status',function(Builder $query, $order){
+            $query->orderBy('status',$order);
+        });
 
-            $datatable = $datatable->addColumn("profile_image",function(Example $item){
-                if($item?->profile_image == null) return "<span class=\"badge bg-danger\">No Image</span>";
-                $imagePath = asset($item->profile_image);
+        $datatable = $datatable->addColumn("profile_image",function(Example $item){
+            if($item?->profile_image == null) return "<span class=\"badge bg-danger\">No Image</span>";
+            $imagePath = asset($item->profile_image);
 
-                return "<a href='#' onclick=\"openImage('$imagePath')\"><img alt='Image error' src='$imagePath' class='img-fluid img-thumbnail' width='100' style=\"min-height: 100px; max-height: 100px;\"></a>";
-            });
+            return "<a href='#' onclick=\"openImage('$imagePath')\"><img alt='Image error' src='$imagePath' class='img-fluid img-thumbnail' width='100' style=\"min-height: 100px; max-height: 100px;\"></a>";
+        });
 
-            $datatable = $datatable->addColumn("status", function ($item) {
-                if ($item->status == "active") return "<span class=\"badge bg-success\">Aktif</span>";
-                if ($item->status == "not_active") return "<span class=\"badge bg-danger\">Tidak Aktif</span>";
-                return "<span class=\"badge bg-secondary\">None</span>";
-            });
+        $datatable = $datatable->addColumn("status", function ($item) {
+            if ($item->status == "active") return "<span class=\"badge bg-success\">Aktif</span>";
+            if ($item->status == "not_active") return "<span class=\"badge bg-danger\">Tidak Aktif</span>";
+            return "<span class=\"badge bg-secondary\">None</span>";
+        });
 
-            $datatable = $datatable->addColumn('action', function ($item) {
-                $url = url('example/update/'.$item->id);
-                $urlModal = url('example/update-modal/'.$item->id);
-                $urlDelete = url('example/delete/'.$item->id);
+        $datatable = $datatable->addColumn('action', function ($item) {
+            $url = url('example/update/'.$item->id);
+            $urlModal = url('example/update-modal/'.$item->id);
+            $urlDelete = url('example/delete/'.$item->id);
 
-                $field = csrf_field();
-                $method = method_field('DELETE');
-                return   "
-                    <div class='d-flex flex-row'>
-                        <button type=\"button\" class=\"btn btn-light-secondary mx-1\"><i class=\"fa fa-search\"></i></button>
-                        <a href=\"$url\"  class=\"btn btn-primary mx-1\" ><i class=\"fa fa-edit\"></i></a>
-                        <a href=\"#\" class=\"btn btn-primary mx-1\" onclick=\"openBox('$urlModal',{size: 'modal-lg'})\">Modal</a>
-                        <form action=\"$urlDelete\" method=\"post\">
-                            $field
-                            $method
-                            <button type=\"submit\" class=\"btn btn-danger mx-1\"><i class=\"fa fa-trash\"></i></button>
-                        </form>
-                    </div>
-                ";
-            });
+            $field = csrf_field();
+            $method = method_field('DELETE');
+            return "
+                <div class='d-flex flex-row'>
+                    <button type=\"button\" class=\"btn btn-light-secondary mx-1\"><i class=\"fa fa-search\"></i></button>
+                    <a href=\"$url\"  class=\"btn btn-primary mx-1\" ><i class=\"fa fa-edit\"></i></a>
+                    <a href=\"#\" class=\"btn btn-primary mx-1\" onclick=\"openBox('$urlModal',{size: 'modal-lg'})\">Modal</a>
+                    <form action=\"$urlDelete\" method=\"post\">
+                        $field
+                        $method
+                        <button type=\"submit\" class=\"btn btn-danger mx-1\"><i class=\"fa fa-trash\"></i></button>
+                    </form>
+                </div>
+            ";
+        });
 
-            return $datatable->rawColumns(['profile_image','status', 'action'])->toJson();
-        }
-
-        return view('error.notfound');
+        return $datatable->rawColumns(['profile_image','status', 'action'])->toJson();
     }
 
     /**
@@ -257,9 +254,7 @@ class ExampleController extends Controller
         /// Begin Transaction
         DB::beginTransaction();
         try{
-
             $example = Example::find($id);
-
             $post = request()->all();
 
             $rules = [
@@ -319,6 +314,7 @@ class ExampleController extends Controller
             /// Rollback Transaction
             DB::rollBack();
             $message = $e->getMessage();
+            $code = $e->getCode();
             if(!empty($post['form_type'])) return response()->json(['success'=> false,'errors' => $message],$code);
 
             return back()->withErrors($message)->withInput();

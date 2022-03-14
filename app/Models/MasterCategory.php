@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
@@ -33,6 +35,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MasterCategory whereStatus($value)
  * @method static Builder|MasterCategory whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property-read Collection|MasterData[] $masterData
+ * @property-read int|null $master_data_count
  */
 class MasterCategory extends Model
 {
@@ -47,5 +51,10 @@ class MasterCategory extends Model
         /// Foreign Key === Primary Key yang dituju
         /// Local Key === Foreign Key yang dituju
         return $this->hasOne(MasterCategory::class,'id','master_category_id');
+    }
+
+    public function masterData(): HasMany
+    {
+        return $this->hasMany(MasterData::class,'id','master_category_id');
     }
 }

@@ -84,7 +84,6 @@ function showErrorsOnModal(errors){
     }else{
         $(".modal-container-item").append(`<ul><li>${errors}</li></ul>`);
     }
-
 }
 // [https://stackoverflow.com/questions/28948383/how-to-implement-debounce-fn-into-jquery-keyup-event
 // [http://davidwalsh.name/javascript-debounce-function]

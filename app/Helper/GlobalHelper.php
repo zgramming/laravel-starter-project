@@ -7,6 +7,7 @@ use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Box\Spout\Reader\Exception\ReaderNotOpenedException;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\Exception\WriterNotOpenedException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Intervention\Image\Facades\Image;
@@ -257,4 +258,28 @@ function formatBytes(int | float $size, int $precision = 2) : string
     $suffixes = array('', 'K', 'M', 'G', 'T');
 
     return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
+}
+
+/**
+ * @param string $table
+ * @param string $column
+ * @param string $prefix
+ * @param array $where
+ * @param string $initializeNumber
+ * @return string
+ */
+function generateCodeBasic(string $table, string $column, string $prefix, array $where, string $initializeNumber = '00000'): string
+{
+    if (empty($initializeNumber)) $initializeNumber = '00000';
+
+    $isDataEmpty = DB::table($table)->where($where)->count() <= 0;
+    if (!$isDataEmpty) {
+        $latestGenerateNumber = DB::table($table)->orderBy($column,"DESC")->where($where)->limit(1)->first()->$column;
+        $initializeNumber = str_replace($prefix, '', $latestGenerateNumber);
+    }
+
+    $generateCode = $prefix . $initializeNumber;
+    $generateCode++;
+
+    return $generateCode;
 }

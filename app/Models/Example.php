@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 
 /// Make sure you have install [https://github.com/barryvdh/laravel-ide-helper]
@@ -33,26 +36,26 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $status
  * @property int|null $created_by
  * @property int|null $updated_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\ExampleChildFirst|null $exampleChildFirst
- * @method static \Illuminate\Database\Eloquent\Builder|Example newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Example newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Example query()
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereBirthDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereCurrentMoney($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereHobby($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereJobDesk($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereProfileImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Example whereUpdatedBy($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read ExampleChildFirst|null $exampleChildFirst
+ * @method static Builder|Example newModelQuery()
+ * @method static Builder|Example newQuery()
+ * @method static Builder|Example query()
+ * @method static Builder|Example whereBirthDate($value)
+ * @method static Builder|Example whereCreatedAt($value)
+ * @method static Builder|Example whereCreatedBy($value)
+ * @method static Builder|Example whereCurrentMoney($value)
+ * @method static Builder|Example whereDescription($value)
+ * @method static Builder|Example whereHobby($value)
+ * @method static Builder|Example whereId($value)
+ * @method static Builder|Example whereJobDesk($value)
+ * @method static Builder|Example whereName($value)
+ * @method static Builder|Example whereProfileImage($value)
+ * @method static Builder|Example whereStatus($value)
+ * @method static Builder|Example whereUpdatedAt($value)
+ * @method static Builder|Example whereUpdatedBy($value)
+ * @mixin Eloquent
  */
 class Example extends Model
 {

@@ -27,7 +27,7 @@ class MasterCategoryController extends Controller
     /**
      * @return Factory|View|Application
      */
-    public function index(): Factory|View|Application
+public function index(): Factory|View|Application
     {
         $keys = [];
         return view('modules.settings.master_category.grids.master_category_grid',$keys);
@@ -37,12 +37,13 @@ class MasterCategoryController extends Controller
      * @return View|Factory|Application|JsonResponse
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws Exception
      */
     public function datatable(): View|Factory|Application|JsonResponse
     {
         if (!request()->ajax()) return view('error.notfound');
 
-        $values = MasterCategory::whereNotNull('id');
+        $values = MasterCategory::withCount('masterData as totalMasterData')->whereNotNull('id');
         $datatable = DataTables::of($values)
             ->addIndexColumn()
             ->filter(function(Builder $query){
@@ -53,14 +54,19 @@ class MasterCategoryController extends Controller
                 }
             })->orderColumn('categoryParent',function(Builder $query,$order){
                 $query->orderBy('master_category_id',$order);
-            })->addColumn('status',function(MasterCategory $item){
+            })
+            ->addColumn('totalMasterData',function(MasterCategory $item){
+                $badge = ($item->master_data_count <=0) ? "bg-warning" : "bg-success" ;
+                return "<span class='badge $badge'><a href=\"".url('master-data',[$item->code])."\" class='text-white'>".$item->totalMasterData."</a></span>";
+            })
+            ->addColumn('status',function(MasterCategory $item){
                 if ($item->status == "active") return "<span class=\"badge bg-success\">Aktif</span>";
                 if ($item->status == "not_active") return "<span class=\"badge bg-danger\">Tidak Aktif</span>";
                 return "<span class=\"badge bg-secondary\">None</span>";
             })->addColumn('categoryParent',function(MasterCategory $item){
                 return $item->categoryParent?->name ?? "-";
             })->addColumn('action',function(MasterCategory $item){
-                $urlUpdate = url('master-category/update/'.$item->code);
+                $urlUpdate = url('master-category/form_modal/'.$item->code);
                 $urlDelete = url('master-category/delete/'.$item->id);
                 $field = csrf_field();
                 $method = method_field('DELETE');
@@ -74,12 +80,16 @@ class MasterCategoryController extends Controller
                         </form>
                     </div>
                 ";
-            })->rawColumns(['categoryParent','status','action']);
+            })->rawColumns(['totalMasterData','categoryParent','status','action']);
 
         return $datatable->toJson();
     }
 
-    public function form_modal(string $codeCategory = "")
+    /**
+     * @param string $codeCategory
+     * @return Factory|View|Application
+     */
+    public function form_modal(string $codeCategory = ""): Factory|View|Application
     {
         $keys = [];
 
@@ -99,7 +109,7 @@ class MasterCategoryController extends Controller
             $category = MasterCategory::find($id);
             $post = request()->all();
 
-            $uniqueCode = $category == null ? "unique:master_category" :  Rule::unique('master_category','code')->using(function($query) use($post,$category){
+            $uniqueCode = ($category == null) ? "unique:master_category" :  Rule::unique('master_category','code')->using(function($query) use($post,$category){
                 $query->where('code', '=', $post['code'])
                     ->where('id','!=',$category->id);
             });
@@ -133,7 +143,7 @@ class MasterCategoryController extends Controller
 
             /// Commit Transaction
             DB::commit();
-            return response()->json(['success'=>true,'message'=> $message],200);
+            return response()->json(['success'=>true,'message'=> $message]);
 
         } catch(QueryException $e){
 
@@ -178,7 +188,6 @@ class MasterCategoryController extends Controller
             DB::rollBack();
 
             $message = $e->getMessage();
-            $code = $e->getCode();
             return back()->withErrors($message)->withInput();
         }
     }
