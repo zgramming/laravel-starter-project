@@ -50,11 +50,11 @@ class MasterCategory extends Model
     {
         /// Foreign Key === Primary Key yang dituju
         /// Local Key === Foreign Key yang dituju
-        return $this->hasOne(MasterCategory::class,'id','master_category_id');
+        return $this->hasOne(MasterCategory::class,"id","master_category_id");
     }
 
     public function masterData(): HasMany
     {
-        return $this->hasMany(MasterData::class,'id','master_category_id');
+        return $this->hasMany(MasterData::class,"master_category_id","id");
     }
 }
