@@ -48,13 +48,13 @@ class MasterCategory extends Model
 
     public function categoryParent(): HasOne
     {
-        /// Foreign Key === Primary Key yang dituju
-        /// Local Key === Foreign Key yang dituju
+        /// SELECT t1.`name`, t2.`name` AS parent FROM `master_category` AS t1 JOIN `master_category` AS t2 ON (t1.`master_category_id` = t2.id)
         return $this->hasOne(MasterCategory::class,"id","master_category_id");
     }
 
     public function masterData(): HasMany
     {
+        /// SELECT t2.* FROM master_category as t1 JOIN master_data as t2 ON (t1.id = t2.master_category_id)
         return $this->hasMany(MasterData::class,"master_category_id","id");
     }
 }
