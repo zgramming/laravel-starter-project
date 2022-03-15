@@ -41,10 +41,10 @@
                                     <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
                                         <div class="form-group">
                                             <div class="buttons">
-                                                <a href="{{ url("master-category") }}" class="btn btn-light-secondary"><span class="btn-label"><i class="fa fa-arrow-left"></i></span> Kembali</a>
+                                            <a href="{{ url("setting/master-category") }}" class="btn btn-light-secondary"><span class="btn-label"><i class="fa fa-arrow-left"></i></span> Kembali</a>
                                                 <a href="#" class="btn btn-info" onclick="openExport()"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
                                                 <a href="#" class="btn btn-dark" onclick="openImport()"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
-                                                <a href="#" class="btn btn-success" onclick="openBox('{{url("master-data/form_modal/$masterCategory?->code/0")}}',
+                                                <a href="#" class="btn btn-success" onclick="openBox('{{url("setting/master-data/form_modal/$masterCategory?->code/0")}}',
                                                     {size : 'modal-lg'}
                                                     )"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
 
@@ -91,7 +91,7 @@
 @section('extends-js')
     <script type="text/javascript">
         $(document).ready(function(){
-            const url = `{{url("master-data/datatable/$masterCategory?->code")}}`;
+            const url = `{{url("setting/master-data/datatable/$masterCategory?->code")}}`;
             const jqueryDatatable = $("#table_datatable").DataTable({
                 processing: true,
                 serverSide: true,

@@ -41,9 +41,9 @@
                                     <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
                                         <div class="form-group">
                                             <div class="buttons">
-                                                <a href="#" class="btn btn-info" onclick="openExport('{{ url('master-category/export') }}')"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
+                                                <a href="#" class="btn btn-info" onclick="openExport('{{ url('setting/master-category/export') }}')"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
                                                 <a href="#" class="btn btn-dark" onclick="openImport()"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
-                                                <a href="#" class="btn btn-success" onclick="openBox('{{url('master-category/form_modal/0')}}')"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
+                                                <a href="#" class="btn btn-success" onclick="openBox('{{url('setting/master-category/form_modal/0')}}')"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
 @section('extends-js')
     <script type="text/javascript">
         $(document).ready(function(){
-            const url = `{{url('master-category-datatable')}}`;
+            const url = `{{url('setting/master-category-datatable')}}`;
             const jqueryDatatable = $("#table_datatable").DataTable({
                 processing: true,
                 serverSide: true,

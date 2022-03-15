@@ -119,8 +119,8 @@
                                                 </a>
                                                 <a href="#" class="btn btn-info" onclick="openExport()"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
                                                 <a href="#" class="btn btn-dark" onclick="openImport()"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
-                                                <a href="#" class="btn btn-success" onclick="openBox('{{url('example/create-modal')}}',{size: 'modal-lg'})"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</a>
-                                                <a href="{{url('example/create')}}" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
+                                                <a href="#" class="btn btn-success" onclick="openBox('{{url('setting/example/create-modal')}}',{size: 'modal-lg'})"><span class="btn-label"><i class="fa fa-plus"></i></span> Popup</a>
+                                                <a href="{{url('setting/example/create')}}" class="btn btn-success"><span class="btn-label"><i class="fa fa-plus"></i></span> Tambah</a>
                                             </div>
                                         </div>
                                     </div>
@@ -209,7 +209,7 @@
 
 <script>
     $(document).ready(function(e){
-        const url = `{{url('example-datatable')}}`;
+        const url = `{{url('setting/example-datatable')}}`;
         const jqueryDatatable = $("#table_datatable").DataTable({
             processing: true,
             serverSide: true,

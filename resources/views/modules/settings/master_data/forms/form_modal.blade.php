@@ -6,7 +6,7 @@
 </div>
 
 <div class="modal-body">
-    <form action="{{ url("master-data/save",[$master?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
+    <form action="{{ url("setting/master-data/save",[$master?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
         <input type="hidden" name="master_category_id" value="{{ $category->id }}">
         <input type="hidden" name="master_category_code" value="{{ $category->code }}">
         <div class="row mb-3">
@@ -102,7 +102,7 @@
             let data = new FormData(form[0]);
             data.append('form_type','modal');
 
-            let url = `{{ url("master-data/save",[$master?->id ?? 0]) }}`;
+            let url = `{{ url("setting/master-data/save",[$master?->id ?? 0]) }}`;
             $.ajax({
                 url : url,
                 method : 'POST',

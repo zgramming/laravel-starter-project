@@ -71,7 +71,7 @@
 </div>
 
 <div class="modal-body">
-    <form action="{{ url("example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
+    <form action="{{ url("setting/example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
 
         <div class="row mb-3">
             <label for="input_name" class="col-sm-12 col-md-12 col-form-label">Name</label>
@@ -201,7 +201,7 @@
             let data = new FormData(form[0]);
             data.append('form_type','modal');
 
-            let url = `{{ url("example/save",[$example?->id ?? 0]) }}`;
+            let url = `{{ url("setting/example/save",[$example?->id ?? 0]) }}`;
             $.ajax({
                 url : url,
                 method : 'POST',

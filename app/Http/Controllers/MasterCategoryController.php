@@ -57,7 +57,7 @@ public function index(): Factory|View|Application
             })
             ->addColumn('totalMasterData',function(MasterCategory $item){
                 $badge = ($item->master_data_count <=0) ? "bg-warning" : "bg-success" ;
-                return "<span class='badge $badge'><a href=\"".url('master-data',[$item->code])."\" class='text-white'>".$item->totalMasterData."</a></span>";
+                return "<span class='badge $badge'><a href=\"".url('setting/master-data',[$item->code])."\" class='text-white'>".$item->totalMasterData."</a></span>";
             })
             ->addColumn('status',function(MasterCategory $item){
                 if ($item->status == "active") return "<span class=\"badge bg-success\">Aktif</span>";
@@ -66,8 +66,8 @@ public function index(): Factory|View|Application
             })->addColumn('categoryParent',function(MasterCategory $item){
                 return $item->categoryParent?->name ?? "-";
             })->addColumn('action',function(MasterCategory $item){
-                $urlUpdate = url('master-category/form_modal/'.$item->code);
-                $urlDelete = url('master-category/delete/'.$item->id);
+                $urlUpdate = url('setting/master-category/form_modal/'.$item->code);
+                $urlDelete = url('setting/master-category/delete/'.$item->id);
                 $field = csrf_field();
                 $method = method_field('DELETE');
                 return   "
@@ -182,7 +182,7 @@ public function index(): Factory|View|Application
 
             /// Commit Transaction
             DB::commit();
-            return redirect('master-category')->with('success','Berhasil menghapus data !!!');
+            return redirect('setting/master-category')->with('success','Berhasil menghapus data !!!');
         }catch (Throwable $e) {
             /// Rollback Transaction
             DB::rollBack();

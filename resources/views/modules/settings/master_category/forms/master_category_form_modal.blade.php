@@ -6,7 +6,7 @@
 </div>
 
 <div class="modal-body">
-    <form action="{{ url("master-category/save",[$masterCategory?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
+    <form action="{{ url("setting/master-category/save",[$masterCategory?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
         <div class="row mb-3">
             <label for="mst_category_id" class="col-sm-12 col-md-12 col-form-label">Kategori Induk</label>
             <div class="col-sm-12 col-md-12">
@@ -90,7 +90,7 @@
             if(!form.valid()) return false;
 
             let data = new FormData(form[0]);
-            let url = `{{ url("master-category/save",[$masterCategory?->id ?? 0]) }}`;
+            let url = `{{ url("setting/master-category/save",[$masterCategory?->id ?? 0]) }}`;
             $.ajax({
                 url : url,
                 method : 'POST',

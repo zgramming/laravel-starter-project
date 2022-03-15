@@ -11,17 +11,17 @@
     </div>
     <nav aria-label="breadcrumb" class="breadcrumb-header">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{url('example')}}">Example</a></li>
+            <li class="breadcrumb-item"><a href="{{url('setting/example')}}">Example</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{(empty($example) ? "Form Tambah" : "Form Update")}}</li>
         </ol>
     </nav>
 </div>
-<form action="{{ url("example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
+<form action="{{ url("setting/example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
     <div class="card">
         <div class="card-content">
             <div class="d-flex flex-row justify-content-end mt-3 me-3">
                 <div class="buttons">
-                    <a href="{{url('example')}}" class="btn btn-light-secondary"><span class="btn-label"><i class="fa fa-arrow-left"></i></span> Kembali</a>
+                    <a href="{{url('setting/example')}}" class="btn btn-light-secondary"><span class="btn-label"><i class="fa fa-arrow-left"></i></span> Kembali</a>
                     <button type="submit" class="btn btn-success"><span class="btn-label"><i class="fa fa-save"></i></span>&nbsp;Simpan</button>
                 </div>
             </div>

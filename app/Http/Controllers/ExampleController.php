@@ -16,6 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
+use Storage;
 use Throwable;
 use Yajra\DataTables\DataTables;
 
@@ -111,9 +112,9 @@ class ExampleController extends Controller
         });
 
         $datatable = $datatable->addColumn('action', function ($item) {
-            $url = url('example/update/'.$item->id);
-            $urlModal = url('example/update-modal/'.$item->id);
-            $urlDelete = url('example/delete/'.$item->id);
+            $url = url('setting/example/update/'.$item->id);
+            $urlModal = url('setting/example/update-modal/'.$item->id);
+            $urlDelete = url('setting/example/delete/'.$item->id);
 
             $field = csrf_field();
             $method = method_field('DELETE');
@@ -308,13 +309,13 @@ class ExampleController extends Controller
                 session()->flash('success',$message);
                 return response()->json(['success'=>true,'message'=> $message],200);
             }
-            return redirect('example')->with('success',!empty($id) ? "Berhasil update" : "Berhasil membuat");
+            return redirect('setting/example')->with('success',!empty($id) ? "Berhasil update" : "Berhasil membuat");
 
         } catch(QueryException $e){
             /// Rollback Transaction
             DB::rollBack();
             $message = $e->getMessage();
-            $code = $e->getCode();
+            $code = $e->getCode()?:500;
             if(!empty($post['form_type'])) return response()->json(['success'=> false,'errors' => $message],$code);
 
             return back()->withErrors($message)->withInput();
@@ -323,7 +324,7 @@ class ExampleController extends Controller
             DB::rollBack();
 
             $message = $e->getMessage();
-            $code = $e->getCode();
+            $code = $e->getCode() ?:500;
 
             if(!empty($post['form_type'])) return response()->json(['success'=> false,'errors' => $message],$code);
             return back()->withErrors($message)->withInput();
@@ -347,11 +348,15 @@ class ExampleController extends Controller
 
             /// Check if this data success deleted && and has file data
             /// If [TRUE] Delete the file
-            if($isDeleted && !empty($example?->profile_image)) if(\Storage::exists($example->profile_image)) \Storage::delete($example?->profile_image);
+
+            if($isDeleted && !empty($example?->profile_image)) {
+                $path = public_path($example->profile_image);
+                if(file_exists($path)) @unlink($path);
+            }
 
             /// Commit Transaction
             DB::commit();
-            return redirect('example')->with('success','Berhasil menghapus data !!!');
+            return redirect('setting/example')->with('success','Berhasil menghapus data !!!');
         } catch(QueryException $e){
             /// Rollback Transaction
             DB::rollBack();

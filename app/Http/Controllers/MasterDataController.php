@@ -56,8 +56,8 @@ class MasterDataController extends Controller
                 if ($item->status == "not_active") return "<span class=\"badge bg-danger\">Tidak Aktif</span>";
                 return "<span class=\"badge bg-secondary\">None</span>";
             })->addColumn('action',function(MasterData $item) use ($codeCategory){
-                $urlUpdate = url("master-data/form_modal/$codeCategory/$item->id");
-                $urlDelete = url("master-data/delete/$item->id");
+                $urlUpdate = url("setting/master-data/form_modal/$codeCategory/$item->id");
+                $urlDelete = url("setting/master-data/delete/$item->id");
                 $field = csrf_field();
                 $method = method_field('DELETE');
                 return "
@@ -162,7 +162,7 @@ class MasterDataController extends Controller
         try {
             $master = MasterData::find($id);
 
-            $isDeleted = $master->deleteOrFail();
+            $master->deleteOrFail();
 
             /// Commit Transaction
             DB::commit();
