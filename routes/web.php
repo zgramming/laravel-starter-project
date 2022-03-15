@@ -3,6 +3,7 @@
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterDataController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WidgetController;
@@ -25,12 +26,27 @@ Route::get('user', [UserController::class, 'index'])->name('user');
  * START APP_MODUL
  */
 Route::get('setting/modul',[ModulController::class,'index']);
-Route::get('setting/modul-datatable',[ModulController::class,'datatable']);
+Route::get('setting/modul/datatable',[ModulController::class,'datatable']);
 Route::get('setting/modul/form_modal/{id}',[ModulController::class,'form_modal']);
 Route::post('setting/modul/save/{id}',[ModulController::class,'save']);
 Route::delete('setting/modul/delete/{id}',[ModulController::class,'delete']);
 /**
  * END APP_MODUL
+ */
+
+/**
+ * START APP MENU
+ */
+Route::get('setting/menu',[MenuController::class,'index']);
+Route::get('setting/menu/datatable',[MenuController::class,'datatable']);
+Route::get('setting/menu/form_modal/{id}',[MenuController::class,'form_modal']);
+Route::post('setting/menu/save/{id}',[MenuController::class,'save']);
+Route::delete('setting/menu/delete/{id}',[MenuController::class,'delete']);
+
+/// Ajax Section
+Route::get('ajax/menu/get_menu_by_modul/{id_modul}',[MenuController::class,'getMenuByModul']);
+/**
+ * END APP MENU
  */
 
 

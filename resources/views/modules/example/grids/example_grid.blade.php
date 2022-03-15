@@ -79,12 +79,14 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="d-flex flex-row">
+
                                         <div class="form-group position-relative has-icon-left">
                                             <input type="text" id="search" class="form-control" placeholder="Cari berdasarkan..." >
                                             <div class="form-control-icon">
                                                 <i class="bi bi-search"></i>
                                             </div>
                                         </div>
+
                                         <div class="form-group mx-2">
                                             <select name="filter_job" id="filter_job" class="form-select select2-custom">
                                                 <option value="">Pilih Job</option>
@@ -93,6 +95,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
+
                                         <div class="form-group mx-2">
                                             <select name="filter_hobbies" id="filter_hobbies" class="form-select select2-custom">
                                                 <option value="">Pilih Hobby</option>
@@ -101,9 +104,11 @@
                                                 @endforeach
                                             </select>
                                         </div>
+
                                         <div class="mx-2">
                                             <button type="button" class="btn btn-light-secondary toggle-more-filter"><i class="fa fa-plus"></i></button>
                                         </div>
+
                                     </div>
                                 </div>
 

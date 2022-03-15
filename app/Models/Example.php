@@ -6,6 +6,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 
@@ -99,9 +100,9 @@ class Example extends Model
     // Relationship
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function exampleChildFirst(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function exampleChildFirst(): HasOne
     {
         /// Foreign Key === Primary Key yang dituju
         /// Local Key === Foreign Key yang dituju

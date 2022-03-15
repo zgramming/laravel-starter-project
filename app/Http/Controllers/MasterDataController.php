@@ -181,6 +181,5 @@ class MasterDataController extends Controller
             $message = $e->getMessage();
             return back()->withErrors($message)->withInput();
         }
-
     }
 }

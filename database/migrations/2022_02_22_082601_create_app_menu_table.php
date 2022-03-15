@@ -17,10 +17,10 @@ return new class extends Migration
         Schema::create(Constant::TABLE_APP_MENU, function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('app_modul_id');
-            $table->unsignedInteger('app_menu_id_parent');
+            $table->unsignedInteger('app_menu_id_parent')->nullable();
             $table->string('code', 50)->unique();
             $table->string('name', 100);
-            $table->string('url_controller', 100)->unique();
+            $table->string('route', 100)->unique();
             $table->integer('order');
             $table->string('icon_name', 50)->nullable();
             $table->enum('status', ['active', 'not_active', 'none']);

@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -37,10 +39,21 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Modul whereUpdatedAt($value)
  * @method static Builder|Modul whereUpdatedBy($value)
  * @mixin Eloquent
+ * @property-read Collection|Menu[] $menus
+ * @property-read int|null $menus_count
  */
 class Modul extends Model
 {
     use HasFactory;
     protected $table = 'app_modul';
     protected $guarded = [];
+
+    /**
+     * @return HasMany
+     */
+    public function menus(): HasMany
+    {
+        /// Modul punya banyak menu, Link ke [Menu] dengan FK [menu.app_modul_id] menggunakan PK [modul.id]
+        return $this->hasMany(Menu::class,"app_modul_id","id");
+    }
 }
