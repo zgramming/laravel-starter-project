@@ -54,12 +54,10 @@ public function index(): Factory|View|Application
                 }
             })->orderColumn('categoryParent',function(Builder $query,$order){
                 $query->orderBy('master_category_id',$order);
-            })
-            ->addColumn('totalMasterData',function(MasterCategory $item){
+            })->addColumn('totalMasterData',function(MasterCategory $item){
                 $badge = ($item->master_data_count <=0) ? "bg-warning" : "bg-success" ;
                 return "<span class='badge $badge'><a href=\"".url('setting/master-data',[$item->code])."\" class='text-white'>".$item->totalMasterData."</a></span>";
-            })
-            ->addColumn('status',function(MasterCategory $item){
+            })->addColumn('status',function(MasterCategory $item){
                 if ($item->status == "active") return "<span class=\"badge bg-success\">Aktif</span>";
                 if ($item->status == "not_active") return "<span class=\"badge bg-danger\">Tidak Aktif</span>";
                 return "<span class=\"badge bg-secondary\">None</span>";
@@ -96,7 +94,7 @@ public function index(): Factory|View|Application
         $keys['statuses'] = Constant::STATUSKEYVALUE;
         $keys['masterCategory'] = MasterCategory::whereCode($codeCategory)->first();
         $keys['masterCategoryParents'] = MasterCategory::all();
-        return view('modules.settings.master_category.forms.master_category_form_modal',$keys);
+        return view('modules.settings.master_category.forms.form_modal',$keys);
     }
 
     /**

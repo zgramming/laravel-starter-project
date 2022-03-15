@@ -3,6 +3,7 @@
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterDataController;
+use App\Http\Controllers\ModulController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WidgetController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,11 @@ Route::get('user', [UserController::class, 'index'])->name('user');
 /**
  * START APP_MODUL
  */
+Route::get('setting/modul',[ModulController::class,'index']);
+Route::get('setting/modul-datatable',[ModulController::class,'datatable']);
+Route::get('setting/modul/form_modal/{id}',[ModulController::class,'form_modal']);
+Route::post('setting/modul/save/{id}',[ModulController::class,'save']);
+Route::delete('setting/modul/delete/{id}',[ModulController::class,'delete']);
 /**
  * END APP_MODUL
  */

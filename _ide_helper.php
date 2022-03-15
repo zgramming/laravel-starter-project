@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.3.0.
+ * Generated for Laravel 9.4.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -4495,23 +4495,23 @@
      * @method static \Illuminate\Support\Carbon createFromTimestampMs($timestamp, $tz = null)
      * @method static \Illuminate\Support\Carbon createFromTimestampUTC($timestamp)
      * @method static \Illuminate\Support\Carbon createMidnightDate($year = null, $month = null, $day = null, $tz = null)
-     * @method static \Illuminate\Support\Carbon disableHumanDiffOption($humanDiffOption)
-     * @method static \Illuminate\Support\Carbon enableHumanDiffOption($humanDiffOption)
+     * @method static void disableHumanDiffOption($humanDiffOption)
+     * @method static void enableHumanDiffOption($humanDiffOption)
      * @method static \Illuminate\Support\Carbon fromSerialized($value)
-     * @method static \Illuminate\Support\Carbon getLastErrors()
-     * @method static \Illuminate\Support\Carbon getTestNow()
+     * @method static array getLastErrors()
+     * @method static \Illuminate\Support\Carbon|null getTestNow()
      * @method static \Illuminate\Support\Carbon instance($date)
-     * @method static \Illuminate\Support\Carbon isMutable()
+     * @method static bool isMutable()
      * @method static \Illuminate\Support\Carbon maxValue()
      * @method static \Illuminate\Support\Carbon minValue()
      * @method static \Illuminate\Support\Carbon now($tz = null)
      * @method static \Illuminate\Support\Carbon parse($time = null, $tz = null)
-     * @method static \Illuminate\Support\Carbon setHumanDiffOptions($humanDiffOptions)
+     * @method static void setHumanDiffOptions($humanDiffOptions)
      * @method static void setTestNow($testNow = null)
-     * @method static \Illuminate\Support\Carbon setUtf8($utf8)
+     * @method static void setUtf8($utf8)
      * @method static \Illuminate\Support\Carbon today($tz = null)
      * @method static \Illuminate\Support\Carbon tomorrow($tz = null)
-     * @method static \Illuminate\Support\Carbon useStrictMode($strictModeEnabled = true)
+     * @method static void useStrictMode($strictModeEnabled = true)
      * @method static \Illuminate\Support\Carbon yesterday($tz = null)
      * @method static \Illuminate\Support\Carbon|false createFromFormat($format, $time, $tz = null)
      * @method static \Illuminate\Support\Carbon|false createSafe($year = null, $month = null, $day = null, $hour = null, $minute = null, $second = null, $tz = null)
@@ -9020,7 +9020,7 @@
                     /**
          * Push a new job onto the queue.
          *
-         * @param string $job
+         * @param string|object $job
          * @param mixed $data
          * @param string|null $queue
          * @return mixed 
@@ -9049,7 +9049,7 @@
          * Push a new job onto the queue after (n) seconds.
          *
          * @param \DateTimeInterface|\DateInterval|int $delay
-         * @param string $job
+         * @param string|object $job
          * @param mixed $data
          * @param string|null $queue
          * @return mixed 
@@ -9064,7 +9064,7 @@
          * Push a new job onto the queue.
          *
          * @param string $queue
-         * @param string $job
+         * @param string|object $job
          * @param mixed $data
          * @return mixed 
          * @static 
@@ -9079,7 +9079,7 @@
          *
          * @param string $queue
          * @param \DateTimeInterface|\DateInterval|int $delay
-         * @param string $job
+         * @param string|object $job
          * @param mixed $data
          * @return mixed 
          * @static 
@@ -17207,10 +17207,10 @@
          *
          * @static 
          */ 
-        public static function report($throwable, $callback = null)
+        public static function report($throwable, $callback = null, $report = null)
         {
                         /** @var \Spatie\FlareClient\Flare $instance */
-                        return $instance->report($throwable, $callback);
+                        return $instance->report($throwable, $callback, $report);
         }
                     /**
          * 
@@ -17569,30 +17569,34 @@ namespace  {
             }
              
                 /**
-             * Add a "where not" clause to the query.
+             * Add a basic "where not" clause to the query.
              *
-             * @param \Closure $callback
+             * @param \Closure|string|array|\Illuminate\Database\Query\Expression $column
+             * @param mixed $operator
+             * @param mixed $value
              * @param string $boolean
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
              */ 
-            public static function whereNot($callback, $boolean = 'and')
+            public static function whereNot($column, $operator = null, $value = null, $boolean = 'and')
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
-                                return $instance->whereNot($callback, $boolean);
+                                return $instance->whereNot($column, $operator, $value, $boolean);
             }
              
                 /**
              * Add an "or where not" clause to the query.
              *
-             * @param \Closure $callback
+             * @param \Closure|array|string|\Illuminate\Database\Query\Expression $column
+             * @param mixed $operator
+             * @param mixed $value
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
              */ 
-            public static function orWhereNot($callback)
+            public static function orWhereNot($column, $operator = null, $value = null)
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
-                                return $instance->orWhereNot($callback);
+                                return $instance->orWhereNot($column, $operator, $value);
             }
              
                 /**
@@ -17801,6 +17805,21 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->value($column);
+            }
+             
+                /**
+             * Get a single column's value from the first result of a query if it's the sole matching record.
+             *
+             * @param string|\Illuminate\Database\Query\Expression $column
+             * @return mixed 
+             * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+             * @throws \Illuminate\Database\MultipleRecordsFoundException
+             * @static 
+             */ 
+            public static function soleValue($column)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->soleValue($column);
             }
              
                 /**

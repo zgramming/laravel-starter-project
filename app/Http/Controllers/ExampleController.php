@@ -22,7 +22,7 @@ use Yajra\DataTables\DataTables;
 
 class ExampleController extends Controller
 {
-    public function index()
+    public function index(): Factory|View|Application
     {
         $hobbies = [
             'memancing' => 'Memancing',

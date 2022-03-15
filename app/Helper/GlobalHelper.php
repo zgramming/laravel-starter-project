@@ -263,17 +263,20 @@ function formatBytes(int | float $size, int $precision = 2) : string
  * @param string $table
  * @param string $column
  * @param string $prefix
- * @param array $where
+ * @param array|null $where
  * @param string $initializeNumber
  * @return string
  */
-function generateCodeBasic(string $table, string $column, string $prefix, array $where, string $initializeNumber = '00000'): string
+function generateCodeBasic(string $table, string $column, string $prefix, ?array $where= null, string $initializeNumber = '00000'): string
 {
     if (empty($initializeNumber)) $initializeNumber = '00000';
 
     $isDataEmpty = DB::table($table)->where($where)->count() <= 0;
     if (!$isDataEmpty) {
-        $latestGenerateNumber = DB::table($table)->orderBy($column,"DESC")->where($where)->limit(1)->first()->$column;
+        $query = DB::table($table)->orderBy($column,"DESC");
+        if($where != null) $query = $query->where($where);
+
+        $latestGenerateNumber = $query->limit(1)->first()->$column;
         $initializeNumber = str_replace($prefix, '', $latestGenerateNumber);
     }
 
@@ -281,4 +284,17 @@ function generateCodeBasic(string $table, string $column, string $prefix, array 
     $generateCode++;
 
     return $generateCode;
+}
+
+/**
+ * @param string $table
+ * @param string $column
+ * @param array|null $where
+ * @return int
+ */
+function generateUrutan(string $table, string $column, ?array $where = null ): int
+{
+    $query = DB::table($table)->orderBy($column,"DESC");
+    if($where != null) $query = $query->where($where);
+    return ($query->limit(1)->first()->$column ?? 0) + 1;
 }
