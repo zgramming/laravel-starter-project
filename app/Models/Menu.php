@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constant\Constant;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,7 +53,7 @@ class Menu extends Model
 {
     use HasFactory;
 
-    protected $table = 'app_menu';
+    protected $table = Constant::TABLE_APP_MENU;
 
     protected $guarded = [];
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constant\Constant;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -42,7 +43,7 @@ class MasterCategory extends Model
 {
     use HasFactory;
 
-    protected $table = 'master_category';
+    protected $table = Constant::TABLE_MST_CATEGORY;
 
     protected $guarded = [];
 

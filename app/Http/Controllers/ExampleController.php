@@ -258,7 +258,7 @@ class ExampleController extends Controller
             $example = Example::find($id);
             $post = request()->all();
             /// Unique:NAMA_TABLE,NAMA_COLUMN
-            $uniqueCode = ($example == null) ? "unique:".Constant::TABLE_EXAMPLE.",code" :  Rule::unique(Constant::TABLE_EXAMPLE,'code')->using(function(\Illuminate\Database\Eloquent\Builder $query) use($post,$example){
+            $uniqueCode = ($example == null) ? "unique:".Constant::TABLE_EXAMPLE.",code" :  Rule::unique(Constant::TABLE_EXAMPLE,'code')->using(function(\Illuminate\Database\Query\Builder $query) use($post,$example){
                 $query->where('code', '=', $post['code'])
                     ->where('id','!=',$example->id);
             });
@@ -368,8 +368,8 @@ class ExampleController extends Controller
         } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();
-            $message = $e->getMessage();
 
+            $message = $e->getMessage();
             return back()->withErrors($message)->withInput();
         } catch (Throwable $e) {
             /// Rollback Transaction

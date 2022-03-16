@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constant\Constant;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -62,7 +63,7 @@ class MasterData extends Model
 {
     use HasFactory;
 
-    protected $table = 'master_data';
+    protected $table = Constant::TABLE_MST_DATA;
     protected $guarded = [];
 
     /**

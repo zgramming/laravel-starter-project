@@ -6,6 +6,7 @@ use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\WidgetController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * START Management User
+ */
 Route::get('user', [UserController::class, 'index'])->name('user');
+/**
+ * START Management User
+ */
+
+
+/**
+ * START Management Group User
+ */
+Route::get('setting/user-group', [UserGroupController::class, 'index']);
+Route::get('setting/user-group/datatable', [UserGroupController::class, 'datatable']);
+Route::get('setting/user-group/form_modal/{id}', [UserGroupController::class, 'form_modal']);
+Route::post('setting/user-group/save/{id}', [UserGroupController::class, 'save']);
+Route::delete('setting/user-group/delete/{id}', [UserGroupController::class, 'delete']);
+/**
+ * START Management Group User
+ */
+
 
 /**
  * START APP_MODUL

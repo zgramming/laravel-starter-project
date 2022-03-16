@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constant\Constant;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -45,7 +46,7 @@ use Illuminate\Support\Carbon;
 class Modul extends Model
 {
     use HasFactory;
-    protected $table = 'app_modul';
+    protected $table = Constant::TABLE_APP_MODUL;
     protected $guarded = [];
 
     /**
