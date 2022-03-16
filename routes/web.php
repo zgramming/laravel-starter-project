@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterDataController;
@@ -22,9 +23,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 /**
+ * START AuthController
+ */
+Route::get('login',[AuthController::class,'index'])->name('login');
+Route::post('login',[AuthController::class,'login']);
+Route::post('logout',[AuthController::class,'logout']);
+/**
+ * START AuthController
+ */
+
+/**
  * START Management User
  */
-Route::get('user', [UserController::class, 'index'])->name('user');
+Route::get('setting/user', [UserController::class, 'index']);
+Route::get('setting/user/datatable', [UserController::class, 'datatable']);
+Route::get('setting/user/form_modal/{id}', [UserController::class, 'form_modal']);
+Route::post('setting/user/save/{id}', [UserController::class, 'save']);
+Route::delete('setting/user/delete/{id}', [UserController::class, 'delete']);
 /**
  * START Management User
  */

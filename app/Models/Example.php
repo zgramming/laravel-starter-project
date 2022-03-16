@@ -58,6 +58,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Example whereUpdatedAt($value)
  * @method static Builder|Example whereUpdatedBy($value)
  * @mixin Eloquent
+ * @property string $code
+ * @method static Builder|Example whereCode($value)
  */
 class Example extends Model
 {

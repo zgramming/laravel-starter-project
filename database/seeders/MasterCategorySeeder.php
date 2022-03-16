@@ -15,7 +15,6 @@ class MasterCategorySeeder extends Seeder
             'name' => "Kategori Testing",
             'description'=>'Deskripsi Kategori Testing',
             'status'=>'active',
-            'urutan' =>0,
         ],
     ];
     /**

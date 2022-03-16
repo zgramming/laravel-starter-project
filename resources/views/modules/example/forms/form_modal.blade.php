@@ -113,7 +113,7 @@
             <div class="col-sm-12 col-md-12">
                 <div class="d-flex flex-column">
                     <div class="combobox-container">
-                        <select class="form-select select2-custom" name="input_job">
+                        <select class="form-select select2-custom" name="input_job" id="input_job">
                             <option value="">Pilih Job</option>
                             @foreach($jobs as $key => $value)
                                 <option value="{{$key}}" {{($example?->job_desk == $key ? "selected" : "")}}>{{$value}}</option>

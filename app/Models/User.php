@@ -42,21 +42,16 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property int|null $app_group_user_id
+ * @property string $status
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAppGroupUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereStatus($value)
+ * @property string $username
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -78,4 +73,6 @@ class User extends Authenticatable
     ];
 
     protected $guarded = [];
+
+
 }
