@@ -77,7 +77,7 @@ Terimakasih kepada <a href="https://github.com/zuramai" target="_blank">zuramai<
 
 # Issues
 
-Please file any issues, bugs or feature request as an issue on <a href="https://github.com/zgramming/Basa-Basi-Supabase/issues"><b> Github </b></a>
+Please file any issues, bugs or feature request as an issue on <a href="https://github.com/zgramming/laravel-starter-project/issues"><b> Github </b></a>
 
 # Contributing
 
