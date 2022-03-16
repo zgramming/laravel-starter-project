@@ -27,8 +27,8 @@ return new class extends Migration
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
-            $table->foreign('app_modul_id')->references('id')->on(Constant::TABLE_APP_MODUL);
-            $table->foreign('app_menu_id_parent')->references('id')->on(Constant::TABLE_APP_MENU);
+            $table->foreign('app_modul_id')->references('id')->on(Constant::TABLE_APP_MODUL)->cascadeOnDelete();
+            $table->foreign('app_menu_id_parent')->references('id')->on(Constant::TABLE_APP_MENU)->cascadeOnDelete();
         });
     }
 
