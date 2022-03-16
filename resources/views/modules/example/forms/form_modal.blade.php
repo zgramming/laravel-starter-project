@@ -2,13 +2,13 @@
 
 {{--<div class="modal-header-custom p-4" style="border-bottom: 1px solid #dee2e6;">--}}
 {{--    <div class="d-flex flex-row justify-content-between align-items-end">--}}
-{{--        <h4 class="modal-title" id="modal-default-label">Form Tambah</h4>--}}
+{{--        <h4 class="modal-title" id="modal-default-label">{{ empty($example) ? "Form Tambah" : "Form Update" }}</h4>--}}
 {{--        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>--}}
 {{--    </div>--}}
 {{--</div>--}}
 
 {{--<div class="modal-body">--}}
-{{--    <form action="{{ url("example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">--}}
+{{--    <form action="{{ url("setting/example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">--}}
 {{--        @csrf--}}
 {{--    </form>--}}
 {{--</div>--}}
@@ -39,7 +39,7 @@
 {{--            if(!form.valid()) return false;--}}
 
 {{--            let data = new FormData(form[0]);--}}
-{{--            let url = `{{ url("master-category/save",[$masterCategory?->id ?? 0]) }}`;--}}
+{{--            let url = `{{ url("setting/example/save",[$example?->id ?? 0]) }}`;--}}
 {{--            $.ajax({--}}
 {{--                url : url,--}}
 {{--                method : 'POST',--}}
@@ -72,6 +72,13 @@
 
 <div class="modal-body">
     <form action="{{ url("setting/example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
+
+        <div class="row mb-3">
+            <label for="input_code" class="col-sm-12 col-md-12 col-form-label">Kode</label>
+            <div class="col-sm-12 col-md-12">
+                <input type="text" name="input_code" class="form-control" id="input_code" value="{{$example?->code}}" required >
+            </div>
+        </div>
 
         <div class="row mb-3">
             <label for="input_name" class="col-sm-12 col-md-12 col-form-label">Name</label>

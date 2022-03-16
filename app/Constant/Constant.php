@@ -13,10 +13,12 @@ class Constant
     /// Table Name Constant
     const TABLE_APP_MODUL = 'app_modul';
     const TABLE_APP_MENU = 'app_menu';
+    const TABLE_APP_USER = 'users';
     const TABLE_APP_GROUP_USER = 'app_group_user';
     const TABLE_APP_ACCESS_MODUL = 'app_access_modul';
     const TABLE_APP_ACCESS_MENU = 'app_access_menu';
     const TABLE_MST_CATEGORY = 'master_category';
     const TABLE_MST_DATA = 'master_data';
+    const TABLE_EXAMPLE = "example";
 }
 

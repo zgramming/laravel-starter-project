@@ -47,6 +47,7 @@
                                 <thead>
                                 <tr>
                                     <th style="min-width: 50px">No</th>
+                                    <th style="min-width: 200px">Kode</th>
                                     <th style="min-width: 200px">Nama</th>
                                     <th style="min-width: 200px">Deskripsi</th>
                                     <th style="min-width: 200px">Birth Date</th>
@@ -185,6 +186,7 @@
                                 <thead>
                                     <tr>
                                         <th style="min-width: 50px">No</th>
+                                        <th style="min-width: 200px">Kode</th>
                                         <th style="min-width: 200px">Nama</th>
                                         <th style="min-width: 200px">Deskripsi</th>
                                         <th style="min-width: 200px">Birth Date</th>
@@ -230,6 +232,7 @@
             },
             columns : [
                 {data: 'DT_RowIndex',orderable :false, searchable : false},
+                {data: 'code'},
                 {data: 'name'},
                 {data: 'description'},
                 {data: 'birth_date'},

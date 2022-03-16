@@ -16,7 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
-use Storage;
+use Illuminate\Validation\Rule;
 use Throwable;
 use Yajra\DataTables\DataTables;
 
@@ -37,9 +37,9 @@ class ExampleController extends Controller
         ];
 
         $jobs = [
-            1   => "Programmer",
-            2   => "Pelawan",
-            3   => "Badut"
+            1 => "Programmer",
+            2 => "Pelawan",
+            3 => "Badut"
         ];
 
         $keys = [
@@ -52,13 +52,12 @@ class ExampleController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return View|Factory|Application|JsonResponse
      * @throws Exception
      */
-    public function exampleDatatable(Request $request): View|Factory|Application|JsonResponse
+    public function exampleDatatable(): View|Factory|Application|JsonResponse
     {
-        if(!$request->ajax()) return view('error.notfound');
+        if (!request()->ajax()) return view('error.notfound');
 
         // Option 1 using chaining method
         //            $datatable =  DataTables::of(Example::all())
@@ -80,10 +79,11 @@ class ExampleController extends Controller
         //            $datatable = $datatable->addColumn('print');
         //            $datatable = $datatable->rawColumns(['action','print']);
 
-        $datatable = $datatable->filter(function (Builder $query) use ($request) {
+        $datatable = $datatable->filter(function (Builder $query) {
             /// $request->get('YOUR_KEY') harus ditambahkan pada konfigurasi Datatable [ajax => data]
-            $search = $request->get('search');
-            $status = $request->get('filter_status');
+            $request = request()->all();
+            $search = $request['search'] ?? "";
+            $status = $request['filter_status'] ?? "";
 
             if (!empty($search)) {
                 $query->where('name', 'like', "%" . $search . "%")
@@ -94,27 +94,27 @@ class ExampleController extends Controller
             if (!empty($status)) $query->where('status', '=', $status);
         });
 
-        $datatable = $datatable->orderColumn('status',function(Builder $query, $order){
-            $query->orderBy('status',$order);
+        $datatable = $datatable->orderColumn('status', function (Builder $query, $order) {
+            $query->orderBy('status', $order);
         });
 
-        $datatable = $datatable->addColumn("profile_image",function(Example $item){
-            if($item?->profile_image == null) return "<span class=\"badge bg-danger\">No Image</span>";
+        $datatable = $datatable->addColumn("profile_image", function (Example $item) {
+            if ($item?->profile_image == null) return "<span class=\"badge bg-danger\">No Image</span>";
             $imagePath = asset($item->profile_image);
 
             return "<a href='#' onclick=\"openImage('$imagePath')\"><img alt='Image error' src='$imagePath' class='img-fluid img-thumbnail' width='100' style=\"min-height: 100px; max-height: 100px;\"></a>";
         });
 
-        $datatable = $datatable->addColumn("status", function ($item) {
+        $datatable = $datatable->addColumn("status", function (Example $item) {
             if ($item->status == "active") return "<span class=\"badge bg-success\">Aktif</span>";
             if ($item->status == "not_active") return "<span class=\"badge bg-danger\">Tidak Aktif</span>";
             return "<span class=\"badge bg-secondary\">None</span>";
         });
 
-        $datatable = $datatable->addColumn('action', function ($item) {
-            $url = url('setting/example/update/'.$item->id);
-            $urlModal = url('setting/example/update-modal/'.$item->id);
-            $urlDelete = url('setting/example/delete/'.$item->id);
+        $datatable = $datatable->addColumn('action', function (Example $item) {
+            $url = url('setting/example/update/' . $item->id);
+            $urlModal = url('setting/example/update-modal/' . $item->id);
+            $urlDelete = url('setting/example/delete/' . $item->id);
 
             $field = csrf_field();
             $method = method_field('DELETE');
@@ -132,7 +132,7 @@ class ExampleController extends Controller
             ";
         });
 
-        return $datatable->rawColumns(['profile_image','status', 'action'])->toJson();
+        return $datatable->rawColumns(['profile_image', 'status', 'action'])->toJson();
     }
 
     /**
@@ -141,7 +141,7 @@ class ExampleController extends Controller
      */
     public function form_page(int $id = 0): View|Factory|Application
     {
-        $example  = Example::find($id);
+        $example = Example::find($id);
 
         $hobbies = [
             'memancing' => 'Memancing',
@@ -156,16 +156,16 @@ class ExampleController extends Controller
         ];
 
         $jobs = [
-            1   => "Programmer",
-            2   => "Pelawan",
-            3   => "Badut"
+            1 => "Programmer",
+            2 => "Pelawan",
+            3 => "Badut"
         ];
 
         $keys = [
-            'hobbies'       => $hobbies,
-            'statuses'      => $statuses,
-            'jobs'          => $jobs,
-            'example'       => $example,
+            'hobbies' => $hobbies,
+            'statuses' => $statuses,
+            'jobs' => $jobs,
+            'example' => $example,
         ];
 
         return view('modules.example.forms.form_page', $keys);
@@ -177,7 +177,7 @@ class ExampleController extends Controller
      */
     public function form_modal(int $id = 0): Factory|View|Application
     {
-        $example  = Example::find($id);
+        $example = Example::find($id);
 
         $hobbies = [
             'memancing' => 'Memancing',
@@ -192,16 +192,16 @@ class ExampleController extends Controller
         ];
 
         $jobs = [
-            1   => "Programmer",
-            2   => "Pelawan",
-            3   => "Badut"
+            1 => "Programmer",
+            2 => "Pelawan",
+            3 => "Badut"
         ];
 
         $keys = [
-            'hobbies'       => $hobbies,
-            'statuses'      => $statuses,
-            'jobs'          => $jobs,
-            'example'       => $example,
+            'hobbies' => $hobbies,
+            'statuses' => $statuses,
+            'jobs' => $jobs,
+            'example' => $example,
         ];
 
         return view("modules.example.forms.form_modal", $keys);
@@ -254,79 +254,87 @@ class ExampleController extends Controller
 
         /// Begin Transaction
         DB::beginTransaction();
-        try{
+        try {
             $example = Example::find($id);
             $post = request()->all();
+            /// Unique:NAMA_TABLE,NAMA_COLUMN
+            $uniqueCode = ($example == null) ? "unique:".Constant::TABLE_EXAMPLE.",code" :  Rule::unique(Constant::TABLE_EXAMPLE,'code')->using(function(\Illuminate\Database\Eloquent\Builder $query) use($post,$example){
+                $query->where('code', '=', $post['code'])
+                    ->where('id','!=',$example->id);
+            });
 
             $rules = [
-                'input_name'            =>'required',
-                'input_description'     =>'required',
-                'input_birth_date'      =>'required',
-                'input_current_money'   =>'required',
-                'input_hobbies'         =>'required',
-                'input_job'             =>'required',
-                'input_status'          =>'required',
+                'input_code' => ['required',$uniqueCode],
+                'input_name' => 'required',
+                'input_description' => 'required',
+                'input_birth_date' => 'required',
+                'input_current_money' => 'required',
+                'input_hobbies' => 'required',
+                'input_job' => 'required',
+                'input_status' => 'required',
             ];
 
-            if(!empty($post['input_profile'])) $rules['input_profile'] = "file|image";
+            if (!empty($post['input_profile'])) $rules['input_profile'] = "file|image";
 
-            $validator = Validator::make($post,$rules);
-            if($validator->fails()) {
-                if(!empty($post['form_type'])) return response()->json([
+            $validator = Validator::make($post, $rules);
+            if ($validator->fails()) {
+                if (!empty($post['form_type'])) return response()->json([
                     'success' => false,
                     'errors' => $validator->messages(),
-                ],400);
+                ], 400);
 
                 return back()->withErrors($validator->messages())->withInput();
             }
 
-            if(!empty($post['input_profile'])) $nameImage = uploadImage($post['input_profile'],Constant::PATH_IMAGE_EXAMPLE, customName:$example?->profile_image ?? null);
+            if (!empty($post['input_profile'])) $nameImage = uploadImage($post['input_profile'], Constant::PATH_IMAGE_EXAMPLE, customName: $example?->profile_image ?? null);
 
             $data = [
-                'name'            => $post['input_name'],
-                'description'     => $post['input_description'],
-                'birth_date'      => $post['input_birth_date'],
-                'current_money'   => fromCurrency($post['input_current_money']),
-                'job_desk'        => $post['input_job'],
-                'hobby'           => $post['input_hobbies'],
-                'status'          => $post['input_status'],
+                'code' => $post['input_code'],
+                'name' => $post['input_name'],
+                'description' => $post['input_description'],
+                'birth_date' => $post['input_birth_date'],
+                'current_money' => fromCurrency($post['input_current_money']),
+                'job_desk' => $post['input_job'],
+                'hobby' => $post['input_hobbies'],
+                'status' => $post['input_status'],
 
                 /// If Name Image null use profile_image, if profile_image null set default to null
-                'profile_image'   => $nameImage ?? $example?->profile_image ?? null,
+                'profile_image' => $nameImage ?? $example?->profile_image ?? null,
             ];
 
             /// If you want return boolean
             //$result = Example::updateOrInsert($data,['id'=>$id]);
 
             /// If you want return object
-            $result = Example::updateOrCreate(['id'=>$id],$data);
-            if(!$result) throw new Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...",400);
+            $result = Example::updateOrCreate(['id' => $id], $data);
+            if (!$result) throw new Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...", 400);
 
             /// Commit Transaction
             DB::commit();
-            if(!empty($post['form_type'])) {
+            if (!empty($post['form_type'])) {
                 $message = "Yess Berhasil Insert / Update";
-                session()->flash('success',$message);
-                return response()->json(['success'=>true,'message'=> $message],200);
+                session()->flash('success', $message);
+                return response()->json(['success' => true, 'message' => $message], 200);
             }
-            return redirect('setting/example')->with('success',!empty($id) ? "Berhasil update" : "Berhasil membuat");
+            return redirect('setting/example')->with('success', !empty($id) ? "Berhasil update" : "Berhasil membuat");
 
-        } catch(QueryException $e){
+        } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();
-            $message = $e->getMessage();
-            $code = $e->getCode()?:500;
-            if(!empty($post['form_type'])) return response()->json(['success'=> false,'errors' => $message],$code);
 
+            $message = $e->getMessage();
+            $code = $e->getCode() ?: 500;
+
+            if (!empty($post['form_type'])) return response()->json(['success' => false, 'errors' => $message], $code);
             return back()->withErrors($message)->withInput();
-        } catch (Throwable $e){
+        } catch (Throwable $e) {
             /// Rollback Transaction
             DB::rollBack();
 
             $message = $e->getMessage();
-            $code = $e->getCode() ?:500;
+            $code = $e->getCode() ?: 500;
 
-            if(!empty($post['form_type'])) return response()->json(['success'=> false,'errors' => $message],$code);
+            if (!empty($post['form_type'])) return response()->json(['success' => false, 'errors' => $message], $code);
             return back()->withErrors($message)->withInput();
         }
     }
@@ -344,20 +352,20 @@ class ExampleController extends Controller
             $example = Example::findOrFail($id);
 
             /// Delete
-            $isDeleted =  $example->deleteOrFail();
+            $isDeleted = $example->deleteOrFail();
 
             /// Check if this data success deleted && and has file data
             /// If [TRUE] Delete the file
 
-            if($isDeleted && !empty($example?->profile_image)) {
+            if ($isDeleted && !empty($example?->profile_image)) {
                 $path = public_path($example->profile_image);
-                if(file_exists($path)) @unlink($path);
+                if (file_exists($path)) @unlink($path);
             }
 
             /// Commit Transaction
             DB::commit();
-            return redirect('setting/example')->with('success','Berhasil menghapus data !!!');
-        } catch(QueryException $e){
+            return redirect('setting/example')->with('success', 'Berhasil menghapus data !!!');
+        } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();
             $message = $e->getMessage();

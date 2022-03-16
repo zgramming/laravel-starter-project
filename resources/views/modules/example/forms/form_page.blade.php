@@ -38,6 +38,14 @@
                         </div>
                     @endif
                 </div>
+
+                <div class="row mb-3">
+                    <label for="input_code" class="col-sm-12 col-md-2 col-form-label">Kode</label>
+                    <div class="col-sm-12 col-md-4">
+                        <input type="text" name="input_code" class="form-control" id="input_code" value="{{$example?->code}}" required >
+                    </div>
+                </div>
+
                 <div class="row mb-3">
                     <label for="input_name" class="col-sm-12 col-md-2 col-form-label">Name</label>
                     <div class="col-sm-12 col-md-4">

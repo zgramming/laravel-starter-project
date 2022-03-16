@@ -11,6 +11,7 @@ class ExampleSeeder extends Seeder
 {
     private $data = [
         [
+            'code'=>'ZR',
             'name'=>'Zeffry Reynando',
             'description'=> 'Deskripsi Zeffry Reynando',
             'birth_date' => '1999-04-04',
@@ -19,6 +20,7 @@ class ExampleSeeder extends Seeder
             'hobby'=> ['mandi','makan','tidur'],
         ],
         [
+            'code'=>'SH',
             'name'=>'Syarif H',
             'description'=> 'Deskripsi Syarif H',
             'birth_date' => '1999-04-05',
@@ -26,6 +28,7 @@ class ExampleSeeder extends Seeder
             'profile_image'=>null,
             'hobby'=> ['minum','makan','tidur'],
         ],[
+            'code'=>'HAHM',
             'name'=>'Helmi H',
             'description'=> 'Deskripsi Helmi H',
             'birth_date' => '1999-04-06',

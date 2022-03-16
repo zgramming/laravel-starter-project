@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constant\Constant;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -63,7 +64,7 @@ class Example extends Model
     use HasFactory;
 
     // Jika ingin custom nama table
-    protected $table = 'example';
+    protected $table = Constant::TABLE_EXAMPLE;
 
     // Jika ingin custom primary key
     //  protected $primaryKey ='id_example';
@@ -93,7 +94,7 @@ class Example extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'hobby'=>'array'
+        'hobby' => 'array'
     ];
 
 

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('example', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code')->unique();
             $table->text('name');
             $table->text('description');
             $table->integer("job_desk")->nullable();
