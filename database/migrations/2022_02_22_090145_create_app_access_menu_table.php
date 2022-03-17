@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create(Constant::TABLE_APP_ACCESS_MENU, function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->unsignedInteger('app_group_user_id');
             $table->unsignedInteger('app_modul_id');
             $table->unsignedInteger('app_menu_id');

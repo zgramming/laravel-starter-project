@@ -73,7 +73,6 @@ class UserGroupController extends Controller
             ->rawColumns(['status', 'action']);
 
         return $datatable->toJson();
-
     }
 
     /**

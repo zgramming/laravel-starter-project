@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AccessMenuController;
+use App\Http\Controllers\AccessModulController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\MasterCategoryController;
@@ -28,9 +30,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('login',[AuthController::class,'index'])->name('login');
 Route::post('login',[AuthController::class,'login']);
 Route::post('logout',[AuthController::class,'logout']);
-/**
- * START AuthController
- */
 
 /**
  * START Management User
@@ -40,10 +39,6 @@ Route::get('setting/user/datatable', [UserController::class, 'datatable']);
 Route::get('setting/user/form_modal/{id}', [UserController::class, 'form_modal']);
 Route::post('setting/user/save/{id}', [UserController::class, 'save']);
 Route::delete('setting/user/delete/{id}', [UserController::class, 'delete']);
-/**
- * START Management User
- */
-
 
 /**
  * START Management Group User
@@ -53,10 +48,6 @@ Route::get('setting/user-group/datatable', [UserGroupController::class, 'datatab
 Route::get('setting/user-group/form_modal/{id}', [UserGroupController::class, 'form_modal']);
 Route::post('setting/user-group/save/{id}', [UserGroupController::class, 'save']);
 Route::delete('setting/user-group/delete/{id}', [UserGroupController::class, 'delete']);
-/**
- * START Management Group User
- */
-
 
 /**
  * START APP_MODUL
@@ -66,9 +57,6 @@ Route::get('setting/modul/datatable',[ModulController::class,'datatable']);
 Route::get('setting/modul/form_modal/{id}',[ModulController::class,'form_modal']);
 Route::post('setting/modul/save/{id}',[ModulController::class,'save']);
 Route::delete('setting/modul/delete/{id}',[ModulController::class,'delete']);
-/**
- * END APP_MODUL
- */
 
 /**
  * START APP MENU
@@ -78,13 +66,25 @@ Route::get('setting/menu/datatable',[MenuController::class,'datatable']);
 Route::get('setting/menu/form_modal/{id}',[MenuController::class,'form_modal']);
 Route::post('setting/menu/save/{id}',[MenuController::class,'save']);
 Route::delete('setting/menu/delete/{id}',[MenuController::class,'delete']);
-
 /// Ajax Section
 Route::get('ajax/menu/get_menu_by_modul/{id_modul}',[MenuController::class,'getMenuByModul']);
-/**
- * END APP MENU
- */
 
+
+/**
+ * START Access Modul
+ */
+Route::get('setting/access-modul',[AccessModulController::class,'index']);
+Route::get('setting/access-modul/datatable',[AccessModulController::class,'datatable']);
+Route::get('setting/access-modul/form_modal/{idUserGroup}',[AccessModulController::class,'form_modal']);
+Route::post('setting/access-modul/save/{idUserGroup}',[AccessModulController::class,'save']);
+
+/**
+ * START Access Menu
+ */
+Route::get('setting/access-menu',[AccessMenuController::class,'index']);
+Route::get('setting/access-menu/datatable',[AccessMenuController::class,'datatable']);
+Route::get('setting/access-menu/form_modal/{idUserGroup}',[AccessMenuController::class,'form_modal']);
+Route::post('setting/access-menu/save/{idUserGroup}',[AccessMenuController::class,'save']);
 
 /**
  * START Master Category & Master Data
@@ -101,10 +101,6 @@ Route::get('setting/master-data/datatable/{code_category}',[MasterDataController
 Route::get('setting/master-data/form_modal/{code_category?}/{id?}',[MasterDataController::class,'form_modal'])->name('master-data.form_modal');
 Route::post('setting/master-data/save/{id}',[MasterDataController::class,'save'])->name('master-data.save');
 Route::delete('setting/master-data/delete/{id}',[MasterDataController::class,'delete'])->name('master-data.delete');
-
-/**
- * END Master Category & Master Data
- */
 
 /**
  * Example Tutorial
@@ -132,4 +128,3 @@ Route::post('widget/import',[WidgetController::class,'import'])->name('import');
 
 Route::get('widget/view-image',[WidgetController::class,'view_image'])->name('view-image');
 Route::get('widget/view-document',[WidgetController::class,'view_document'])->name('view-document');
-
