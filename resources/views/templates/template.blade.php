@@ -15,11 +15,7 @@
     <div id="app">
         @include('templates.components.sidebar')
         <div id="main">
-            <header class="mb-3 ">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
+            @include("templates.components.header")
             <div class="page-heading">
                 <section class="section">
                     @yield('content','Default Content')

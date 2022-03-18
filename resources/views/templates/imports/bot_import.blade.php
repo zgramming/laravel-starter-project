@@ -29,6 +29,7 @@
 
 {{-- Core Template --}}
 <script src="{{asset('assets/js/mazer.js')}}"></script>
+<script src="{{asset('assets/js/horizontal-layout.js')}}"></script>
 
 {{-- Custom File --}}
 <script src="{{asset('assets/js/custom/main.js')}}"></script>

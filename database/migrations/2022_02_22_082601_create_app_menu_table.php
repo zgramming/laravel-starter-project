@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('app_menu_id_parent')->nullable();
             $table->string('code', 50)->unique();
             $table->string('name', 100);
-            $table->string('route', 100)->unique();
+            $table->string('route', 100)->unique()->nullable();
             $table->integer('order');
             $table->string('icon_name', 50)->nullable();
             $table->enum('status', ['active', 'not_active', 'none']);

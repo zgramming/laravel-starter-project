@@ -97,13 +97,11 @@ class MenuController extends Controller
     public function save(int $id = 0): JsonResponse
     {
         try {
-            $menu = Menu::find($id);
             $post = request()->all();
             $rules = [
                 'app_modul_id' => 'required',
                 'code' => 'required',
                 'name' => 'required',
-                'route' => 'required',
                 'order' => 'required',
                 'status' => 'required'
             ];
@@ -121,7 +119,7 @@ class MenuController extends Controller
                 'app_menu_id_parent' => $post['app_menu_id_parent'] ?? null,
                 'code' => $post['code'],
                 'name' => $post['name'],
-                'route' => $post['route'],
+                'route' => $post['route'] ?? null,
                 'order' => $post['order'],
                 'icon_name' => $post['icon_name'] ?? null,
                 'status' => $post['status'],

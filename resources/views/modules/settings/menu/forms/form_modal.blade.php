@@ -57,7 +57,7 @@
         <div class="row mb-3">
             <label for="route" class="col-sm-12 col-md-12 col-form-label">Route</label>
             <div class="col-sm-12 col-md-12">
-                <input type="text" name="route" class="form-control" id="route" value="{{$menu?->route}}" required >
+                <input type="text" name="route" class="form-control" id="route" value="{{$menu?->route}}" >
             </div>
         </div>
 

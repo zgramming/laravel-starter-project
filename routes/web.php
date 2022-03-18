@@ -126,6 +126,10 @@ Route::get('setting/parameter/form_modal/{id}', [ParameterController::class, 'fo
 Route::post('setting/parameter/save/{id}', [ParameterController::class, 'save']);
 Route::delete('setting/parameter/delete/{id}', [ParameterController::class, 'delete']);
 
+/**
+ * START Parent Example
+ */
+Route::get('setting/parent/anakan',[ParameterController::class,'index']);
 
 
 /**

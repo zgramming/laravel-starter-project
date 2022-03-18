@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
@@ -16,10 +17,10 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property int $app_modul_id
- * @property int $app_menu_id_parent
+ * @property int|null $app_menu_id_parent
  * @property string $code
  * @property string $name
- * @property string $url_controller
+ * @property string $route
  * @property int $order
  * @property string|null $icon_name
  * @property string $status
@@ -27,6 +28,8 @@ use Illuminate\Support\Carbon;
  * @property int|null $updated_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Menu|null $menuParent
+ * @property-read Modul $modul
  * @method static Builder|Menu newModelQuery()
  * @method static Builder|Menu newQuery()
  * @method static Builder|Menu query()
@@ -39,15 +42,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Menu whereId($value)
  * @method static Builder|Menu whereName($value)
  * @method static Builder|Menu whereOrder($value)
+ * @method static Builder|Menu whereRoute($value)
  * @method static Builder|Menu whereStatus($value)
  * @method static Builder|Menu whereUpdatedAt($value)
  * @method static Builder|Menu whereUpdatedBy($value)
- * @method static Builder|Menu whereUrlController($value)
  * @mixin Eloquent
- * @property string $route
- * @property-read Modul $modul
- * @method static Builder|Menu whereRoute($value)
- * @property-read Menu|null $menuParent
  */
 class Menu extends Model
 {
@@ -63,6 +62,14 @@ class Menu extends Model
     public function menuParent(): HasOne
     {
         return $this->hasOne(Menu::class,"id","app_menu_id_parent");
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function menuChild(): HasMany
+    {
+        return $this->hasMany(Menu::class,"app_menu_id_parent",'id');
     }
 
     /**
