@@ -115,6 +115,18 @@ Route::post("setting/example/save/{id}",[ExampleController::class,'save']);
 Route::delete("setting/example/delete/{id}",[ExampleController::class,'delete']);
 
 
+
+/**
+ * START Management Parameter
+ */
+Route::get('setting/parameter', [UserGroupController::class, 'index']);
+Route::get('setting/parameter/datatable', [UserGroupController::class, 'datatable']);
+Route::get('setting/parameter/form_modal/{id}', [UserGroupController::class, 'form_modal']);
+Route::post('setting/parameter/save/{id}', [UserGroupController::class, 'save']);
+Route::delete('setting/parameter/delete/{id}', [UserGroupController::class, 'delete']);
+
+
+
 /**
  * Widget Controller
  * To Control Widget [Export, Import, ...]

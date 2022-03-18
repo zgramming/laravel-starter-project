@@ -20,5 +20,6 @@ class Constant
     const TABLE_MST_CATEGORY = 'master_category';
     const TABLE_MST_DATA = 'master_data';
     const TABLE_EXAMPLE = "example";
+    const TABLE_PARAMETER = "parameter";
 }
 
