@@ -40,7 +40,7 @@ class MenuSeeder extends Seeder
         [
             'app_modul_id'=> 1,
             'code'=> 'STG00004',
-            'name'=> 'Menu',
+            'name'=> 'Modul',
             'route'=> 'setting/modul',
             'order'=> 4,
             'icon_name'=> null,
@@ -49,7 +49,7 @@ class MenuSeeder extends Seeder
         [
             'app_modul_id'=> 1,
             'code'=> 'STG00005',
-            'name'=> 'Menu',
+            'name'=> 'Access Menu',
             'route'=> 'setting/access-menu',
             'order'=> 5,
             'icon_name'=> null,
@@ -58,7 +58,7 @@ class MenuSeeder extends Seeder
         [
             'app_modul_id'=> 1,
             'code'=> 'STG00006',
-            'name'=> 'Modul',
+            'name'=> 'Access Modul',
             'route'=> 'setting/access-modul',
             'order'=> 6,
             'icon_name'=> null,
@@ -88,6 +88,26 @@ class MenuSeeder extends Seeder
             'name'=> 'Example / Dokumentasi',
             'route'=> 'setting/example',
             'order'=> 9,
+            'icon_name'=> null,
+            'status'=> 'active',
+        ],
+
+        /// Dokumen
+        [
+            'app_modul_id'=> 2,
+            'code'=> 'DKM00001',
+            'name'=> 'Format Penomoran',
+            'route'=> 'dokumen/format-penomoran',
+            'order'=> 1,
+            'icon_name'=> null,
+            'status'=> 'active',
+        ],
+        [
+            'app_modul_id'=> 2,
+            'code'=> 'DKM00002',
+            'name'=> 'Format Dokumen',
+            'route'=> 'dokumen/format-dokumen',
+            'order'=> 2,
             'icon_name'=> null,
             'status'=> 'active',
         ],

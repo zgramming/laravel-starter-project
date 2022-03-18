@@ -90,13 +90,13 @@ class AccessModulController extends Controller
             $post = request()->all();
 
             /// Truncate Every Update Access Modul
-            AccessModul::whereNotNull('id')->delete();
+            AccessModul::where("app_group_user_id", "=", $idUserGroup)->delete();
 
-            foreach (($post['access_modul'] ?? []) as $key => $value){
+            foreach (($post['access_modul'] ?? []) as $key => $value) {
                 $data = [
-                    'id'=> Str::uuid(),
-                    'app_group_user_id'=> $idUserGroup,
-                    'app_modul_id'=> $value,
+                    'id' => Str::uuid(),
+                    'app_group_user_id' => $idUserGroup,
+                    'app_modul_id' => $value,
                 ];
 
                 AccessModul::create($data);

@@ -7,6 +7,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -31,17 +32,29 @@ use Illuminate\Support\Carbon;
  * @method static Builder|AccessModul whereUpdatedBy($value)
  * @mixin Eloquent
  */
-
 class AccessModul extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
     protected $table = Constant::TABLE_APP_ACCESS_MODUL;
-
     protected $guarded = [];
-
     protected $keyType = 'string';
 
-    public $incrementing = false;
+    /**
+     * @return BelongsTo
+     */
+    public function modul(): BelongsTo
+    {
+        return $this->belongsTo(Modul::class, 'app_modul_id', 'id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function userGroup(): BelongsTo
+    {
+        return $this->belongsTo(UserGroup::class, 'app_group_user_id', 'id');
+    }
 
 }

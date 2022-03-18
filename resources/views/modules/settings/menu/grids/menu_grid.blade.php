@@ -1,5 +1,5 @@
 @extends('templates.template')
-@section('title_header') Master Data @endsection
+@section('title_header') Management Menu @endsection
 
 @section('extends-css')
 @endsection

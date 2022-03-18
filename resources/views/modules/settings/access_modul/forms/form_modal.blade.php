@@ -16,7 +16,7 @@
         </div>
 
         <div class="row mb-3">
-            <label for="name" class="col-sm-12 col-md-12 col-form-label">Kode</label>
+            <label for="name" class="col-sm-12 col-md-12 col-form-label">Nama</label>
             <div class="col-sm-12 col-md-12">
                 <p>{{ $group?->name ?? '' }}</p>
             </div>
@@ -29,8 +29,8 @@
                     <div class="checkbox-container">
                         @foreach($moduls as $key => $value)
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="input_hobby_{{$key}}" name="access_modul[]" value="{{ $value->id }}" {{in_array($value->id,$idModuls ?? []) ? "checked" : ""}}>
-                                <label class="form-check-label" for="input_hobby_{{$key}}">{{$value->name}}</label>
+                                <input class="form-check-input" type="checkbox" id="access_modul_{{$key}}" name="access_modul[]" value="{{ $value->id }}" {{in_array($value->id,$idModuls ?? []) ? "checked" : ""}}>
+                                <label class="form-check-label" for="access_modul_{{$key}}">{{$value->name}}</label>
                             </div>
                         @endforeach
                     </div>

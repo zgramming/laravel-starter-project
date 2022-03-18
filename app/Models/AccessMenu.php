@@ -45,5 +45,11 @@ class AccessMenu extends Model
 
     protected $keyType = 'string';
 
+    protected $casts = [
+        'allowed_access' => 'array',
+    ];
+
     public $incrementing = false;
+
+
 }

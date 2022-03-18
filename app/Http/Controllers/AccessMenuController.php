@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AccessModul;
+use App\Models\AccessMenu;
 use App\Models\Modul;
 use App\Models\UserGroup;
 use DataTables;
 use DB;
 use Exception;
+use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContractEloquent;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -67,12 +68,19 @@ class AccessMenuController extends Controller
      */
     public function form_modal(int $idUserGroup = 0): Factory|View|Application
     {
-        $moduls = Modul::all();
+        /// Get Modul Where AccessModul === $idUserGroup
+        $moduls = Modul::with(
+            [
+                'menus' => fn(BuilderContractEloquent $query) => $query->orderBy('name', 'ASC'),
+            ]
+        )->whereRelation('accessModul', 'app_group_user_id', '=', $idUserGroup)
+            ->get();
 
         $keys = [];
+        $keys['accessMenu'] = AccessMenu::where("app_group_user_id", "=", $idUserGroup)->get()->pluck('app_menu_id')->toArray();
         $keys['group'] = UserGroup::find($idUserGroup);
         $keys['moduls'] = $moduls;
-        $keys['idModuls'] = AccessModul::where("app_group_user_id", "=", $idUserGroup)->pluck('app_modul_id')->toArray();
+
         return view("modules.settings.access_menu.forms.form_modal", $keys);
     }
 
@@ -87,19 +95,24 @@ class AccessMenuController extends Controller
         /// Begin Transaction
         DB::beginTransaction();
         try {
+
             $post = request()->all();
 
             /// Truncate Every Update Access Modul
-            AccessModul::whereNotNull('id')->delete();
+            AccessMenu::where("app_group_user_id", "=", $idUserGroup)->delete();
 
-            foreach (($post['access_menu'] ?? []) as $key => $value){
+            foreach (($post['access_menu'] ?? []) as $key => $value) {
+                [$idModul, $idMenu] = explode("|", $value);
+
                 $data = [
-                    'id'=> Str::uuid(),
-                    'app_group_user_id'=> $idUserGroup,
-                    'app_modul_id'=> $value,
+                    'id' => Str::uuid(),
+                    'app_group_user_id' => $idUserGroup,
+                    'app_modul_id' => $idModul,
+                    'app_menu_id' => $idMenu,
+                    'allowed_access' => ['view', 'add', 'delete', 'edit', 'print', 'approve'],
                 ];
 
-                AccessModul::create($data);
+                AccessMenu::create($data);
             }
 
             /// Commit Transaction

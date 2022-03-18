@@ -9,13 +9,23 @@ class ModulSeeder extends Seeder
 {
     private array $datas = [
         [
+            'id' => 1,
             'code' => 'STG',
             'name' => "Setting",
             'order' => 99,
             'pattern' => 'setting/',
             'icon_name' => null,
             'status' => 'active',
-        ]
+        ],
+        [
+            'id' => 2,
+            'code' => 'DKM',
+            'name' => "Dokumentasi",
+            'order' => 99,
+            'pattern' => 'dokumentasi/',
+            'icon_name' => null,
+            'status' => 'active',
+        ],
     ];
 
     /**

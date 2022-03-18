@@ -57,4 +57,20 @@ class Modul extends Model
         /// Modul punya banyak menu, Link ke [Menu] dengan FK [menu.app_modul_id] menggunakan PK [modul.id]
         return $this->hasMany(Menu::class,"app_modul_id","id");
     }
+
+    /**
+     * @return HasMany
+     */
+    public function accessModul(): HasMany
+    {
+        return $this->hasMany(AccessModul::class,'app_modul_id','id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function accessMenu(): HasMany
+    {
+        return $this->hasMany(AccessMenu::class,'app_modul_id','id');
+    }
 }
