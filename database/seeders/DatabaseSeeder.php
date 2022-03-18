@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MenuSeeder::class);
         $this->call(MasterCategorySeeder::class);
         $this->call(MasterDataSeeder::class);
+        $this->call(ParameterSeeder::class);
         User::factory(1)->create();
     }
 }

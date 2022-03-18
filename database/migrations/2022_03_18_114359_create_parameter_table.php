@@ -15,7 +15,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create(Constant::TABLE_PARAMETER, function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('name',50);
+            $table->string('code',50)->unique();
+            $table->text('value');
+            $table->enum('status',Constant::STATUSENUM)->default('active');
             $table->timestamps();
         });
     }

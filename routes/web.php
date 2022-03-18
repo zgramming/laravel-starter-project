@@ -8,6 +8,7 @@ use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ModulController;
+use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\WidgetController;
@@ -119,11 +120,11 @@ Route::delete("setting/example/delete/{id}",[ExampleController::class,'delete'])
 /**
  * START Management Parameter
  */
-Route::get('setting/parameter', [UserGroupController::class, 'index']);
-Route::get('setting/parameter/datatable', [UserGroupController::class, 'datatable']);
-Route::get('setting/parameter/form_modal/{id}', [UserGroupController::class, 'form_modal']);
-Route::post('setting/parameter/save/{id}', [UserGroupController::class, 'save']);
-Route::delete('setting/parameter/delete/{id}', [UserGroupController::class, 'delete']);
+Route::get('setting/parameter', [ParameterController::class, 'index']);
+Route::get('setting/parameter/datatable', [ParameterController::class, 'datatable']);
+Route::get('setting/parameter/form_modal/{id}', [ParameterController::class, 'form_modal']);
+Route::post('setting/parameter/save/{id}', [ParameterController::class, 'save']);
+Route::delete('setting/parameter/delete/{id}', [ParameterController::class, 'delete']);
 
 
 

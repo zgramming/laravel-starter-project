@@ -33,6 +33,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|UserGroup whereUpdatedAt($value)
  * @method static Builder|UserGroup whereUpdatedBy($value)
  * @mixin Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccessMenu[] $accessMenu
+ * @property-read int|null $access_menu_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccessModul[] $accessModul
+ * @property-read int|null $access_modul_count
  */
 class UserGroup extends Model
 {

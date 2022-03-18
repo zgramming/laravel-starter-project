@@ -31,6 +31,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|AccessModul whereUpdatedAt($value)
  * @method static Builder|AccessModul whereUpdatedBy($value)
  * @mixin Eloquent
+ * @property-read \App\Models\Modul $modul
+ * @property-read \App\Models\UserGroup $userGroup
  */
 class AccessModul extends Model
 {
