@@ -50,6 +50,7 @@ use Illuminate\Support\Carbon;
 class Modul extends Model
 {
     use HasFactory;
+
     protected $table = Constant::TABLE_APP_MODUL;
     protected $guarded = [];
 
@@ -59,7 +60,7 @@ class Modul extends Model
     public function menus(): HasMany
     {
         /// Modul punya banyak menu, Link ke [Menu] dengan FK [menu.app_modul_id] menggunakan PK [modul.id]
-        return $this->hasMany(Menu::class,"app_modul_id","id");
+        return $this->hasMany(Menu::class, "app_modul_id", "id");
     }
 
     /**
@@ -67,7 +68,7 @@ class Modul extends Model
      */
     public function accessModul(): HasMany
     {
-        return $this->hasMany(AccessModul::class,'app_modul_id','id');
+        return $this->hasMany(AccessModul::class, 'app_modul_id', 'id');
     }
 
     /**
@@ -75,6 +76,6 @@ class Modul extends Model
      */
     public function accessMenu(): HasMany
     {
-        return $this->hasMany(AccessMenu::class,'app_modul_id','id');
+        return $this->hasMany(AccessMenu::class, 'app_modul_id', 'id');
     }
 }
