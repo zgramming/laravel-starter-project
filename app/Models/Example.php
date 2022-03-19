@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
 
 /// Make sure you have install [https://github.com/barryvdh/laravel-ide-helper]
 /// Because it's very usefull for IDE
-/// The command you should be generate is :
+/// Every you alter column in table or create new model, recommended to run this on terminal :
 /// 1. php artisan ide-helper:generate
 /// 2. php artisan ide-helper:models
 /// 3. php artisan ide-helper:meta

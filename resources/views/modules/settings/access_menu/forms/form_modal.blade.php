@@ -37,10 +37,10 @@
                                         @foreach($value->menus as $key => $menu)
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox"
-                                                       id="access_menu_{{$key}}" name="access_menu[]"
+                                                       id="access_menu_{{$menu->id}}" name="access_menu[]"
                                                        value="{{ $value->id."|".$menu->id }}" {{in_array($menu->id,$accessMenu ?? []) ? "checked" : ""}}>
                                                 <label class="form-check-label"
-                                                       for="access_menu_{{$key}}">{{$menu->name}}</label>
+                                                       for="access_menu_{{$menu->id}}">{{$menu->name}}</label>
                                             </div>
                                         @endforeach
                                     </div>

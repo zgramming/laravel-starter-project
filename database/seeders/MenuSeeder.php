@@ -11,6 +11,7 @@ class MenuSeeder extends Seeder
 
     private array $datas = [
         [
+            'id'=> 1,
             'app_modul_id'=> 1,
             'code'=> 'STG00001',
             'name'=> 'Management User',
@@ -20,6 +21,7 @@ class MenuSeeder extends Seeder
             'status'=> 'active',
         ],
         [
+            'id'=> 2,
             'app_modul_id'=> 1,
             'code'=> 'STG00002',
             'name'=> 'Management Group User',
@@ -29,6 +31,7 @@ class MenuSeeder extends Seeder
             'status'=> 'active',
         ],
         [
+            'id'=> 3,
             'app_modul_id'=> 1,
             'code'=> 'STG00003',
             'name'=> 'Menu',
@@ -38,6 +41,7 @@ class MenuSeeder extends Seeder
             'status'=> 'active',
         ],
         [
+            'id'=> 4,
             'app_modul_id'=> 1,
             'code'=> 'STG00004',
             'name'=> 'Modul',
@@ -47,6 +51,7 @@ class MenuSeeder extends Seeder
             'status'=> 'active',
         ],
         [
+            'id'=> 5,
             'app_modul_id'=> 1,
             'code'=> 'STG00005',
             'name'=> 'Access Menu',
@@ -56,6 +61,7 @@ class MenuSeeder extends Seeder
             'status'=> 'active',
         ],
         [
+            'id'=> 6,
             'app_modul_id'=> 1,
             'code'=> 'STG00006',
             'name'=> 'Access Modul',
@@ -65,6 +71,7 @@ class MenuSeeder extends Seeder
             'status'=> 'active',
         ],
         [
+            'id'=> 7,
             'app_modul_id'=> 1,
             'code'=> 'STG00007',
             'name'=> 'Master Data',
@@ -74,6 +81,7 @@ class MenuSeeder extends Seeder
             'status'=> 'active',
         ],
         [
+            'id'=> 8,
             'app_modul_id'=> 1,
             'code'=> 'STG00008',
             'name'=> 'Management Parameter',
@@ -83,11 +91,44 @@ class MenuSeeder extends Seeder
             'status'=> 'active',
         ],
         [
+            'id'=> 9,
             'app_modul_id'=> 1,
             'code'=> 'STG00009',
             'name'=> 'Example / Dokumentasi',
             'route'=> 'setting/example',
             'order'=> 9,
+            'icon_name'=> null,
+            'status'=> 'active',
+        ],
+        [
+            'id'=> 10,
+            'app_modul_id'=> 1,
+            'code'=> 'STG000010',
+            'name'=> 'Parent Menu',
+            'route'=> 'setting/parent',
+            'order'=> 10,
+            'icon_name'=> null,
+            'status'=> 'active',
+        ],
+        [
+            'id'=> 11,
+            'app_modul_id'=> 1,
+            'app_menu_id_parent'=> 10,
+            'code'=> 'STG000011',
+            'name'=> 'Anakan 1',
+            'route'=> 'setting/parent/child1',
+            'order'=> 11,
+            'icon_name'=> null,
+            'status'=> 'active',
+        ],
+        [
+            'id'=> 12,
+            'app_modul_id'=> 1,
+            'app_menu_id_parent'=> 10,
+            'code'=> 'STG000012',
+            'name'=> 'Anakan 2',
+            'route'=> 'setting/parent/child2',
+            'order'=> 12,
             'icon_name'=> null,
             'status'=> 'active',
         ],

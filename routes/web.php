@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 /**
  * START AuthController
  */
+Route::get("/",[AuthController::class,'index']);
 Route::get('login',[AuthController::class,'index'])->name('login');
 Route::post('login',[AuthController::class,'login']);
 Route::post('logout',[AuthController::class,'logout']);
@@ -129,7 +130,8 @@ Route::delete('setting/parameter/delete/{id}', [ParameterController::class, 'del
 /**
  * START Parent Example
  */
-Route::get('setting/parent/anakan',[ParameterController::class,'index']);
+Route::get('setting/parent/child1',[ParameterController::class,'index']);
+Route::get('setting/parent/child2',[ParameterController::class,'index']);
 
 
 /**

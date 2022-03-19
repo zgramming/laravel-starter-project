@@ -31,17 +31,21 @@ use Illuminate\Support\Carbon;
  * @method static Builder|AccessModul whereUpdatedAt($value)
  * @method static Builder|AccessModul whereUpdatedBy($value)
  * @mixin Eloquent
- * @property-read \App\Models\Modul $modul
- * @property-read \App\Models\UserGroup $userGroup
+ * @property-read Modul $modul
+ * @property-read UserGroup $userGroup
  */
+
 class AccessModul extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
     protected $table = Constant::TABLE_APP_ACCESS_MODUL;
-    protected $guarded = [];
+
+    public $incrementing = false;
+
     protected $keyType = 'string';
+
+    protected $guarded = [];
 
     /**
      * @return BelongsTo

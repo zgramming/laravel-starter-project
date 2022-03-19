@@ -36,8 +36,6 @@
         padding: 0rem 0.250rem;
     }
 
-
-
     /* Change Border Color */
     .select2-container--default .select2-selection--single{
         border-radius: 5px !important;

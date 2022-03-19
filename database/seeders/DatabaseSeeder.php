@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AppGroupUserSeeder::class);
         $this->call(ModulSeeder::class);
         $this->call(MenuSeeder::class);
+        $this->call(AccessModulSeeder::class);
+        $this->call(AccessMenuSeeder::class);
         $this->call(MasterCategorySeeder::class);
         $this->call(MasterDataSeeder::class);
         $this->call(ParameterSeeder::class);

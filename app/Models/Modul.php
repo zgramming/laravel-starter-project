@@ -42,9 +42,9 @@ use Illuminate\Support\Carbon;
  * @mixin Eloquent
  * @property-read Collection|Menu[] $menus
  * @property-read int|null $menus_count
- * @property-read Collection|\App\Models\AccessMenu[] $accessMenu
+ * @property-read Collection|AccessMenu[] $accessMenu
  * @property-read int|null $access_menu_count
- * @property-read Collection|\App\Models\AccessModul[] $accessModul
+ * @property-read Collection|AccessModul[] $accessModul
  * @property-read int|null $access_modul_count
  */
 class Modul extends Model

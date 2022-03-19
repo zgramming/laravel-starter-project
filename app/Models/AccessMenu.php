@@ -34,6 +34,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|AccessMenu whereUpdatedAt($value)
  * @method static Builder|AccessMenu whereUpdatedBy($value)
  * @mixin Eloquent
+ * @property-read \App\Models\Menu $menu
+ * @property-read \App\Models\Modul $modul
+ * @property-read \App\Models\UserGroup $userGroup
  */
 class AccessMenu extends Model
 {
@@ -51,5 +54,16 @@ class AccessMenu extends Model
 
     public $incrementing = false;
 
+    public function userGroup(){
+        return $this->belongsTo(UserGroup::class,'app_group_user_id','id');
+    }
+
+    public function modul(){
+        return $this->belongsTo(Modul::class,'app_modul_id','id');
+    }
+
+    public function menu(){
+        return $this->belongsTo(Menu::class,'app_menu_id','id');
+    }
 
 }

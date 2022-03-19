@@ -41,8 +41,6 @@
                     <a href="{{ url($value->menus->first()->route) }}">{{ $value->name }}</a>
                 </span>
             @endforeach
-            {{--            <span class="modul-item active mx-2 p-2"><a href="#">Setting</a></span>--}}
-            {{--            <span class="modul-item mx-2 p-2"><a href="#">Produksi</a></span>--}}
         </div>
     </div>
 </div>

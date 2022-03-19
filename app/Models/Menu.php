@@ -47,6 +47,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Menu whereUpdatedAt($value)
  * @method static Builder|Menu whereUpdatedBy($value)
  * @mixin Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccessMenu[] $accessMenu
+ * @property-read int|null $access_menu_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Menu[] $menuChild
+ * @property-read int|null $menu_child_count
  */
 class Menu extends Model
 {
@@ -70,6 +74,14 @@ class Menu extends Model
     public function menuChild(): HasMany
     {
         return $this->hasMany(Menu::class,"app_menu_id_parent",'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function accessMenu(): HasMany
+    {
+        return $this->hasMany(AccessMenu::class,'app_menu_id','id');
     }
 
     /**

@@ -124,7 +124,7 @@ class UserController extends Controller
                 'app_group_user_id' => $post['app_group_user_id'],
                 'name' => $post['name'],
                 'username' => $post['username'],
-                'password' => bcrypt($post['password']),
+                'password' => $post['password'],
                 'email' => $post['email'],
                 'status' => $post['status'],
             ];

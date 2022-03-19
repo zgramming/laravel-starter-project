@@ -19,11 +19,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'username'=> 'zeffry.reynando',
-            'name' => "Zeffry Reynando",
-            'email' => "zeffry.reynando@gmail.com",
+            'username'=> 'superadmin',
+            'name' => "Super Admin",
+            'email' => "superadmin@gmail.com",
             'email_verified_at' => now(),
-            'password' => bcrypt("superadmin"), // password
+            'password' => "superadmin", // password
             'remember_token' => Str::random(10),
             'app_group_user_id' => 1,
             'status'=> 'active',
