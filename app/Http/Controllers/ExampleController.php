@@ -259,7 +259,7 @@ class ExampleController extends Controller
             $post = request()->all();
             /// Unique:NAMA_TABLE,NAMA_COLUMN
             $uniqueCode = ($example == null) ? "unique:".Constant::TABLE_EXAMPLE.",code" :  Rule::unique(Constant::TABLE_EXAMPLE,'code')->using(function(\Illuminate\Database\Query\Builder $query) use($post,$example){
-                $query->where('code', '=', $post['code'])
+                $query->where('code', '=', $post['input_code'])
                     ->where('id','!=',$example->id);
             });
 
