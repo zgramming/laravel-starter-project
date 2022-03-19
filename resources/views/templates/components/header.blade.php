@@ -35,12 +35,17 @@
 </style>
 <div class="card">
     <div class="card-content card-body">
-        <div class="d-flex flex-wrap flex-row-reverse align-items-center">
-            @foreach($moduls as $key => $value)
-                <span class="modul-item {{ request()->is($value->pattern) ? "active" : "" }} mx-2 my-2">
-                    <a href="{{ url($value->menus->first()->route) }}">{{ $value->name }}</a>
-                </span>
-            @endforeach
+        <div class="d-flex flex-row">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+            <div class="d-flex flex-wrap flex-row-reverse align-items-center w-100" >
+                @foreach($moduls as $key => $value)
+                    <span class="modul-item {{ request()->is($value->pattern) ? "active" : "" }} mx-2 my-2">
+                        <a href="{{ url($value->menus->first()->route) }}">{{ $value->name }}</a>
+                    </span>
+                @endforeach
+            </div>
         </div>
     </div>
 </div>
