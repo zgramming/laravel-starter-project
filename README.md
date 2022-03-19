@@ -16,8 +16,21 @@
 # Starter Laravel Project
 
 Dibuatnya project ini karena saya membutuhkan starter project yang didalamnya sudah terdapat fungsi dan template.
-Beberapa fitur yang ada di starter project ini yaitu : 
 
+## Installasi
+
+Proses instalasinya +- sama seperti clone project laravel pada umumnya, yaitu :
+
+1. `git clone https://github.com/zgramming/laravel-starter-project.git`
+2. `cp .env.example .env` silahkan setup database sesuai keinginan
+3. `php artisan key:generate`
+4. `php artisan migrate:fresh --seed`
+5. `composer install`
+6. `php artisan serve`
+7. Buka browser dengan url `http://127.0.0.1:8000`
+
+
+## Fitur
 
 ### 1. <a href="https://yajrabox.com/docs/laravel-datatables/master/installation" target="_blank">Laravel Yajra Datatable</a>
 Beberapa fitur yang sudah ada untuk datatable yaitu :
