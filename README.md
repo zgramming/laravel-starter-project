@@ -23,9 +23,9 @@ Proses instalasinya +- sama seperti clone project laravel pada umumnya, yaitu :
 
 1. `git clone https://github.com/zgramming/laravel-starter-project.git`
 2. `cp .env.example .env` silahkan setup database sesuai keinginan
-3. `php artisan key:generate`
-4. `php artisan migrate:fresh --seed`
-5. `composer install`
+3. `composer install`
+4. `php artisan key:generate`
+5. `php artisan migrate:fresh --seed`
 6. `php artisan serve`
 7. Buka browser dengan url `http://127.0.0.1:8000`
 
