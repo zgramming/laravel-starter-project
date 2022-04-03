@@ -18,9 +18,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->unsignedInteger('app_group_user_id');
             $table->unsignedInteger('app_modul_id');
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
             $table->timestamps();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+
+            $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
+            $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
             $table->foreign('app_group_user_id')->references('id')->on(Constant::TABLE_APP_GROUP_USER)->cascadeOnDelete();
             $table->foreign('app_modul_id')->references('id')->on(Constant::TABLE_APP_MODUL)->cascadeOnDelete();
         });

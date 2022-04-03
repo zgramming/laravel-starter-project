@@ -26,6 +26,11 @@ return new class extends Migration
             $table->enum('status', ['active', 'not_active', 'none']);
             $table->timestamps();
             $table->foreign('app_group_user_id')->references('id')->on(Constant::TABLE_APP_GROUP_USER)->cascadeOnDelete();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+
+            $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
+            $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
         });
     }
 

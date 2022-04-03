@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('code', 50)->unique();
             $table->string('name', 100);
             $table->enum('status', ['active', 'not_active', 'none']);
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();
         });
     }

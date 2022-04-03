@@ -33,7 +33,7 @@ class AuthController extends Controller
         /// If you want change authentication method using username instead of email, you can follow link in below.
         /// Don't forget to change input type from email to username in login.blade.php >.<
         /// Reference [https://stackoverflow.com/a/31852437/7360353]
-
+        /// Testing Github Signing Commit
         try {
             $post = request()->all();
 

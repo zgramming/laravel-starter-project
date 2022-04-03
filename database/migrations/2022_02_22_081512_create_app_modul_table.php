@@ -22,9 +22,12 @@ return new class extends Migration
             $table->string('pattern', 100);
             $table->string('icon_name', 50)->nullable();
             $table->enum('status', ['active', 'not_active', 'none']);
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
             $table->timestamps();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+
+            $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
+            $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
         });
     }
 

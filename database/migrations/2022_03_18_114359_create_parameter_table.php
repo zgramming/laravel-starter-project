@@ -21,6 +21,11 @@ return new class extends Migration
             $table->text('value');
             $table->enum('status',Constant::STATUSENUM)->default('active');
             $table->timestamps();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+
+            $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
+            $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
         });
     }
 

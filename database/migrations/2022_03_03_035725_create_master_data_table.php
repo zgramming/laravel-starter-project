@@ -32,8 +32,13 @@ return new class extends Migration
             $table->string('parameter3_value',50)->nullable();
             $table->string('parameter4_value',50)->nullable();
             $table->string('parameter5_value',50)->nullable();
-            $table->foreign('master_category_id')->references('id')->on(Constant::TABLE_MST_CATEGORY)->cascadeOnDelete();
             $table->timestamps();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
+
+            $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
+            $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
+            $table->foreign('master_category_id')->references('id')->on(Constant::TABLE_MST_CATEGORY)->cascadeOnDelete();
         });
     }
 

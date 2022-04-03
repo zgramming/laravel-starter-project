@@ -22,10 +22,12 @@ return new class extends Migration
 
             /// Jangan lupa di casting pada model nantinya menjadi array
             $table->json('allowed_access');
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
             $table->timestamps();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
 
+            $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
+            $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
             $table->foreign('app_group_user_id')->references('id')->on(Constant::TABLE_APP_GROUP_USER)->cascadeOnDelete();
             $table->foreign('app_modul_id')->references('id')->on(Constant::TABLE_APP_MODUL)->cascadeOnDelete();
             $table->foreign('app_menu_id')->references('id')->on(Constant::TABLE_APP_MENU)->cascadeOnDelete();
