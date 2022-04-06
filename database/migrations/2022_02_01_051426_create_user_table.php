@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create(Constant::TABLE_APP_USER, function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('app_group_user_id')->default(1)->nullable();
             $table->string('username')->unique();
@@ -41,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists(Constant::TABLE_APP_USER);
     }
 };

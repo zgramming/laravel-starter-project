@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -92,7 +93,7 @@ class ModulController extends Controller
         try {
             $modul = Modul::find($id);
             $post = request()->all();
-            $uniqueCode = ($modul == null) ? "unique:".Constant::TABLE_APP_MODUL :  Rule::unique(Constant::TABLE_APP_MODUL,'code')->using(function(\Illuminate\Database\Eloquent\Builder $query) use($post,$modul){
+            $uniqueCode = ($modul == null) ? "unique:".Constant::TABLE_APP_MODUL :  Rule::unique(Constant::TABLE_APP_MODUL,'code')->using(function(Builder $query) use($post,$modul){
                 $query->where('code', '=', $post['code'])
                     ->where('id','!=',$modul->id);
             });
