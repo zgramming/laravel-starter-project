@@ -67,7 +67,7 @@ class AccessModulController extends Controller
      */
     public function form_modal(int $idUserGroup = 0): Factory|View|Application
     {
-        $moduls = Modul::all();
+        $moduls = Modul::whereStatus("active")->get();
 
         $keys = [];
         $keys['group'] = UserGroup::find($idUserGroup);
