@@ -38,7 +38,7 @@ class AuthController extends Controller
             $post = request()->all();
 
             $rules = [
-                'email' => ['required', 'email'],
+                'username' => ['required'],
                 'password' => ['required'],
             ];
 
@@ -46,15 +46,15 @@ class AuthController extends Controller
             if ($validator->fails()) return back()->withErrors($validator->messages())->withInput();
 
             $data = [
-                'email' => $post['email'],
+                'username' => $post['username'],
                 'password' => $post['password'],
             ];
 
-            if (!Auth::attempt($data)) throw new Exception("Email atau Password yang dimasukkan tidak valid", 404);
+            if (!Auth::attempt($data)) throw new Exception("Username atau Password yang dimasukkan tidak valid", 404);
 
-            $user = User::with(['userGroup'])->where("email", "=", $post['email'])->first();
+            $user = User::with(['userGroup'])->where("username", "=", $post['username'])->first();
             $access = $this->checkAccessModulAndMenu($user?->userGroup?->id);
-            if (empty($access)) throw new Exception("Account dengan email $user->email belum mempunyai access, silahkan hubungi admin", 404);
+            if (empty($access)) throw new Exception("Account dengan username $user->username belum mempunyai access, silahkan hubungi admin", 404);
 
             $initialRoute = $access->first()->menus->first()->route;
 

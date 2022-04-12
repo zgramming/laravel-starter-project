@@ -38,10 +38,10 @@
 
                 <form action="{{ route('login') }}" method="post" enctype="multipart/form-data" id="form_validation">
                     <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="email" name="email" class="form-control form-control-xl" placeholder="Email"
+                        <input type="text" name="username" class="form-control form-control-xl" placeholder="Username"
                                required>
                         <div class="form-control-icon">
-                            <i class="bi bi-mailbox"></i>
+                            <i class="bi bi-person"></i>
                         </div>
                     </div>
                     <div class="form-group position-relative has-icon-left">
