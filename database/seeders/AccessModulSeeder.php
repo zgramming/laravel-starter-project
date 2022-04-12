@@ -13,11 +13,7 @@ class AccessModulSeeder extends Seeder
         [
             'app_group_user_id'=> 1,
             'app_modul_id'=> 1,
-        ],
-        [
-            'app_group_user_id'=> 1,
-            'app_modul_id'=> 2,
-        ],
+        ]
     ];
     /**
      * Run the database seeds.

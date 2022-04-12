@@ -15,15 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        $this->call(ExampleSeeder::class);
-//        $this->call(AppGroupUserSeeder::class);
-//        $this->call(ModulSeeder::class);
-//        $this->call(MenuSeeder::class);
-//        $this->call(AccessModulSeeder::class);
-//        $this->call(AccessMenuSeeder::class);
-//        $this->call(MasterCategorySeeder::class);
-//        $this->call(MasterDataSeeder::class);
-//        $this->call(ParameterSeeder::class);
-//        User::factory(1)->create();
+        $this->call(ExampleSeeder::class);
+        $this->call(AppGroupUserSeeder::class);
+        $this->call(ModulSeeder::class);
+        $this->call(MenuSeeder::class);
+        $this->call(AccessModulSeeder::class);
+        $this->call(AccessMenuSeeder::class);
+        $this->call(MasterCategorySeeder::class);
+        $this->call(MasterDataSeeder::class);
+        $this->call(ParameterSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }

@@ -16,16 +16,7 @@ class ModulSeeder extends Seeder
             'pattern' => 'setting/*',
             'icon_name' => null,
             'status' => 'active',
-        ],
-        [
-            'id' => 2,
-            'code' => 'DKM',
-            'name' => "Dokumentasi",
-            'order' => 99,
-            'pattern' => 'dokumentasi/*',
-            'icon_name' => null,
-            'status' => 'active',
-        ],
+        ]
     ];
 
     /**

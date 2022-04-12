@@ -90,7 +90,7 @@ class AccessMenuSeeder extends Seeder
         ],
         [
             'app_group_user_id' => 1,
-            'app_modul_id'=> 2,
+            'app_modul_id'=> 1,
             'app_menu_id'=> 14,
             'allowed_access'=> ['view','add','delete','edit','print','approve'],
         ],
