@@ -100,7 +100,7 @@
                 },
                 columns : [
                     {data: 'DT_RowIndex',orderable :false, searchable : false},
-                    {data: 'app_group_user_id'},
+                    {data: 'user_group.name'},
                     {data: 'username'},
                     {data: 'name'},
                     {data: 'status'},

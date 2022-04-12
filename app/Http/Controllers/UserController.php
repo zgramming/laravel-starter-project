@@ -37,7 +37,7 @@ class UserController extends Controller
     {
         if (!request()->ajax()) return view('error.notfound');
 
-        $values = User::whereNotNull('id');
+        $values = User::with(['userGroup'])->whereNotNull('id');
         $datatable = DataTables::of($values)
             ->addIndexColumn()
             ->filter(function (Builder $query) {
