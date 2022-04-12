@@ -3,18 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\AccessModul;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Modul;
+use App\Models\UserGroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class AccessModulSeeder extends Seeder
 {
-    protected array $datas = [
-        [
-            'app_group_user_id'=> 1,
-            'app_modul_id'=> 1,
-        ]
-    ];
     /**
      * Run the database seeds.
      *
@@ -22,9 +17,15 @@ class AccessModulSeeder extends Seeder
      */
     public function run()
     {
-        foreach ($this->datas as $key => $value){
-            $value['id'] = Str::uuid();
-            AccessModul::create($value);
+        $modul = Modul::all();
+        $superadmin = UserGroup::where("code", "=", "superadmin")->first();
+
+        foreach ($modul as $key => $value) {
+            AccessModul::create([
+                "id" => Str::uuid(),
+                "app_group_user_id" => $superadmin->id,
+                "app_modul_id" => $value->id,
+            ]);
         }
     }
 }
