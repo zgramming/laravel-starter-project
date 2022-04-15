@@ -13,6 +13,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
+use Session;
 use Throwable;
 
 class AuthController extends Controller
@@ -73,8 +74,13 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    /**
+     * @return RedirectResponse
+     */
+    public function logout(): RedirectResponse
     {
-
+        Session::flush();
+        Auth::logout();
+        return to_route("login");
     }
 }

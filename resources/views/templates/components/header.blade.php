@@ -39,6 +39,12 @@
                 <i class="bi bi-justify fs-3"></i>
             </a>
             <div class="d-flex flex-wrap flex-row-reverse align-items-center w-100" >
+                <span class="modul-item mx-2 my-2">
+                    <a href="#" class="btn-logout text-red" onclick="event.preventDefault(); document.getElementById('form-logout').submit();">Logout</a>
+                </span>
+                <form action=" {{ route("logout") }}" id="form-logout" method="post" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
                 @foreach($moduls as $key => $value)
                     <span class="modul-item {{ request()->is($value->pattern) ? "active" : "" }} mx-2 my-2">
                         <a href="{{ url($value->menus->first()->route) }}">{{ $value->name }}</a>
