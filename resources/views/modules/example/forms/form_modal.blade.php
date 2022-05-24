@@ -7,10 +7,9 @@
 {{--    </div>--}}
 {{--</div>--}}
 
+{{--    <form id="form_modal_validation"> --}}
 {{--<div class="modal-body">--}}
-{{--    <form action="{{ url("setting/example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">--}}
 {{--        @csrf--}}
-{{--    </form>--}}
 {{--</div>--}}
 
 {{--<div class="modal-footer">--}}
@@ -18,22 +17,23 @@
 {{--        <i class="bx bx-x d-block d-sm-none"></i>--}}
 {{--        <span class="d-sm-block d-none">Close</span>--}}
 {{--    </button>--}}
-{{--    <button type="submit" class="btn btn-primary" name="btn-submit" form="form_validation">--}}
+{{--    <button type="submit" class="btn btn-primary" name="btn-submit">--}}
 {{--        <i class="bx bx-check d-block d-sm-none"></i>--}}
 {{--        <span class="d-sm-block d-none">Submit</span>--}}
 {{--    </button>--}}
 {{--</div>--}}
+{{--    </form>--}}
 
 {{--<script type="text/javascript">--}}
 {{--    $(document).ready(function(e){--}}
-{{--        $("#form_validation").validate({--}}
+{{--        $("#form_modal_validation").validate({--}}
 {{--            rules : {--}}
 {{--            },--}}
 {{--            messages : {--}}
 {{--            }--}}
 {{--        });--}}
 
-{{--        $('#form_validation').on('submit',function(e){--}}
+{{--        $('#form_modal_validation').on('submit',function(e){--}}
 {{--            e.preventDefault();--}}
 {{--            const form = $(this);--}}
 {{--            if(!form.valid()) return false;--}}
@@ -70,8 +70,8 @@
     </div>
 </div>
 
+<form  id="form_modal_validation">
 <div class="modal-body">
-    <form action="{{ url("setting/example/save",[$example?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
 
         <div class="row mb-3">
             <label for="input_code" class="col-sm-12 col-md-12 col-form-label">Kode</label>
@@ -163,7 +163,6 @@
             </div>
         </div>
         @csrf
-    </form>
 </div>
 
 <div class="modal-footer">
@@ -171,15 +170,16 @@
         <i class="bx bx-x d-block d-sm-none"></i>
         <span class="d-sm-block d-none">Close</span>
     </button>
-    <button type="submit" class="btn btn-primary" name="btn-submit" form="form_validation">
+    <button type="submit" class="btn btn-primary" name="btn-submit">
         <i class="bx bx-check d-block d-sm-none"></i>
         <span class="d-sm-block d-none">Accept</span>
     </button>
 </div>
+    </form>
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#form_validation").validate({
+        $("#form_modal_validation").validate({
             rules : {
                 "input_current_money" : {
                     range : [100000,999999]
@@ -200,7 +200,7 @@
             }
         });
 
-        $('#form_validation').on('submit',function(e){
+        $('#form_modal_validation').on('submit',function(e){
             e.preventDefault();
             const form = $(this);
             if(!form.valid()) return false;
