@@ -28,7 +28,7 @@ $currentSegment = implode("/",request()->segments());
                     {{-- Jika menu bukan parent / hanya berdiri sendiri --}}
                     @if(empty($menu['menu_child']))
                         <li
-                            class="sidebar-item {{ $menu['route'] ===  $currentSegment ? "active" : "" }}">
+                            class="sidebar-item {{ Str::contains($currentSegment,$menu['route'])  ? "active" : "" }}">
                             <a href="{{ url($menu['route']) }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>{{ $menu['name'] }}</span>
