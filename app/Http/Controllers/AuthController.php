@@ -18,69 +18,68 @@ use Throwable;
 
 class AuthController extends Controller
 {
-    use UserTrait;
+	use UserTrait;
 
-    public function index(): Factory|View|Application
-    {
-        $keys = [];
-        return view("modules.login", $keys);
-    }
+	public function index(): Factory|View|Application
+	{
+		$keys = [];
+		return view("modules.login", $keys);
+	}
 
-    /**
-     * @return Redirector|RedirectResponse|Application
-     */
-    public function login(): Redirector|RedirectResponse|Application
-    {
-        /// If you want change authentication method using username instead of email, you can follow link in below.
-        /// Don't forget to change input type from email to username in login.blade.php >.<
-        /// Reference [https://stackoverflow.com/a/31852437/7360353]
-        /// Testing Github Signing Commit
-        try {
-            $post = request()->all();
+	/**
+	 * @return Redirector|RedirectResponse|Application
+	 */
+	public function login(): Redirector|RedirectResponse|Application
+	{
+		/// If you want change authentication method using username instead of email, you can follow link in below.
+		/// Don't forget to change input type from email to username in login.blade.php >.<
+		/// Reference [https://stackoverflow.com/a/31852437/7360353]
+		try {
+			$post = request()->all();
 
-            $rules = [
-                'username' => ['required'],
-                'password' => ['required'],
-            ];
+			$rules = [
+				'username' => ['required'],
+				'password' => ['required'],
+			];
 
-            $validator = Validator::make($post, $rules);
-            if ($validator->fails()) return back()->withErrors($validator->messages())->withInput();
+			$validator = Validator::make($post, $rules);
+			if ($validator->fails()) return back()->withErrors($validator->messages())->withInput();
 
-            $data = [
-                'username' => $post['username'],
-                'password' => $post['password'],
-            ];
+			$data = [
+				'username' => $post['username'],
+				'password' => $post['password'],
+			];
 
-            if (!Auth::attempt($data)) throw new Exception("Username atau Password yang dimasukkan tidak valid", 404);
+			if (!Auth::attempt($data)) throw new Exception("Username atau Password yang dimasukkan tidak valid", 404);
 
-            $user = User::with(['userGroup'])->where("username", "=", $post['username'])->first();
-            $access = $this->checkAccessModulAndMenu($user?->userGroup?->id);
-            if (empty($access)) throw new Exception("Account dengan username $user->username belum mempunyai access, silahkan hubungi admin", 404);
+			$user = User::with(['userGroup'])->where("username", "=", $post['username'])->first();
+			$access = $this->checkAccessModulAndMenu($user?->userGroup?->id);
+			if (empty($access)) throw new Exception("Account dengan username $user->username belum mempunyai access, silahkan hubungi admin", 404);
 
-            $initialRoute = $access->first()->menus->first()->route;
+			$initialRoute = $access->first()->menus->first()->route;
 
-            request()->session()->regenerate();
-            return redirect($initialRoute);
-        } catch (QueryException $e) {
-            $message = $e->getMessage();
-            $code = $e->getCode() ?: 500;
+			request()->session()->regenerate();
+			return redirect($initialRoute);
+		} catch (QueryException $e) {
+			$message = $e->getMessage();
+			$code = $e->getCode() ?: 500;
 
-            return back()->withErrors($message)->withInput();
-        } catch (Throwable $e) {
-            $message = $e->getMessage();
-            $code = $e->getCode() ?: 500;
+			return back()->withErrors($message)->withInput();
+		} catch (Throwable $e) {
+			$message = $e->getMessage();
+			$code = $e->getCode() ?: 500;
 
-            return back()->withErrors($message)->withInput();
-        }
-    }
+			return back()->withErrors($message)->withInput();
+		}
+	}
 
-    /**
-     * @return RedirectResponse
-     */
-    public function logout(): RedirectResponse
-    {
-        Session::flush();
-        Auth::logout();
-        return to_route("login");
-    }
+	/**
+	 * @return RedirectResponse
+	 */
+	public function logout(): RedirectResponse
+	{
+		Session::flush();
+		Auth::logout();
+		return to_route("login");
+	}
 }
