@@ -7,9 +7,10 @@
 {{--    </div>--}}
 {{--</div>--}}
 
-{{--    <form id="form_modal_validation"> --}}
 {{--<div class="modal-body">--}}
+{{--    <form id="form_modal_validation"> --}}
 {{--        @csrf--}}
+{{--    </form>--}}
 {{--</div>--}}
 
 {{--<div class="modal-footer">--}}
@@ -22,7 +23,6 @@
 {{--        <span class="d-sm-block d-none">Submit</span>--}}
 {{--    </button>--}}
 {{--</div>--}}
-{{--    </form>--}}
 
 {{--<script type="text/javascript">--}}
 {{--    $(document).ready(function(e){--}}
@@ -70,9 +70,9 @@
     </div>
 </div>
 
-<form  id="form_modal_validation">
 <div class="modal-body">
 
+    <form id="form_modal_validation">
         <div class="row mb-3">
             <label for="input_code" class="col-sm-12 col-md-12 col-form-label">Kode</label>
             <div class="col-sm-12 col-md-12">
@@ -163,6 +163,7 @@
             </div>
         </div>
         @csrf
+    </form>
 </div>
 
 <div class="modal-footer">
@@ -175,7 +176,6 @@
         <span class="d-sm-block d-none">Accept</span>
     </button>
 </div>
-    </form>
 
 <script type="text/javascript">
     $(document).ready(function(){
