@@ -1,6 +1,10 @@
 @php
     /// Get Modul where has menu
-        $moduls = \App\Models\Modul::with('menus')->whereStatus("active")->whereHas('menus')->get();
+    $moduls = \App\Models\Modul::with('menus')
+    ->orderBy("order","desc")
+    ->whereStatus("active")
+    ->whereHas('menus')
+    ->get();
 @endphp
 
 <style>
