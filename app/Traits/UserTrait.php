@@ -18,6 +18,6 @@ trait UserTrait
             ->whereRelation("accessModul", "app_group_user_id", "=", $idUserGroup)
             ->whereRelation("accessMenu", "app_group_user_id", "=", $idUserGroup)
             ->get();
-        return !empty($modul) ? $modul : null;
+        return $modul->isNotEmpty() ? $modul : null;
     }
 }
