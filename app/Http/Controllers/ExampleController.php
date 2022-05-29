@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Throwable;
@@ -357,8 +358,8 @@ class ExampleController extends Controller
             /// If [TRUE] Delete the file
 
             if ($isDeleted && !empty($example?->profile_image)) {
-                $path = public_path($example->profile_image);
-                if (file_exists($path)) @unlink($path);
+                $path = sprintf("storage/%s/%s", Constant::PATH_IMAGE_EXAMPLE, $example?->profile_image);
+                if (File::exists($path)) File::delete($path);
             }
 
             /// Commit Transaction
