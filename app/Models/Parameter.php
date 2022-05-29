@@ -30,6 +30,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Parameter whereStatus($value)
  * @method static Builder|Parameter whereUpdatedAt($value)
  * @method static Builder|Parameter whereValue($value)
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @method static Builder|Parameter whereCreatedBy($value)
+ * @method static Builder|Parameter whereUpdatedBy($value)
  */
 class Parameter extends Model
 {

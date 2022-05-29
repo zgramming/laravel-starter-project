@@ -58,6 +58,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MasterData whereUpdatedAt($value)
  * @mixin Eloquent
  * @property-read MasterCategory|null $masterCategory
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @method static Builder|MasterData whereCreatedBy($value)
+ * @method static Builder|MasterData whereUpdatedBy($value)
  */
 class MasterData extends Model
 {

@@ -38,6 +38,10 @@ use Illuminate\Support\Carbon;
  * @mixin Eloquent
  * @property-read Collection|MasterData[] $masterData
  * @property-read int|null $master_data_count
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @method static Builder|MasterCategory whereCreatedBy($value)
+ * @method static Builder|MasterCategory whereUpdatedBy($value)
  */
 class MasterCategory extends Model
 {

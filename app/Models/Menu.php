@@ -65,7 +65,7 @@ class Menu extends Model
      */
     public function menuParent(): HasOne
     {
-        return $this->hasOne(Menu::class,"id","app_menu_id_parent");
+        return $this->hasOne(Menu::class, "id", "app_menu_id_parent");
     }
 
     /**
@@ -73,7 +73,7 @@ class Menu extends Model
      */
     public function menuChild(): HasMany
     {
-        return $this->hasMany(Menu::class,"app_menu_id_parent",'id');
+        return $this->hasMany(Menu::class, "app_menu_id_parent", 'id');
     }
 
     /**
@@ -81,7 +81,7 @@ class Menu extends Model
      */
     public function accessMenu(): HasMany
     {
-        return $this->hasMany(AccessMenu::class,'app_menu_id','id');
+        return $this->hasMany(AccessMenu::class, 'app_menu_id', 'id');
     }
 
     /**
@@ -92,6 +92,6 @@ class Menu extends Model
         /// Owner Key = Primary Key
         /// Foreign Key = FK
         /// Link ke [modul] menggunakan FK [menu.app_modul_id] dengan tujuan [modul.id]
-        return $this->belongsTo(Modul::class,"app_modul_id","id");
+        return $this->belongsTo(Modul::class, "app_modul_id", "id");
     }
 }
