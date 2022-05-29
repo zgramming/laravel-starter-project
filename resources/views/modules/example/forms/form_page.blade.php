@@ -133,12 +133,14 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="input_profile" class="col-sm-12 col-md-2 col-form-label">Profile Image</label>
-                    <div class="col-sm-12 col-md-4 d-flex flex-column">
+                    <label for="input_profile" class="col-sm-12 col-md-2 col-form-label">Image</label>
+                    <div class="col-sm-12 col-md-12 d-flex flex-column">
                         <input class="form-control image-upload-preview" id="input_profile" name="input_profile"
                                type="file">
+                        @php($pathImage = sprintf("storage/%s/%s",\App\Constant\Constant::PATH_IMAGE_EXAMPLE,$example?->profile_image))
                         <img alt="Image Error" class="img-fluid img-thumbnail image-upload-preview-item mt-3"
-                             style="min-height: 300px; max-height: 1000px;" src="{{ $example?->profile_image ?? asset('assets/images/samples/broken-image.png') }}">
+                             style="min-height: 300px; max-height: 1000px;"
+                             src="{{ !empty($example?->profile_image) ? asset($pathImage) :  asset(\App\Constant\Constant::PATH_DEFAULT_IMAGE) }}">
                     </div>
                 </div>
 
