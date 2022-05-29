@@ -100,7 +100,7 @@ class ExampleController extends Controller
 
         $datatable = $datatable->addColumn("profile_image", function (Example $item) {
             if ($item?->profile_image == null) return "<span class=\"badge bg-danger\">No Image</span>";
-            $imagePath = asset($item->profile_image);
+            $imagePath = asset(sprintf("storage/%s/%s", Constant::PATH_IMAGE_EXAMPLE, $item->profile_image));
 
             return "<a href='#' onclick=\"openImage('$imagePath')\"><img alt='Image error' src='$imagePath' class='img-fluid img-thumbnail' width='100' style=\"min-height: 100px; max-height: 100px;\"></a>";
         });
@@ -258,13 +258,13 @@ class ExampleController extends Controller
             $example = Example::find($id);
             $post = request()->all();
             /// Unique:NAMA_TABLE,NAMA_COLUMN
-            $uniqueCode = ($example == null) ? "unique:".Constant::TABLE_EXAMPLE.",code" :  Rule::unique(Constant::TABLE_EXAMPLE,'code')->using(function(\Illuminate\Database\Query\Builder $query) use($post,$example){
+            $uniqueCode = ($example == null) ? "unique:" . Constant::TABLE_EXAMPLE . ",code" :  Rule::unique(Constant::TABLE_EXAMPLE, 'code')->using(function (\Illuminate\Database\Query\Builder $query) use ($post, $example) {
                 $query->where('code', '=', $post['input_code'])
-                    ->where('id','!=',$example->id);
+                    ->where('id', '!=', $example->id);
             });
 
             $rules = [
-                'input_code' => ['required',$uniqueCode],
+                'input_code' => ['required', $uniqueCode],
                 'input_name' => 'required',
                 'input_description' => 'required',
                 'input_birth_date' => 'required',
@@ -317,7 +317,6 @@ class ExampleController extends Controller
                 return response()->json(['success' => true, 'message' => $message], 200);
             }
             return redirect('setting/example')->with('success', !empty($id) ? "Berhasil update" : "Berhasil membuat");
-
         } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();
@@ -379,5 +378,4 @@ class ExampleController extends Controller
             return back()->withErrors($message)->withInput();
         }
     }
-
 }
