@@ -25,9 +25,10 @@ Proses instalasinya +- sama seperti clone project laravel pada umumnya, yaitu :
 2. `cp .env.example .env` silahkan setup database sesuai keinginan
 3. `composer install`
 4. `php artisan key:generate`
-5. `php artisan migrate:fresh --seed`
-6. `php artisan serve`
-7. Buka browser dengan url `http://127.0.0.1:8000`
+5. `php artisan storage:link`
+6. `php artisan migrate:fresh --seed`
+7. `php artisan serve`
+8. Buka browser dengan url `http://127.0.0.1:8000`
 
 
 ## Fitur
