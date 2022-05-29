@@ -10,10 +10,11 @@ class Constant
 
     /// Path Image or File
     const PATH_IMAGE_EXAMPLE = "images/example";
+    const PATH_DEFAULT_IMAGE = "assets/images/samples/broken-image.png";
 
     /// Digunakan untuk migration table
-    const STATUSENUM  = ['active','not_active','none'];
-    const STATUSKEYVALUE = ['active'=> "Aktif",'not_active'=>"Tidak Aktif",'none'=>"Tidak Diketahui"];
+    const STATUSENUM  = ['active', 'not_active', 'none'];
+    const STATUSKEYVALUE = ['active' => "Aktif", 'not_active' => "Tidak Aktif", 'none' => "Tidak Diketahui"];
 
 
     /// Table Name Constant
@@ -28,4 +29,3 @@ class Constant
     const TABLE_EXAMPLE = "example";
     const TABLE_PARAMETER = "parameter";
 }
-
