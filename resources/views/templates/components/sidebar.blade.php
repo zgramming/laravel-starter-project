@@ -1,9 +1,17 @@
 @php
-    use App\Models\AccessMenu;use App\Models\Menu;use App\Models\User;
-    $userGroupId = User::with(['userGroup'])->whereId(auth()->id())->first()->userGroup->id;
+    use App\Models\Menu;
+    use App\Models\User;
 
-    $accessMenu = AccessMenu::with(['menu','menu.menuChild'])->whereAppGroupUserId($userGroupId)->get();
-    $currentSegment = implode("/",request()->segments())
+    $userGroupId = User::with(['userGroup'])->whereId(auth()->id())->first()->userGroup->id;
+    $menuByModul = Menu::with(['menuParent','menuChild','accessMenu'])
+    ->where('route','LIKE',request()->segment(1)."%")
+    ->whereRelation("accessMenu","app_group_user_id","=",$userGroupId)
+    ->whereNull('app_menu_id_parent')
+    ->orderBy('order',"asc")
+    ->get()
+    ->toArray();
+
+    $currentSegment = implode("/",request()->segments());
 
 @endphp
 <div id="sidebar" class="active">
@@ -20,27 +28,26 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
-                @foreach($accessMenu as $key => $menu)
-
+                @foreach($menuByModul as $key => $menu)
                     {{-- Jika menu bukan parent / hanya berdiri sendiri --}}
-                    @if(empty($menu['menu']['menu_child']))
+                    @if(empty($menu['menu_child']))
                         <li
-                            class="sidebar-item {{ Str::contains($currentSegment,$menu['menu']['route'])  ? "active" : "" }}">
-                            <a href="{{ url($menu['menu']['route']) }}" class='sidebar-link'>
+                            class="sidebar-item {{ Str::contains($currentSegment,$menu['route'])  ? "active" : "" }}">
+                            <a href="{{ url($menu['route']) }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
-                                <span>{{ $menu['menu']['name'] }}</span>
+                                <span>{{ $menu['name'] }}</span>
                             </a>
                         </li>
-                        {{-- Jika menu parent dan mempunyai anakan menu --}}
-                    @elseif(!empty($menu['menu']['menu_child']))
+                    {{-- Jika menu parent dan mempunyai anakan menu --}}
+                    @elseif(!empty($menu['menu_child']))
                         <li
-                            class="sidebar-item {{ in_array($currentSegment,array_column($menu['menu']['menu_child'],'route')) ? "active" : "" }} has-sub">
+                            class="sidebar-item {{ in_array($currentSegment,array_column($menu['menu_child'],'route')) ? "active" : "" }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-stack"></i>
-                                <span>{{ $menu['menu']['name'] }}</span>
+                                <span>{{ $menu['name'] }}</span>
                             </a>
-                            <ul class="submenu {{ in_array($currentSegment,array_column($menu['menu']['menu_child'],'route')) ? "active" : "" }}">
-                                @foreach($menu['menu']['menu_child'] as $key => $child)
+                            <ul class="submenu {{ in_array($currentSegment,array_column($menu['menu_child'],'route')) ? "active" : "" }}">
+                                @foreach($menu['menu_child'] as $key => $child)
                                     <li class="submenu-item {{ $child['route'] === $currentSegment ? "active" : "" }}">
                                         <a href="{{ url($child['route']) }}">{{ $child['name'] }}</a>
                                     </li>
