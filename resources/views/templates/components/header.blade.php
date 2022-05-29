@@ -1,13 +1,15 @@
 @php
-/// Get Modul where has menu
-$userGroupId = \App\Models\User::with(['userGroup'])->whereId(auth()->id())->first()->userGroup->id;
-$moduls = \App\Models\Modul::with(['menus','accessModul'])
-    ->orderBy("order","desc")
-    ->whereRelation("accessModul","app_group_user_id","=",$userGroupId)
-    ->whereStatus("active")
-    /// Check apakah access modul mempunyai access menu
-    ->whereHas('menus')
-    ->get();
+    /// Get Modul where has menu
+    use App\Models\Modul;use App\Models\User;$userGroupId = User::with(['userGroup'])->whereId(auth()->id())->first()->userGroup->id;
+    $moduls = Modul::with(['menus','accessModul'])
+        ->orderBy("order","desc");
+    if(auth()->user()->username != "superadmin"){
+        $moduls = $moduls->whereRelation("accessModul","app_group_user_id","=",$userGroupId);
+    }
+    $moduls = $moduls->whereStatus("active")
+        /// Check apakah access modul mempunyai access menu
+        ->whereHas('menus')
+        ->get()
 @endphp
 
 <style>
