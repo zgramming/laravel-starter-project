@@ -18,7 +18,7 @@
 {{--        <i class="bx bx-x d-block d-sm-none"></i>--}}
 {{--        <span class="d-sm-block d-none">Close</span>--}}
 {{--    </button>--}}
-{{--    <button type="submit" class="btn btn-primary" name="btn-submit">--}}
+{{--    <button type="submit" class="btn btn-primary" name="btn-submit" form="form_modal_validation">--}}
 {{--        <i class="bx bx-check d-block d-sm-none"></i>--}}
 {{--        <span class="d-sm-block d-none">Submit</span>--}}
 {{--    </button>--}}
@@ -157,9 +157,12 @@
         </div>
 
         <div class="row mb-3">
-            <label for="input_profile" class="col-sm-12 col-md-12 col-form-label">Profile Image</label>
-            <div class="col-sm-12 col-md-12">
-                <input class="form-control" name="input_profile" type="file" id="input_profile">
+            <label for="input_profile" class="col-sm-12 col-md-2 col-form-label">Profile Image</label>
+            <div class="col-sm-12 col-md-4 d-flex flex-column">
+                <input class="form-control image-upload-preview" id="input_profile" name="input_profile"
+                        type="file">
+                <img alt="Image Error" class="img-fluid img-thumbnail image-upload-preview-item mt-3"
+                        style="min-height: 300px; max-height: 1000px;" src="{{ $example?->profile_image ?? asset('assets/images/samples/broken-image.png') }}">
             </div>
         </div>
         @csrf
@@ -171,7 +174,7 @@
         <i class="bx bx-x d-block d-sm-none"></i>
         <span class="d-sm-block d-none">Close</span>
     </button>
-    <button type="submit" class="btn btn-primary" name="btn-submit">
+    <button type="submit" class="btn btn-primary" name="btn-submit" form="form_modal_validation">
         <i class="bx bx-check d-block d-sm-none"></i>
         <span class="d-sm-block d-none">Accept</span>
     </button>
