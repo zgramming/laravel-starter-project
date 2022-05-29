@@ -87,24 +87,25 @@ function unconvertDate(string $date = ""): ?string
  * @return string
  * @throws Exception
  */
-function uploadImage(UploadedFile $file,
-                     string       $path,
-                     ?string      $customName = null,
-                     bool         $returnRelativePath = false,
-                     ?int         $resizeWidth = null,
-                     ?int         $resizeHeight = null): string
-{
+function uploadImage(
+    UploadedFile $file,
+    string       $path,
+    ?string      $customName = null,
+    bool         $returnRelativePath = false,
+    ?int         $resizeWidth = null,
+    ?int         $resizeHeight = null
+): string {
     $name = uniqid() . time() . "." . $file->getClientOriginalExtension();
     if ($customName != null) $name = $customName;
 
     $image = Image::make($file->getRealPath());
 
-    if ($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth, $resizeHeight, fn($constraint) => $constraint->aspectRatio());
+    if ($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth, $resizeHeight, fn ($constraint) => $constraint->aspectRatio());
 
     $store = Storage::disk('public')->put($path . DIRECTORY_SEPARATOR . $name, $image->encode());
     if (!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...", 400);
     if ($returnRelativePath) return Storage::path($path . "/" . $name);
-    return Storage::url($path . "/" . $name);
+    return $name;
 }
 
 /**
@@ -115,12 +116,13 @@ function uploadImage(UploadedFile $file,
  * @return string
  * @throws Exception
  */
-function uploadFile(UploadedFile $file,
-                    string       $path,
-                    ?string      $customName = null,
+function uploadFile(
+    UploadedFile $file,
+    string       $path,
+    ?string      $customName = null,
     /// Is usefull when you need relative path [c:/laragon/www/laravel/www/www/www/ww/w]
-                    bool         $returnRelativePath = false): string
-{
+    bool         $returnRelativePath = false
+): string {
     $name = uniqid() . time() . "." . $file->getClientOriginalExtension();
     if ($customName != null) $name = $customName;
 
@@ -146,7 +148,7 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
 {
 
     /// For debug purpose, we should check performance time
-//    $startTimer = microtime(true);
+    //    $startTimer = microtime(true);
 
     echoFlush("prepare_folder", "Sedang membuat folder penyimpanan sementara", 0.01);
     /// Create folder if not exists, when exists do nothing
@@ -175,7 +177,7 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
         $no = $no + count($chunk);
         echoFlush("read_row", "Sedang membaca data ke-$no", sleep: 0.020);
 
-        $tempArr = $chunk->map(fn($value) => WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
+        $tempArr = $chunk->map(fn ($value) => WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
         $writer->addRows($tempArr);
     }
 
@@ -185,7 +187,7 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
     echo "\n";
 
     /// For Debug Purpose
-//    $endTimer = microtime(true) - $startTimer;
+    //    $endTimer = microtime(true) - $startTimer;
 
     $result = [
         'relativePath' => Storage::disk('public')->path("$folder/$filename"),
@@ -210,7 +212,7 @@ function importSpout(UploadedFile $file, callable $callback): Collection
 {
 
     /// For debug purpose, we should check performance time
-//    $startTimer = microtime(true);
+    //    $startTimer = microtime(true);
 
     echoFlush("prepare_file", "Sedang mempersiapkan file untuk diimport", 0.0000001);
     $uploadedFile = uploadFile(file: $file, path: 'temp/import', returnRelativePath: true);
@@ -243,8 +245,8 @@ function importSpout(UploadedFile $file, callable $callback): Collection
     echo "\n";
 
     /// For Debug Purpose
-//    $endTimer = microtime(true) - $startTimer;
-//    dd($tempArr);
+    //    $endTimer = microtime(true) - $startTimer;
+    //    dd($tempArr);
     return collect(value: $tempArr);
 }
 
