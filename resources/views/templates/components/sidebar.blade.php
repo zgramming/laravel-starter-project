@@ -5,9 +5,13 @@
     $userGroupId = User::with(['userGroup'])->whereId(auth()->id())->first()->userGroup->id;
     $menuByModul = Menu::with(['menuParent','menuChild','accessMenu'])
     ->where('route','LIKE',request()->segment(1)."%")
-    ->whereRelation("accessMenu","app_group_user_id","=",$userGroupId)
-    ->whereNull('app_menu_id_parent')
-    ->orderBy('order',"asc")
+    ->whereNull('app_menu_id_parent');
+
+    if(auth()->user()->username != "superadmin"){
+        $menuByModul = $menuByModul->whereRelation("accessMenu","app_group_user_id","=",$userGroupId);
+    }
+
+    $menuByModul = $menuByModul->orderBy('order',"asc")
     ->get()
     ->toArray();
 
