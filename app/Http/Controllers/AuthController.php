@@ -58,7 +58,9 @@ class AuthController extends Controller
                 throw new Exception("Account dengan username $user->username belum mempunyai access, silahkan hubungi admin", 404);
             }
 
-			$initialRoute = $access->first()->accessMenu->first()->menu->route;
+			/// Get first menu in modul setting [MANAGEMENT USER] & Extract the route
+			$accessMenu = collect($access->first()->accessMenu->sortBy("app_menu_id",SORT_ASC));
+			$initialRoute = $accessMenu->first()->menu->route;
 
 			request()->session()->regenerate();
 			return redirect($initialRoute);
