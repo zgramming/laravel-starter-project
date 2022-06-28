@@ -41,7 +41,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('setting/user', [UserController::class, 'index']);
     Route::get('setting/user/datatable', [UserController::class, 'datatable']);
     Route::get('setting/user/form_modal/{id}', [UserController::class, 'form_modal']);
+    Route::get('setting/user/form_modal_reset_password/{id}', [UserController::class, 'form_modal_reset_password']);
     Route::post('setting/user/save/{id}', [UserController::class, 'save']);
+    Route::post('setting/user/reset_password/{id}', [UserController::class, 'reset_password']);
     Route::delete('setting/user/delete/{id}', [UserController::class, 'delete']);
 
     /**

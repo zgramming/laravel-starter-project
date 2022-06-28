@@ -54,12 +54,14 @@ class UserController extends Controller
             })->addColumn('action', function (User $item) {
                 $urlUpdate = url('setting/user/form_modal/' . $item->id);
                 $urlDelete = url('setting/user/delete/' . $item->id);
+                $urlResetPassword = url("setting/user/form_modal_reset_password/$item->id");
 
                 $field = csrf_field();
                 $method = method_field('DELETE');
                 return "
                 <div class='d-flex flex-row'>
                     <a href=\"#\" class=\"btn btn-primary mx-1\" onclick=\"openBox('$urlUpdate')\"><i class=\"fa fa-edit\"></i></a>
+                    <a href=\"#\" class=\"btn btn-info mx-1\" onclick=\"openBox('$urlResetPassword',{size : 'modal-lg'})\"><i class='fa fa-key'></i></a>
                     <form action=\"$urlDelete\" method=\"post\">
                         $field
                         $method
@@ -80,6 +82,16 @@ class UserController extends Controller
         $keys['statuses'] = Constant::STATUSKEYVALUE;
 
         return \view('modules.settings.user.forms.form_modal', $keys);
+    }
+
+    public function form_modal_reset_password(int $id = 0): Factory|View|Application
+    {
+        $keys = [
+            'row' => User::find($id),
+            'statuses' => Constant::STATUSKEYVALUE,
+        ];
+
+        return \view("modules.settings.user.forms.form_modal_reset_password", $keys);
     }
 
     /**
@@ -187,6 +199,46 @@ class UserController extends Controller
 
             $message = $e->getMessage();
             return back()->withErrors($message)->withInput();
+        }
+    }
+
+
+    /**
+     * @throws Throwable
+     */
+    public function reset_password(int $id = 0): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+            $post = request()->all();
+            $rules = [
+                'new_password' => ['required']
+            ];
+
+            $validator = Validator::make($post, $rules);
+            if ($validator->fails()) return response()->json([
+                'success' => false,
+                'errors' => $validator->messages(),
+            ], 400);
+
+            $data = ['password' => $post['new_password']];
+            $result = User::updateOrCreate(['id' => $id], $data);
+            if (!$result) throw new Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...", 400);
+
+            $message = "Berhasil reset password";
+            session()->flash('success', $message);
+            DB::commit();
+            return response()->json(['success' => true, 'message' => $message], 200);
+        } catch (QueryException $e) {
+            $message = $e->getMessage();
+            $code = $e->getCode() ?: 500;
+            DB::rollBack();
+            return response()->json(['success' => false, 'errors' => $message], $code);
+        } catch (Throwable $e) {
+            $message = $e->getMessage();
+            $code = $e->getCode() ?: 500;
+            DB::rollBack();
+            return response()->json(['success' => false, 'errors' => $message], $code);
         }
     }
 }
