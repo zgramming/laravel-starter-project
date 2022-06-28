@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 
 /// Make sure you have install [https://github.com/barryvdh/laravel-ide-helper]
@@ -63,7 +65,7 @@ use Illuminate\Support\Carbon;
  */
 class Example extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     // Jika ingin custom nama table
     protected $table = Constant::TABLE_EXAMPLE;
@@ -99,7 +101,11 @@ class Example extends Model
         'hobby' => 'array'
     ];
 
-
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
+    
     // Relationship
 
     /**

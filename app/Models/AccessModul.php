@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\AccessModul
@@ -37,7 +39,7 @@ use Illuminate\Support\Carbon;
 
 class AccessModul extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = Constant::TABLE_APP_ACCESS_MODUL;
 
@@ -46,6 +48,11 @@ class AccessModul extends Model
     protected $keyType = 'string';
 
     protected $guarded = [];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     /**
      * @return BelongsTo
@@ -62,5 +69,4 @@ class AccessModul extends Model
     {
         return $this->belongsTo(UserGroup::class, 'app_group_user_id', 'id');
     }
-
 }

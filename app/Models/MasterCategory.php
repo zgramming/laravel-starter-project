@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\MasterCategory
@@ -45,11 +47,16 @@ use Illuminate\Support\Carbon;
  */
 class MasterCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = Constant::TABLE_MST_CATEGORY;
 
     protected $guarded = [];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
 
     public function categoryParent(): HasOne
     {

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\UserGroup
@@ -40,11 +42,16 @@ use Illuminate\Support\Carbon;
  */
 class UserGroup extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = Constant::TABLE_APP_GROUP_USER;
 
     protected $guarded = [];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
 
     /**
      * @return HasMany

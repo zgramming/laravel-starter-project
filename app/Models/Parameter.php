@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Parameter
@@ -37,10 +39,14 @@ use Illuminate\Support\Carbon;
  */
 class Parameter extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = Constant::TABLE_PARAMETER;
 
     protected $guarded = [];
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
 }

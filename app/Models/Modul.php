@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Modul
@@ -49,10 +51,15 @@ use Illuminate\Support\Carbon;
  */
 class Modul extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = Constant::TABLE_APP_MODUL;
     protected $guarded = [];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
 
     /**
      * @return HasMany

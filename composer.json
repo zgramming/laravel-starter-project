@@ -16,6 +16,7 @@
         "laravel/framework": "^9.13",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
+        "spatie/laravel-activitylog": "^4.5",
         "yajra/laravel-datatables-oracle": "^10.0.7"
     },
     "require-dev": {

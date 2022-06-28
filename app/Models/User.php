@@ -17,6 +17,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 
 /**
@@ -61,7 +63,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, LogsActivity;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -83,6 +85,11 @@ class User extends Authenticatable
     ];
 
     protected $guarded = [];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
 
     /**
      * Always make password to bcrypt when insert into database

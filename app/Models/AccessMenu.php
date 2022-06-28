@@ -7,7 +7,10 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\AccessMenu
@@ -40,7 +43,7 @@ use Illuminate\Support\Carbon;
  */
 class AccessMenu extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = Constant::TABLE_APP_ACCESS_MENU;
 
@@ -54,16 +57,23 @@ class AccessMenu extends Model
 
     public $incrementing = false;
 
-    public function userGroup(){
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logAll();
+    }
+
+    public function userGroup(): BelongsTo
+    {
         return $this->belongsTo(UserGroup::class,'app_group_user_id','id');
     }
 
-    public function modul(){
+    public function modul(): BelongsTo
+    {
         return $this->belongsTo(Modul::class,'app_modul_id','id');
     }
 
-    public function menu(){
+    public function menu(): BelongsTo
+    {
         return $this->belongsTo(Menu::class,'app_menu_id','id');
     }
-
 }
