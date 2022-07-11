@@ -16,13 +16,15 @@ class MasterCategorySeeder extends Seeder
     public function run()
     {
         $datas =  [
+            [
             'code' => 'testing',
             'name' => "Kategori Testing",
             'description'=>'Deskripsi Kategori Testing',
             'status'=>'active',
+           ],
         ];
 
-        foreach($this->datas as $key => $value){
+        foreach($datas as $key => $value){
             MasterCategory::create($value);
         }
     }
