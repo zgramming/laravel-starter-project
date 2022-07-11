@@ -45,7 +45,7 @@
         <div class="row mb-3">
             <label for="description" class="col-sm-12 col-md-12 col-form-label">Deskripsi</label>
             <div class="col-sm-12 col-md-12">
-                <textarea name="description" id="description" class="form-control" rows="3" required>{{$master?->description}}</textarea>
+                <textarea name="description" id="description" class="form-control" rows="3">{{$master?->description}}</textarea>
             </div>
         </div>
 
