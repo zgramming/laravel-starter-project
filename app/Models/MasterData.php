@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -76,12 +77,17 @@ class MasterData extends Model
     {
         return LogOptions::defaults()->logAll();
     }
-    
+
     /**
      * @return BelongsTo
      */
     public function masterCategory(): BelongsTo
     {
         return $this->belongsTo(MasterCategory::class,'id','master_category_id');
+    }
+
+    public function masterParent(): HasOne
+    {
+        return $this->hasOne(MasterData::class,'id','master_data_id');
     }
 }

@@ -67,6 +67,7 @@
                                 <thead>
                                 <tr>
                                     <th style="min-width: 50px">No</th>
+                                    <th style="min-width: 50px">Parent</th>
                                     <th style="min-width: 200px">Kode</th>
                                     <th style="min-width: 200px">Nama</th>
                                     <th style="min-width: 200px">Status</th>
@@ -107,6 +108,7 @@
                 },
                 columns : [
                     {data: 'DT_RowIndex',orderable :false, searchable : false},
+                    {data: 'masterParent.name'},
                     {data: 'code'},
                     {data: 'name'},
                     {data: 'status'},

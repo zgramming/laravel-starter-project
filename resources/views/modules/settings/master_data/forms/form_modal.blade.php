@@ -9,6 +9,25 @@
     <form action="{{ url("setting/master-data/save",[$master?->id ?? 0]) }}" method="POST" enctype="multipart/form-data" id="form_validation">
         <input type="hidden" name="master_category_id" value="{{ $category->id }}">
         <input type="hidden" name="master_category_code" value="{{ $category->code }}">
+
+        @if($isHaveParent)
+        <div class="row mb-3">
+            <label for="input_job" class="col-sm-12 col-md-12 col-form-label">Master Induk</label>
+            <div class="col-sm-12 col-md-12">
+                <div class="d-flex flex-column">
+                    <div class="combobox-container">
+                        <select class="form-select select2-custom" name="master_data_id" id="master_data_id">
+                            <option value="">Pilih Induk</option>
+                            @foreach($masterInduk as $key => $value)
+                                <option value="{{$value?->id}}" {{($value?->id == $master?->master_data_id ? "selected" : "")}}>{{$value->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+
         <div class="row mb-3">
             <label for="code" class="col-sm-12 col-md-12 col-form-label">Kode</label>
             <div class="col-sm-12 col-md-12">

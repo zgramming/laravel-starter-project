@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create(Constant::TABLE_MST_DATA, function (Blueprint $table) {
             $table->increments("id");
+            $table->unsignedInteger("master_data_id")->nullable();
             $table->unsignedInteger('master_category_id');
             $table->string('master_category_code',50);
             $table->string('code',50)->unique();
@@ -39,6 +40,7 @@ return new class extends Migration
             $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
             $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
             $table->foreign('master_category_id')->references('id')->on(Constant::TABLE_MST_CATEGORY)->cascadeOnDelete();
+            $table->foreign('master_data_id')->references('id')->on(Constant::TABLE_MST_DATA)->nullOnDelete();
         });
     }
 
