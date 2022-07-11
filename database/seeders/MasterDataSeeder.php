@@ -8,8 +8,6 @@ use Illuminate\Database\Seeder;
 
 class MasterDataSeeder extends Seeder
 {
-    private $datas = [];
-
     /**
      * Run the database seeds.
      *
@@ -17,7 +15,8 @@ class MasterDataSeeder extends Seeder
      */
     public function run()
     {
-        foreach($this->datas as $k => $v){
+        $datas = [];
+        foreach($datas as $k => $v){
             MasterData::create($v);
         }
     }

@@ -8,15 +8,6 @@ use Illuminate\Database\Seeder;
 
 class MasterCategorySeeder extends Seeder
 {
-
-    private $datas = [
-        [
-            'code' => 'testing',
-            'name' => "Kategori Testing",
-            'description'=>'Deskripsi Kategori Testing',
-            'status'=>'active',
-        ],
-    ];
     /**
      * Run the database seeds.
      *
@@ -24,6 +15,13 @@ class MasterCategorySeeder extends Seeder
      */
     public function run()
     {
+        $datas =  [
+            'code' => 'testing',
+            'name' => "Kategori Testing",
+            'description'=>'Deskripsi Kategori Testing',
+            'status'=>'active',
+        ];
+
         foreach($this->datas as $key => $value){
             MasterCategory::create($value);
         }
