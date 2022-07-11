@@ -103,7 +103,6 @@ class MasterDataController extends Controller
             $rules = [
                 'name' => 'required',
                 'code' => 'required',
-                'description' => 'required',
             ];
 
             $validator = Validator::make($post, $rules);
