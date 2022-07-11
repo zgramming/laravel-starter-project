@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create(Constant::TABLE_MST_DATA, function (Blueprint $table) {
-            $table->id();
+            $table->increments("id");
             $table->unsignedInteger('master_category_id');
             $table->string('master_category_code',50);
             $table->string('code',50)->unique();
