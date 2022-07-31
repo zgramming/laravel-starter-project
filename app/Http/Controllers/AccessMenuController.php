@@ -98,7 +98,7 @@ class AccessMenuController extends Controller
 
             $post = request()->all();
 
-            /// Truncate Every Update Access Modul
+            /// Truncate Every Update Access Menu
             AccessMenu::where("app_group_user_id", "=", $idUserGroup)->delete();
 
             foreach (($post['access_menu'] ?? []) as $key => $value) {
@@ -118,7 +118,7 @@ class AccessMenuController extends Controller
             /// Commit Transaction
             DB::commit();
 
-            $message = "Yess Update Akses Modul";
+            $message = "Yess Update Akses Menu";
             session()->flash('success', $message);
             return response()->json(['success' => true, 'message' => $message], 200);
 
