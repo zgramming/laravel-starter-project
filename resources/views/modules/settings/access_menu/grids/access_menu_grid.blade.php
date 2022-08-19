@@ -28,7 +28,8 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="d-flex flex-row">
                                         <div class="form-group position-relative has-icon-left">
-                                            <input type="text" id="search" class="form-control" placeholder="Cari berdasarkan..." >
+                                            <input type="text" id="search" class="form-control"
+                                                   placeholder="Cari berdasarkan...">
                                             <div class="form-control-icon">
                                                 <i class="bi bi-search"></i>
                                             </div>
@@ -40,8 +41,12 @@
                                     <div class="d-flex flex-row justify-content-md-end justify-content-sm-start ">
                                         <div class="form-group">
                                             <div class="buttons">
-                                                <a href="#" class="btn btn-info" onclick="openExport('{{ url('setting/access-menu/export') }}')"><span class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
-                                                <a href="#" class="btn btn-dark" onclick="openImport()"><span class="btn-label"><i class="fa fa-file-upload"></i></span> Import</a>
+                                                <a href="#" class="btn btn-info"
+                                                   onclick="openExport('{{ url('setting/access-menu/export') }}')"><span
+                                                        class="btn-label"><i class="fa fa-file-excel"></i></span> Export</a>
+                                                <a href="#" class="btn btn-dark" onclick="openImport()"><span
+                                                        class="btn-label"><i class="fa fa-file-upload"></i></span>
+                                                    Import</a>
                                             </div>
                                         </div>
                                     </div>
@@ -84,20 +89,20 @@
 
 @section('extends-js')
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             const url = `{{url('setting/access-menu/datatable')}}`;
             const jqueryDatatable = $("#table_datatable").DataTable({
                 processing: true,
                 serverSide: true,
                 // [https://www.itsolutionstuff.com/post/laravel-datatables-filter-with-dropdown-exampleexample.html]
                 ajax: {
-                    url : url,
-                    data: function(d){
+                    url: url,
+                    data: function (d) {
                         d.search = $('#search').val();
                     },
                 },
-                columns : [
-                    {data: 'DT_RowIndex',orderable :false, searchable : false},
+                columns: [
+                    {data: 'DT_RowIndex', orderable: false, searchable: false},
                     {data: 'code'},
                     {data: 'name'},
                     {data: 'status'},
@@ -105,14 +110,14 @@
                     {data: 'updated_at'},
                     {data: 'action'},
                 ],
-                createdRow: function( row, data, dataIndex ) {
+                createdRow: function (row, data, dataIndex) {
                 },
 
             });
 
-            $("#search").keyup(debounce(function (){
+            $("#search").keyup(debounce(function () {
                 jqueryDatatable.draw();
-            },500));
+            }, 500));
         });
 
     </script>

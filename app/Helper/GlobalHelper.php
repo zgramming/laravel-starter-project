@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\AccessMenu;
+use App\Models\User;
 use Box\Spout\Common\Exception\InvalidArgumentException as InvalidArgumentExceptionAlias;
 use Box\Spout\Common\Exception\IOException;
 use Box\Spout\Common\Exception\UnsupportedTypeException as UnsupportedTypeExceptionAlias;
@@ -17,6 +19,64 @@ enum ExportFileType: string
 {
     case XLSX = "xlsx";
     case CSV = "csv";
+}
+
+enum AccessType: string
+{
+    case VIEW = "view";
+    case ADD = "add";
+    case EDIT = "edit";
+    case DELETE = "delete";
+    case PRINT = "print";
+    case EXPORT = "export";
+    case IMPORT = "import";
+    case APPROVE = "approve";
+}
+
+function getAuthorization(int $idMenu, AccessType ...$accessType){
+    $id = auth()->id();
+    $user = User::with(['userGroup'])->find($id);
+    if(empty($user)) return null;
+
+    $allowedAccess = AccessMenu::whereAppMenuId($idMenu)
+        ->whereAppGroupUserId($user->userGroup->id)
+        ->first();
+
+    dd($accessType);
+
+    return $allowedAccess?->allowed_access ?? [];
+}
+
+function hasAccessView(){
+
+}
+
+function hasAccessAdd(){
+
+}
+
+function hasAccessEdit(){
+
+}
+
+function hasAccessDelete(){
+
+}
+
+function hasAccessPrint(){
+
+}
+
+function hasAccessExport(){
+
+}
+
+function hasAccessImport(){
+
+}
+
+function hasAccessApprove(){
+
 }
 
 /**

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Constant\Constant;
 use App\Models\AccessMenu;
 use App\Models\Modul;
 use App\Models\UserGroup;
+use Carbon\Carbon;
 use DataTables;
 use DB;
 use Exception;
@@ -14,6 +14,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
@@ -69,20 +70,35 @@ class AccessMenuController extends Controller
      */
     public function form_modal(int $idUserGroup = 0): Factory|View|Application
     {
-        /// Get Modul Where AccessModul === $idUserGroup
-        $moduls = Modul::with(
+        $keys = [
+            /// Get Modul Where AccessModul === $idUserGroup
+            'moduls' => $this->getAccessModul($idUserGroup),
+            'accessMenu' => AccessMenu::where("app_group_user_id", "=", $idUserGroup)->get()->pluck('app_menu_id')->toArray(),
+            'group' => UserGroup::find($idUserGroup),
+        ];
+
+        $currentAccessMenu = AccessMenu::whereAppGroupUserId($idUserGroup)->get();
+        foreach ($currentAccessMenu as $access){
+            $keys['currentAuthorization'][$access->app_menu_id] = $access?->allowed_access ?? null;
+        }
+
+        return view("modules.settings.access_menu.forms.form_modal", $keys);
+    }
+
+    /**
+     * @param int $idUserGroup
+     * @return Collection|array
+     */
+    private function getAccessModul(int $idUserGroup): Collection|array
+    {
+        return Modul::with(
             [
-                'menus' => fn(BuilderContractEloquent $query) => $query->orderBy('name', 'ASC'),
+                'menus' => fn(BuilderContractEloquent $query) => $query
+                    ->orderBy("app_menu_id_parent")
+                    ->orderBy('name', 'ASC'),
             ]
         )->whereRelation('accessModul', 'app_group_user_id', '=', $idUserGroup)
             ->get();
-
-        $keys = [];
-        $keys['accessMenu'] = AccessMenu::where("app_group_user_id", "=", $idUserGroup)->get()->pluck('app_menu_id')->toArray();
-        $keys['group'] = UserGroup::find($idUserGroup);
-        $keys['moduls'] = $moduls;
-
-        return view("modules.settings.access_menu.forms.form_modal", $keys);
     }
 
     /**
@@ -93,28 +109,36 @@ class AccessMenuController extends Controller
     public function save(int $idUserGroup = 0): JsonResponse
     {
 
-        /// Begin Transaction
-        DB::beginTransaction();
         try {
+            /// Begin Transaction
+            DB::beginTransaction();
 
             $post = request()->all();
 
             /// Truncate Every Update Access Menu
             AccessMenu::where("app_group_user_id", "=", $idUserGroup)->delete();
 
-            foreach (($post['access_menu'] ?? []) as $key => $value) {
-                [$idModul, $idMenu] = explode("|", $value);
-
-                $data = [
-                    'id' => Str::uuid(),
-                    'app_group_user_id' => $idUserGroup,
-                    'app_modul_id' => $idModul,
-                    'app_menu_id' => $idMenu,
-                    'allowed_access' => Constant::LIST_AVAILABLE_ACCESS,
-                ];
-
-                AccessMenu::create($data);
+            $tempArr = [];
+            $moduls = $this->getAccessModul($idUserGroup);
+            $now = Carbon::now()->toDateTimeString();
+            foreach ($moduls as $modul) {
+                foreach ($modul->menus as $menu) {
+                    $authorization = $post["access_$menu[id]"] ?? [];
+                    if (!empty($authorization)) {
+                        $tempArr[] = [
+                            'id' => Str::uuid(),
+                            'app_group_user_id' => $idUserGroup,
+                            'app_modul_id' => $modul->id,
+                            'app_menu_id' => $menu->id,
+                            'allowed_access' => json_encode($authorization),
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ];
+                    }
+                }
             }
+
+            AccessMenu::insert($tempArr);
 
             /// Commit Transaction
             DB::commit();

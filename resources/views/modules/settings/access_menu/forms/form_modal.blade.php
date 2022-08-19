@@ -24,28 +24,56 @@
             </div>
         </div>
 
-
         <div class="row mb-3">
-            @foreach($moduls as $key=>$value)
+            @foreach($moduls as $key => $modul)
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card shadow">
                         <div class="card-content">
-                            <card class="card-body">
-                                <div class="d-flex flex-column">
-                                    <h4 class="mb-3"><b>{{ $value->name }}</b></h4>
-                                    <div class="checkbox-container">
-                                        @foreach($value->menus as $key => $menu)
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                       id="access_menu_{{$menu->id}}" name="access_menu[]"
-                                                       value="{{ $value->id."|".$menu->id }}" {{in_array($menu->id,$accessMenu ?? []) ? "checked" : ""}}>
-                                                <label class="form-check-label"
-                                                       for="access_menu_{{$menu->id}}">{{$menu->name}}</label>
-                                            </div>
+                            <div class="card-body">
+                                <h1 class="card-title fw-bold mb-3">{{ $modul->name }}</h1>
+                                @if(!empty($modul->menus))
+                                    <ul class="list-group">
+                                        @foreach($modul->menus as $menu)
+                                            @if(!empty($menu->route))
+                                                @php
+                                                    $nameMenu = $menu->name;
+                                                    if($menu->app_menu_id_parent){
+                                                        $indukMenu = $modul->menus
+                                                            ->filter(fn($value,$key)=> $value->id == $menu->app_menu_id_parent)
+                                                            ->first()
+                                                            ->name;
+                                                        $nameMenu = "$indukMenu > $nameMenu";
+                                                    }
+
+                                                    $myAuthorization = $currentAuthorization[$menu->id] ?? [];
+                                                @endphp
+                                                <li class="list-group-item">
+                                                    <div class="d-flex flex-column">
+                                                        <h6>{{ ucfirst($nameMenu) }}</h6>
+                                                        <ul class="list-unstyled mb-0">
+                                                            @foreach(\App\Constant\Constant::LIST_AVAILABLE_ACCESS as $key => $access)
+                                                                <li class="d-inline-block m-2">
+                                                                    <div class="form-check">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="form-check-input form-check-primary"
+                                                                                   name="access_{{$menu->id}}[]"
+                                                                                   id="access_{{$menu->id}}_{{$access}}"
+                                                                                   value="{{ $access }}"
+                                                                                   onclick="accessOnClick(this)"
+                                                                                   {{ in_array($access,$myAuthorization) ? "checked" : "" }}>
+                                                                            <label class="form-check-label" for="access_{{$menu->id}}_{{$access}}">{{ ucfirst($access) }}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            @endif
                                         @endforeach
-                                    </div>
-                                </div>
-                            </card>
+                                    </ul>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,4 +129,20 @@
             });
         })
     });
+
+    function accessOnClick(elem){
+        const id = $(elem).attr("id");
+        [name, menuId, access] = id.split("_");
+
+        const inputName = `input[name='${name}_${menuId}[]']`;
+        const checkedAccess = $(`${inputName}:checked`).val();
+        const isHaveViewAccess = checkedAccess.includes("view");
+
+        // if(access === "view"){
+        //     alert("access view");
+        // }else{
+        //     alert("access another view");
+        // }
+
+    }
 </script>
