@@ -1,16 +1,16 @@
 {{-- Jquery --}}
-<script src="{{asset('assets/vendors/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('assets/extensions/jquery/jquery.min.js')}}"></script>
+
+{{-- Core Template --}}
+<script src="{{asset('assets/js/mazer.js')}}"></script>
+<script src="{{asset('assets/js/app.js')}}"></script>
+<script src="{{asset('assets/js/bootstrap.js')}}"></script>
 
 {{-- Scroll JS --}}
-<script src="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
-<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
 
 {{-- DataTable --}}
-<script src="{{asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js')}}"></script>
-
-{{-- Font Awesome 5 --}}
-<script src="{{asset('assets/vendors/fontawesome/all.min.js')}}"></script>
+<script src="{{asset('assets/extensions/datatables.net-bs5/js/dt-bootstrap5.js')}}"></script>
 
 {{-- Jquery Validation --}}
 <script src="{{asset('assets/js/third_party/jquery_validation/jquery.validate.js')}}"></script>
@@ -26,9 +26,6 @@
 
 {{-- Daterange Picker --}}
 <script src="{{asset('assets/js/third_party/daterangepicker/daterangepicker.js')}}"></script>
-
-{{-- Core Template --}}
-<script src="{{asset('assets/js/mazer.js')}}"></script>
 
 {{-- Custom File --}}
 <script src="{{asset('assets/js/custom/main.js')}}"></script>

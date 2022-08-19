@@ -1,25 +1,17 @@
-{{-- Font Family --}}
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+{{-- Core --}}
+<link rel="stylesheet" href="{{asset('assets/css/main/app.css')}}">
 
-{{-- Bootstrap 5 --}}
-<link rel="stylesheet" href="{{asset('assets/css/bootstrap.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
+{{-- Datatable Bootstrap 5 --}}
+<link rel="stylesheet" href="{{asset('assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}">
 
-{{-- Scroll --}}
-<link rel="stylesheet" href="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
-
-{{-- Datatable --}}
-<link rel="stylesheet" href="{{asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css')}}">
+{{-- Fontawesome Icons --}}
+<link rel="stylesheet" href="{{asset('assets/extensions/fontawesome-free/css/all.css')}}" />
 
 {{-- Select2JS --}}
 <link rel="stylesheet" href="{{asset('assets/css/third_party/select2/select2.min.css')}}" />
 
 {{-- Daterange Picker --}}
 <link rel="stylesheet" href="{{asset('assets/css/third_party/daterangepicker/daterangepicker.css')}}" />
-
-{{-- Core --}}
-<link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
 
 {{-- FavIcon --}}
 <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
@@ -33,7 +25,7 @@
 
     .select2-container .select2-selection--single{
         min-height: 40px !important;
-        padding: 0rem 0.250rem;
+        padding: 0 0.250rem;
     }
 
     /* Change Border Color */

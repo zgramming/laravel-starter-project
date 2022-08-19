@@ -13,7 +13,7 @@ class Constant
     const PATH_DEFAULT_IMAGE = "assets/images/samples/broken-image.png";
 
     /// Digunakan untuk migration table
-    const STATUSENUM  = ['active', 'not_active', 'none'];
+    const STATUSENUM = ['active', 'not_active', 'none'];
     const STATUSKEYVALUE = ['active' => "Aktif", 'not_active' => "Tidak Aktif", 'none' => "Tidak Diketahui"];
 
 
@@ -28,4 +28,6 @@ class Constant
     const TABLE_MST_DATA = 'master_data';
     const TABLE_EXAMPLE = "example";
     const TABLE_PARAMETER = "parameter";
+
+    const LIST_AVAILABLE_ACCESS = ['view', 'delete', 'edit', 'print', 'export', 'approve'];
 }

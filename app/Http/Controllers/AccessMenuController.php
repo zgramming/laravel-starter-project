@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constant\Constant;
 use App\Models\AccessMenu;
 use App\Models\Modul;
 use App\Models\UserGroup;
@@ -109,7 +110,7 @@ class AccessMenuController extends Controller
                     'app_group_user_id' => $idUserGroup,
                     'app_modul_id' => $idModul,
                     'app_menu_id' => $idMenu,
-                    'allowed_access' => ['view', 'add', 'delete', 'edit', 'print', 'approve'],
+                    'allowed_access' => Constant::LIST_AVAILABLE_ACCESS,
                 ];
 
                 AccessMenu::create($data);

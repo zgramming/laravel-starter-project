@@ -7,16 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
 
-    {{-- Font Family --}}
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-    {{-- Bootstrap 5 --}}
-    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
-
     {{-- Core --}}
-    <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/main/app.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/pages/auth.css')}}">
 
 </head>
@@ -44,6 +36,7 @@
                             <i class="bi bi-person"></i>
                         </div>
                     </div>
+
                     <div class="form-group position-relative has-icon-left">
                         <input type="password" name="password" class="form-control form-control-xl"
                                placeholder="Password" required>
