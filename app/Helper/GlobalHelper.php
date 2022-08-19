@@ -42,8 +42,6 @@ function getAuthorization(int $idMenu, AccessType ...$accessType){
         ->whereAppGroupUserId($user->userGroup->id)
         ->first();
 
-    dd($accessType);
-
     return $allowedAccess?->allowed_access ?? [];
 }
 
