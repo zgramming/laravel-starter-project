@@ -29,5 +29,5 @@ class Constant
     const TABLE_EXAMPLE = "example";
     const TABLE_PARAMETER = "parameter";
 
-    const LIST_AVAILABLE_ACCESS = ['view', 'delete', 'edit', 'print', 'export', 'approve'];
+    const LIST_AVAILABLE_ACCESS = ['view', 'delete', 'edit', 'print', 'export', 'import', 'approve'];
 }
