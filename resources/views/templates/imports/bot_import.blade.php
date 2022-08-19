@@ -2,7 +2,7 @@
 <script src="{{asset('assets/extensions/jquery/jquery.min.js')}}"></script>
 
 {{-- Core Template --}}
-<script src="{{asset('assets/js/mazer.js')}}"></script>
+{{--<script src="{{asset('assets/js/mazer.js')}}"></script>--}}
 <script src="{{asset('assets/js/app.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.js')}}"></script>
 

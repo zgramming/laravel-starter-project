@@ -13,10 +13,7 @@
 
     $menuByModul = $menuByModul->orderBy('order',"asc")
     ->get()
-    ->toArray();
-
-    $currentSegment = implode("/",request()->segments());
-
+    ->toArray()
 @endphp
 <div id="sidebar" class="active">
     <div class="sidebar-wrapper active">
@@ -33,26 +30,44 @@
         <div class="sidebar-menu">
             <ul class="menu">
                 @foreach($menuByModul as $key => $menu)
+                    @php
+                        $segments = request()->segments();
+                        $arrRoute = explode("/",$menu['route']);
+                        $currentSegment = implode(request()->segments());
+
+                        /// We have to get the same value from both arrays
+                        /// When total same value > 2, we assume this menu should be active
+                        $intersectSegment = array_intersect($segments,$arrRoute);
+                        $isSameSegment = count($intersectSegment) >= 2
+                    @endphp
                     {{-- Jika menu bukan parent / hanya berdiri sendiri --}}
                     @if(empty($menu['menu_child']))
                         <li
-                            class="sidebar-item {{ Str::contains($currentSegment,$menu['route'])  ? "active" : "" }}">
+                            class="sidebar-item {{ $isSameSegment  ? "active" : "" }}">
                             <a href="{{ url($menu['route']) }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>{{ $menu['name'] }}</span>
                             </a>
                         </li>
-                    {{-- Jika menu parent dan mempunyai anakan menu --}}
+                        {{-- Jika menu parent dan mempunyai anakan menu --}}
                     @elseif(!empty($menu['menu_child']))
                         <li
-                            class="sidebar-item {{ in_array($currentSegment,array_column($menu['menu_child'],'route')) ? "active" : "" }} has-sub">
+                            class="sidebar-item {{ $isSameSegment ? "active" : "" }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-stack"></i>
                                 <span>{{ $menu['name'] }}</span>
                             </a>
-                            <ul class="submenu {{ in_array($currentSegment,array_column($menu['menu_child'],'route')) ? "active" : "" }}">
+                            <ul class="submenu {{ $isSameSegment ? "active" : "" }}">
                                 @foreach($menu['menu_child'] as $key => $child)
-                                    <li class="submenu-item {{ $child['route'] === $currentSegment ? "active" : "" }}">
+                                    @php
+                                        /// We override `$isSameSegment` & `$arrRoute` to special case when menu have children
+                                        /// Before, `$isSameSegment` can true if >= 2
+                                        /// Then when have children, `$isSameSegment` can true if >= 3
+                                        $arrRoute  = explode("/",$child['route']);
+                                        $intersectSegment = array_intersect($segments,$arrRoute);
+                                        $isSameSegment = count($intersectSegment) >= 3
+                                    @endphp
+                                    <li class="submenu-item {{ $isSameSegment ? "active" : "" }}">
                                         <a href="{{ url($child['route']) }}">{{ $child['name'] }}</a>
                                     </li>
                                 @endforeach
