@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Constant\Constant;
 use App\Models\AccessMenu;
 use App\Models\Menu;
 use App\Models\UserGroup;
@@ -26,7 +27,7 @@ class AccessMenuSeeder extends Seeder
                 "app_group_user_id" => $superadmin->id,
                 "app_menu_id" => $value->id,
                 "app_modul_id" => $value->app_modul_id,
-                "allowed_access" => ["view", "add", "delete", "edit", "print", "approve"],
+                "allowed_access" => Constant::LIST_AVAILABLE_ACCESS,
             ]);
         }
     }

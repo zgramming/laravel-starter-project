@@ -37,6 +37,7 @@
                                             @if(!empty($menu->route))
                                                 @php
                                                     $nameMenu = $menu->name;
+                                                    /// Override menu name when `this` menu have parent
                                                     if($menu->app_menu_id_parent){
                                                         $indukMenu = $modul->menus
                                                             ->filter(fn($value,$key)=> $value->id == $menu->app_menu_id_parent)

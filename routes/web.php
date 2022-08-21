@@ -33,7 +33,7 @@ Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name("logout");
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','session.modul-menu'])->group(function () {
 
     /**
      * START Management User

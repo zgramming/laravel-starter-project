@@ -13,7 +13,7 @@
 
     $menuByModul = $menuByModul->orderBy('order',"asc")
     ->get()
-    ->toArray()
+    ->toArray();
 @endphp
 <div id="sidebar" class="active">
     <div class="sidebar-wrapper active">

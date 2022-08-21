@@ -1,5 +1,6 @@
 <?php
 
+use App\Constant\Constant;
 use App\Models\AccessMenu;
 use App\Models\User;
 use Box\Spout\Common\Exception\InvalidArgumentException as InvalidArgumentExceptionAlias;
@@ -33,48 +34,30 @@ enum AccessType: string
     case APPROVE = "approve";
 }
 
-function getAuthorization(int $idMenu, AccessType ...$accessType){
+/**
+ * @return array|null
+ */
+function getAuthorization(): array | null
+{
     $id = auth()->id();
     $user = User::with(['userGroup'])->find($id);
-    if(empty($user)) return null;
+    $sessionModulMenu = session(Constant::KEY_SESSION_MODUL_MENU);
+    if (empty($user) || empty($sessionModulMenu)) return null;
 
-    $allowedAccess = AccessMenu::whereAppMenuId($idMenu)
+    $allowedAccess = AccessMenu::whereAppMenuId($sessionModulMenu['menu_id'])
         ->whereAppGroupUserId($user->userGroup->id)
         ->first();
 
     return $allowedAccess?->allowed_access ?? [];
 }
 
-function hasAccessView(){
-
-}
-
-function hasAccessAdd(){
-
-}
-
-function hasAccessEdit(){
-
-}
-
-function hasAccessDelete(){
-
-}
-
-function hasAccessPrint(){
-
-}
-
-function hasAccessExport(){
-
-}
-
-function hasAccessImport(){
-
-}
-
-function hasAccessApprove(){
-
+/**
+ * @param AccessType $accessType
+ * @return bool
+ */
+function hasAccessMenu(AccessType $accessType): bool
+{
+    return in_array($accessType->value, getAuthorization());
 }
 
 /**
@@ -152,13 +135,14 @@ function uploadImage(
     bool         $returnRelativePath = false,
     ?int         $resizeWidth = null,
     ?int         $resizeHeight = null
-): string {
+): string
+{
     $name = uniqid() . time() . "." . $file->getClientOriginalExtension();
     if ($customName != null) $name = $customName;
 
     $image = Image::make($file->getRealPath());
 
-    if ($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth, $resizeHeight, fn ($constraint) => $constraint->aspectRatio());
+    if ($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth, $resizeHeight, fn($constraint) => $constraint->aspectRatio());
 
     $store = Storage::disk('public')->put($path . DIRECTORY_SEPARATOR . $name, $image->encode());
     if (!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...", 400);
@@ -178,9 +162,10 @@ function uploadFile(
     UploadedFile $file,
     string       $path,
     ?string      $customName = null,
-    /// Is usefull when you need relative path [c:/laragon/www/laravel/www/www/www/ww/w]
+    /// Is usefully when you need relative path [c:/laragon/www/laravel/www/www/www/ww/w]
     bool         $returnRelativePath = false
-): string {
+): string
+{
     $name = uniqid() . time() . "." . $file->getClientOriginalExtension();
     if ($customName != null) $name = $customName;
 
@@ -235,7 +220,7 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
         $no = $no + count($chunk);
         echoFlush("read_row", "Sedang membaca data ke-$no", sleep: 0.020);
 
-        $tempArr = $chunk->map(fn ($value) => WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
+        $tempArr = $chunk->map(fn($value) => WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
         $writer->addRows($tempArr);
     }
 
@@ -247,12 +232,11 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
     /// For Debug Purpose
     //    $endTimer = microtime(true) - $startTimer;
 
-    $result = [
+    return [
         'relativePath' => Storage::disk('public')->path("$folder/$filename"),
         'url' => asset(Storage::url("$folder/$filename")),
         'size' => formatBytes(Storage::disk('public')->size("$folder/$filename")),
     ];
-    return $result;
 }
 
 /**
