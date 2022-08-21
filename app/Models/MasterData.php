@@ -5,12 +5,14 @@ namespace App\Models;
 use App\Constant\Constant;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -65,6 +67,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property int|null $updated_by
  * @method static Builder|MasterData whereCreatedBy($value)
  * @method static Builder|MasterData whereUpdatedBy($value)
+ * @property int|null $master_data_id
+ * @property-read Collection|Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read MasterData|null $masterParent
+ * @method static Builder|MasterData whereMasterDataId($value)
  */
 class MasterData extends Model
 {

@@ -18,6 +18,7 @@ use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 
@@ -60,6 +61,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property int|null $updated_by
  * @method static Builder|User whereCreatedBy($value)
  * @method static Builder|User whereUpdatedBy($value)
+ * @property-read Collection|Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class User extends Authenticatable
 {

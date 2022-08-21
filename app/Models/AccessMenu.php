@@ -5,11 +5,13 @@ namespace App\Models;
 use App\Constant\Constant;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -37,9 +39,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|AccessMenu whereUpdatedAt($value)
  * @method static Builder|AccessMenu whereUpdatedBy($value)
  * @mixin Eloquent
- * @property-read \App\Models\Menu $menu
- * @property-read \App\Models\Modul $modul
- * @property-read \App\Models\UserGroup $userGroup
+ * @property-read Menu $menu
+ * @property-read Modul $modul
+ * @property-read UserGroup $userGroup
+ * @property-read Collection|Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class AccessMenu extends Model
 {

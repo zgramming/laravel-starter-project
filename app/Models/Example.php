@@ -5,11 +5,13 @@ namespace App\Models;
 use App\Constant\Constant;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 
@@ -62,6 +64,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @mixin Eloquent
  * @property string $code
  * @method static Builder|Example whereCode($value)
+ * @property-read Collection|Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class Example extends Model
 {
@@ -105,7 +109,7 @@ class Example extends Model
     {
         return LogOptions::defaults()->logAll();
     }
-    
+
     // Relationship
 
     /**

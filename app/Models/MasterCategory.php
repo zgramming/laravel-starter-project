@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -44,6 +45,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property int|null $updated_by
  * @method static Builder|MasterCategory whereCreatedBy($value)
  * @method static Builder|MasterCategory whereUpdatedBy($value)
+ * @property-read Collection|Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class MasterCategory extends Model
 {

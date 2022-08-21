@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -48,6 +49,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read int|null $access_menu_count
  * @property-read Collection|AccessModul[] $accessModul
  * @property-read int|null $access_modul_count
+ * @property-read Collection|Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class Modul extends Model
 {

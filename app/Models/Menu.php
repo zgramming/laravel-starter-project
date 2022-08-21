@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Constant\Constant;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -49,10 +51,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|Menu whereUpdatedAt($value)
  * @method static Builder|Menu whereUpdatedBy($value)
  * @mixin Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccessMenu[] $accessMenu
+ * @property-read Collection|AccessMenu[] $accessMenu
  * @property-read int|null $access_menu_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Menu[] $menuChild
+ * @property-read Collection|Menu[] $menuChild
  * @property-read int|null $menu_child_count
+ * @property-read Collection|Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class Menu extends Model
 {
