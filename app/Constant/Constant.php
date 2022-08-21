@@ -8,6 +8,9 @@ class Constant
     const SPECIAL_EMAIL = 'superadmin@gmail.com';
     const SPECIAL_USERNAME = 'superadmin';
 
+    /// Global Key Session
+    const KEY_SESSION_MODUL_MENU = "session-modul-menu";
+
     /// Path Image or File
     const PATH_IMAGE_EXAMPLE = "images/example";
     const PATH_DEFAULT_IMAGE = "assets/images/samples/broken-image.png";
@@ -29,5 +32,5 @@ class Constant
     const TABLE_EXAMPLE = "example";
     const TABLE_PARAMETER = "parameter";
 
-    const LIST_AVAILABLE_ACCESS = ['view', 'delete', 'edit', 'print', 'export', 'import', 'approve'];
+    const LIST_AVAILABLE_ACCESS = ['view', 'add', 'delete', 'edit', 'print', 'export', 'import', 'approve'];
 }
