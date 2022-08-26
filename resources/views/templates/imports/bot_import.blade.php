@@ -27,6 +27,9 @@
 {{-- Daterange Picker --}}
 <script src="{{asset('assets/js/third_party/daterangepicker/daterangepicker.js')}}"></script>
 
+{{-- CKEditor 5 --}}
+<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+
 {{-- Custom File --}}
 <script src="{{asset('assets/js/custom/main.js')}}"></script>
 <script src="{{asset('assets/js/custom/initialization.js')}}"></script>

@@ -298,6 +298,7 @@ class ExampleController extends Controller
                 'job_desk' => $post['input_job'],
                 'hobby' => $post['input_hobbies'],
                 'status' => $post['input_status'],
+                'editor_text' => $post['editor_text'],
 
                 /// If Name Image null use profile_image, if profile_image null set default to null
                 'profile_image' => $nameImage ?? $example?->profile_image ?? null,

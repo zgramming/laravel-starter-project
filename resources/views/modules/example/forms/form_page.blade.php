@@ -144,6 +144,13 @@
                     </div>
                 </div>
 
+                <div class="row mb-3">
+                    <label for="editor_text" class="col-sm-12 col-md-2 col-form-label">Text Editor</label>
+                    <div class="col-sm-12 col-md-12">
+                        <textarea name="editor_text" id="editor_text" class="form-control">{!! $example?->editor_text !!}</textarea>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -152,8 +159,12 @@
 @endsection
 
 @section('extends-js')
+
 <script type="text/javascript">
     $(document).ready(function(){
+        ClassicEditor.create(document.querySelector("#editor_text")).catch((error) => {
+            console.error(error)
+        })
 
         $("#form_validation").validate({
             rules : {

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('birth_date');
             $table->double('current_money');
             $table->text('profile_image')->nullable();
+            $table->longText("editor_text")->nullable();
             /// Jangan lupa di casting di model menjadi array
             $table->json('hobby')->nullable();
             $table->enum('status', ['active', 'not_active', 'none'])->nullable()->default('none');
