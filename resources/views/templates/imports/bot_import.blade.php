@@ -73,7 +73,7 @@
 
         /// Image Preview on change
         $('.image-upload-preview-item').on("error",function(e){
-            $(this).attr('src',"{{ asset('assets/images/samples/broken-image.png') }}");
+            $(this).attr('src', "{{ asset('assets/images/bg/bg.jpg') }}");
         })
 
         $(".image-upload-preview").on('change',function(e){
