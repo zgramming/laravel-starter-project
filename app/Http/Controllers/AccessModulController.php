@@ -84,9 +84,9 @@ class AccessModulController extends Controller
     public function save(int $idUserGroup = 0): JsonResponse
     {
 
-        /// Begin Transaction
-        DB::beginTransaction();
         try {
+            /// Begin Transaction
+            DB::beginTransaction();
             $post = request()->all();
 
             /// Truncate Every Update Access Modul
@@ -108,7 +108,6 @@ class AccessModulController extends Controller
             $message = "Yess Update Akses Modul";
             session()->flash('success', $message);
             return response()->json(['success' => true, 'message' => $message], 200);
-
         } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();

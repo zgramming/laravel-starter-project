@@ -94,8 +94,9 @@ class UserGroupController extends Controller
      */
     public function save(int $id = 0): JsonResponse
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
+
             $post = request()->all();
             $userGroup = UserGroup::find($id);
 
@@ -116,7 +117,9 @@ class UserGroupController extends Controller
                 [
                     'success' => false,
                     'errors' => $validator->messages(),
-                ], 400);
+                ],
+                400
+            );
 
             $data = [
                 'code' => $post['code'],
@@ -133,7 +136,6 @@ class UserGroupController extends Controller
             $message = "Yess Berhasil Insert / Update";
             session()->flash('success', $message);
             return response()->json(['success' => true, 'message' => $message], 200);
-
         } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();
@@ -141,7 +143,6 @@ class UserGroupController extends Controller
             $message = $e->getMessage();
             $code = $e->getCode() ?: 500;
             return response()->json(['success' => false, 'errors' => $message], $code);
-
         } catch (Throwable $e) {
             /// Rollback Transaction
             DB::rollBack();
@@ -150,9 +151,7 @@ class UserGroupController extends Controller
             $code = $e->getCode() ?: 500;
 
             return response()->json(['success' => false, 'errors' => $message], $code);
-
         }
-
     }
 
     /**

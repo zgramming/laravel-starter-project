@@ -46,7 +46,7 @@ class MasterDataController extends Controller
             ->filter(function (Builder $query) {
                 $search = request()->get('search');
                 if (!empty($search)) $query->where('name', 'like', "%$search%");
-            })->addColumn('masterParent.name',function(MasterData $item){
+            })->addColumn('masterParent.name', function (MasterData $item) {
                 return $item?->masterParent?->name ?? "-";
             })->addColumn('status', function (MasterData $item) {
                 if ($item->status == "active") return "<span class=\"badge bg-success\">Aktif</span>";
@@ -94,9 +94,10 @@ class MasterDataController extends Controller
      */
     public function save(int $id = 0): JsonResponse
     {
-        DB::beginTransaction();
 
         try {
+            DB::beginTransaction();
+
             $master = MasterData::find($id);
             $post = request()->all();
 
@@ -114,7 +115,7 @@ class MasterDataController extends Controller
             }
 
             $data = [
-                'master_data_id'=> $post['master_data_id'] ?? null,
+                'master_data_id' => $post['master_data_id'] ?? null,
                 'master_category_id' => $post['master_category_id'],
                 'master_category_code' => $post['master_category_code'],
                 'name' => $post['name'],
@@ -138,7 +139,6 @@ class MasterDataController extends Controller
             $message = "Yess Berhasil Insert / Update";
             session()->flash('success', $message);
             return response()->json(['success' => true, 'message' => $message], 200);
-
         } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();
@@ -146,7 +146,6 @@ class MasterDataController extends Controller
             $message = $e->getMessage();
             $code = $e->getCode() ?: 500;
             return response()->json(['success' => false, 'errors' => $message], $code);
-
         } catch (Throwable $e) {
             /// Rollback Transaction
             DB::rollBack();
@@ -172,7 +171,6 @@ class MasterDataController extends Controller
             /// Commit Transaction
             DB::commit();
             return back()->with('success', "Berhasil menghapus master data");
-
         } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();

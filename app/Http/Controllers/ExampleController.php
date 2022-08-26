@@ -253,9 +253,10 @@ class ExampleController extends Controller
         /// 27. uuid                        => "The field under validation must be a valid RFC 4122 (version 1, 3, 4, or 5) universally unique identifier (UUID)."
         ///
 
-        /// Begin Transaction
-        DB::beginTransaction();
         try {
+            /// Begin Transaction
+            DB::beginTransaction();
+
             $example = Example::find($id);
             $post = request()->all();
             /// Unique:NAMA_TABLE,NAMA_COLUMN

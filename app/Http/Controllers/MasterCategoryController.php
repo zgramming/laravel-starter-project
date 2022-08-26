@@ -27,10 +27,10 @@ class MasterCategoryController extends Controller
     /**
      * @return Factory|View|Application
      */
-public function index(): Factory|View|Application
+    public function index(): Factory|View|Application
     {
         $keys = [];
-        return view('modules.settings.master_category.grids.master_category_grid',$keys);
+        return view('modules.settings.master_category.grids.master_category_grid', $keys);
     }
 
     /**
@@ -46,26 +46,26 @@ public function index(): Factory|View|Application
         $values = MasterCategory::withCount('masterData as totalMasterData')->whereNotNull('id');
         $datatable = DataTables::of($values)
             ->addIndexColumn()
-            ->filter(function(Builder $query){
+            ->filter(function (Builder $query) {
                 $search = request()->get('search');
-                if(!empty($search)){
-                    $query->where('code','like',"%$search%")
-                    ->orWhere('name','like',"%$search%");
+                if (!empty($search)) {
+                    $query->where('code', 'like', "%$search%")
+                        ->orWhere('name', 'like', "%$search%");
                 }
-            })->orderColumn('categoryParent',function(Builder $query,$order){
-                $query->orderBy('master_category_id',$order);
-            })->addColumn('totalMasterData',function(MasterCategory $item){
-                $badge = ($item->master_data_count <=0) ? "bg-warning" : "bg-success" ;
-                return "<span class='badge $badge'><a href=\"".url('setting/master-data',[$item->code])."\" class='text-white'>".$item->totalMasterData."</a></span>";
-            })->addColumn('status',function(MasterCategory $item){
+            })->orderColumn('categoryParent', function (Builder $query, $order) {
+                $query->orderBy('master_category_id', $order);
+            })->addColumn('totalMasterData', function (MasterCategory $item) {
+                $badge = ($item->master_data_count <= 0) ? "bg-warning" : "bg-success";
+                return "<span class='badge $badge'><a href=\"" . url('setting/master-data', [$item->code]) . "\" class='text-white'>" . $item->totalMasterData . "</a></span>";
+            })->addColumn('status', function (MasterCategory $item) {
                 if ($item->status == "active") return "<span class=\"badge bg-success\">Aktif</span>";
                 if ($item->status == "not_active") return "<span class=\"badge bg-danger\">Tidak Aktif</span>";
                 return "<span class=\"badge bg-secondary\">None</span>";
-            })->addColumn('categoryParent',function(MasterCategory $item){
+            })->addColumn('categoryParent', function (MasterCategory $item) {
                 return $item->categoryParent?->name ?? "-";
-            })->addColumn('action',function(MasterCategory $item){
-                $urlUpdate = url('setting/master-category/form_modal/'.$item->code);
-                $urlDelete = url('setting/master-category/delete/'.$item->id);
+            })->addColumn('action', function (MasterCategory $item) {
+                $urlUpdate = url('setting/master-category/form_modal/' . $item->code);
+                $urlDelete = url('setting/master-category/delete/' . $item->id);
                 $field = csrf_field();
                 $method = method_field('DELETE');
                 return   "
@@ -78,7 +78,7 @@ public function index(): Factory|View|Application
                         </form>
                     </div>
                 ";
-            })->rawColumns(['totalMasterData','categoryParent','status','action']);
+            })->rawColumns(['totalMasterData', 'categoryParent', 'status', 'action']);
 
         return $datatable->toJson();
     }
@@ -94,7 +94,7 @@ public function index(): Factory|View|Application
         $keys['statuses'] = Constant::STATUSKEYVALUE;
         $keys['masterCategory'] = MasterCategory::whereCode($codeCategory)->first();
         $keys['masterCategoryParents'] = MasterCategory::all();
-        return view('modules.settings.master_category.forms.form_modal',$keys);
+        return view('modules.settings.master_category.forms.form_modal', $keys);
     }
 
     /**
@@ -102,62 +102,62 @@ public function index(): Factory|View|Application
      */
     public function save(int $id = 0): JsonResponse
     {
-        DB::beginTransaction();
-        try{
+        try {
+            DB::beginTransaction();
+
             $category = MasterCategory::find($id);
             $post = request()->all();
 
-            $uniqueCode = ($category == null) ? "unique:master_category" :  Rule::unique('master_category','code')->using(function($query) use($post,$category){
+            $uniqueCode = ($category == null) ? "unique:master_category" :  Rule::unique('master_category', 'code')->using(function ($query) use ($post, $category) {
                 $query->where('code', '=', $post['code'])
-                    ->where('id','!=',$category->id);
+                    ->where('id', '!=', $category->id);
             });
 
             $rules = [
                 'mst_category_id' => ['nullable'],
-                'name'=> ['required'],
-                'code'=> ['required',$uniqueCode],
-                'description'=> ['nullable'],
-                'status'=> ['required'],
+                'name' => ['required'],
+                'code' => ['required', $uniqueCode],
+                'description' => ['nullable'],
+                'status' => ['required'],
             ];
 
-            $validator = Validator::make($post,$rules);
-            if($validator->fails()) return response()->json([
+            $validator = Validator::make($post, $rules);
+            if ($validator->fails()) return response()->json([
                 'success' => false,
                 'errors' => $validator->messages(),
-            ],400);
+            ], 400);
 
             $data = [
-                'master_category_id'=> $post['mst_category_id'],
-                'name'=> $post['name'],
-                'code'=> $post['code'],
-                'description'=> $post['description'],
-                'status'=> $post['status'],
+                'master_category_id' => $post['mst_category_id'],
+                'name' => $post['name'],
+                'code' => $post['code'],
+                'description' => $post['description'],
+                'status' => $post['status'],
             ];
 
-            $result = MasterCategory::updateOrCreate(['id'=> $id],$data);
-            if(!$result) throw new Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...",400);
-            $message = ($category==null) ? "Berhasil tambah kategori dengan kode $post[code]" : "Berhasil update kategori dengan kode $post[code]";
-            session()->flash('success',$message);
+            $result = MasterCategory::updateOrCreate(['id' => $id], $data);
+            if (!$result) throw new Exception("Terjadi kesalahan saat proses penyimpanan, lakukan beberapa saat lagi...", 400);
+            $message = ($category == null) ? "Berhasil tambah kategori dengan kode $post[code]" : "Berhasil update kategori dengan kode $post[code]";
+            session()->flash('success', $message);
 
             /// Commit Transaction
             DB::commit();
-            return response()->json(['success'=>true,'message'=> $message]);
-
-        } catch(QueryException $e){
+            return response()->json(['success' => true, 'message' => $message]);
+        } catch (QueryException $e) {
 
             /// Rollback Transaction
             DB::rollBack();
 
             $message = $e->getMessage();
-            return response()->json(['success'=> false,'errors' => $message],500);
-        } catch (Throwable $e){
+            return response()->json(['success' => false, 'errors' => $message], 500);
+        } catch (Throwable $e) {
 
             /// Rollback Transaction
             DB::rollBack();
 
             $message = $e->getMessage();
             $code = $e->getCode() ?: 400;
-            return response()->json(['success'=> false,'errors' => $message],$code);
+            return response()->json(['success' => false, 'errors' => $message], $code);
         }
     }
 
@@ -170,7 +170,7 @@ public function index(): Factory|View|Application
     public function delete(int $id = 0): Redirector|Application|RedirectResponse
     {
 
-/// Begin Transactions
+        /// Begin Transactions
         DB::beginTransaction();
         try {
             $category = MasterCategory::findOrFail($id);
@@ -180,8 +180,8 @@ public function index(): Factory|View|Application
 
             /// Commit Transaction
             DB::commit();
-            return redirect('setting/master-category')->with('success','Berhasil menghapus data !!!');
-        }catch (Throwable $e) {
+            return redirect('setting/master-category')->with('success', 'Berhasil menghapus data !!!');
+        } catch (Throwable $e) {
             /// Rollback Transaction
             DB::rollBack();
 

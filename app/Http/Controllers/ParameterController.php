@@ -96,6 +96,8 @@ class ParameterController extends Controller
     public function save(int $id = 0): JsonResponse
     {
         try {
+            DB::beginTransaction();
+
             $parameter = Parameter::find($id);
             $post = request()->all();
             /// Unique:NAMA_TABLE,NAMA_COLUMN
@@ -133,7 +135,6 @@ class ParameterController extends Controller
             $message = "Yess Berhasil Insert / Update";
             session()->flash('success', $message);
             return response()->json(['success' => true, 'message' => $message], 200);
-
         } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();

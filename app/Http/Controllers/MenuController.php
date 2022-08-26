@@ -96,7 +96,10 @@ class MenuController extends Controller
      */
     public function save(int $id = 0): JsonResponse
     {
+
         try {
+            DB::beginTransaction();
+
             $post = request()->all();
             $rules = [
                 'app_modul_id' => 'required',
