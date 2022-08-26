@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+<style>
+    .ck-editor__editable_inline {
+        min-height: 400px;
+    }
+</style>
 <div class="d-flex flex-sm-column flex-md-row flex-lg-row justify-content-between my-3">
     <div>
         <h3>Form Example</h3>

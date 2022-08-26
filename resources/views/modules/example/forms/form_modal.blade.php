@@ -62,7 +62,11 @@
 {{--    });--}}
 {{--</script>--}}
 
-
+<style>
+    .ck-editor__editable_inline {
+        min-height: 400px;
+    }
+</style>
 <div class="modal-header-custom p-4" style="border-bottom: 1px solid #dee2e6;">
     <div class="d-flex flex-row justify-content-between align-items-end">
         <h4 class="modal-title" id="modal-default-label">Form Tambah</h4>
