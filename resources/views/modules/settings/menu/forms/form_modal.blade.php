@@ -137,7 +137,7 @@
 
         $("#app_modul_id").on('change',function(e){
             e.preventDefault();
-            $.get(`{{ url("ajax/menu/get_menu_by_modul") }}/${this.value || 0}`,function(data){
+            $.get(`{{ url("api/menu/get_menu_by_modul") }}/${this.value || 0}`,function(data){
                 let menu = $("#app_menu_id_parent");
                 menu.empty();
                 console.log("data |",data);

@@ -33,7 +33,7 @@ Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name("logout");
 
-Route::middleware(['auth','session.modul-menu'])->group(function () {
+Route::middleware(['auth', 'session.modul-menu'])->group(function () {
 
     /**
      * START Management User
@@ -72,9 +72,6 @@ Route::middleware(['auth','session.modul-menu'])->group(function () {
     Route::get('setting/menu/form_modal/{id}', [MenuController::class, 'form_modal']);
     Route::post('setting/menu/save/{id}', [MenuController::class, 'save']);
     Route::delete('setting/menu/delete/{id}', [MenuController::class, 'delete']);
-    /// Ajax Section
-    Route::get('ajax/menu/get_menu_by_modul/{id_modul}', [MenuController::class, 'getMenuByModul']);
-
 
     /**
      * START Access Modul
