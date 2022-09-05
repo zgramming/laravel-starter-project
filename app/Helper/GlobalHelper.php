@@ -18,20 +18,20 @@ use JetBrains\PhpStorm\ArrayShape;
 
 enum ExportFileType: string
 {
-    case XLSX = "xlsx";
-    case CSV = "csv";
+	case XLSX = "xlsx";
+	case CSV = "csv";
 }
 
 enum AccessType: string
 {
-    case VIEW = "view";
-    case ADD = "add";
-    case EDIT = "edit";
-    case DELETE = "delete";
-    case PRINT = "print";
-    case EXPORT = "export";
-    case IMPORT = "import";
-    case APPROVE = "approve";
+	case VIEW = "view";
+	case ADD = "add";
+	case EDIT = "edit";
+	case DELETE = "delete";
+	case PRINT = "print";
+	case EXPORT = "export";
+	case IMPORT = "import";
+	case APPROVE = "approve";
 }
 
 /**
@@ -39,16 +39,16 @@ enum AccessType: string
  */
 function getAuthorization(): array | null
 {
-    $id = auth()->id();
-    $user = User::with(['userGroup'])->find($id);
-    $sessionModulMenu = session(Constant::KEY_SESSION_MODUL_MENU);
-    if (empty($user) || empty($sessionModulMenu)) return null;
+	$id = auth()->id();
+	$user = User::with(['userGroup'])->find($id);
+	$sessionModulMenu = session(Constant::KEY_SESSION_MODUL_MENU);
+	if (empty($user) || empty($sessionModulMenu)) return null;
 
-    $allowedAccess = AccessMenu::whereAppMenuId($sessionModulMenu['menu_id'])
-        ->whereAppGroupUserId($user->userGroup->id)
-        ->first();
+	$allowedAccess = AccessMenu::whereAppMenuId($sessionModulMenu['menu_id'])
+		->whereAppGroupUserId($user->userGroup->id)
+		->first();
 
-    return $allowedAccess?->allowed_access ?? [];
+	return $allowedAccess?->allowed_access ?? [];
 }
 
 /**
@@ -57,7 +57,7 @@ function getAuthorization(): array | null
  */
 function hasAccessMenu(AccessType $accessType): bool
 {
-    return in_array($accessType->value, getAuthorization());
+	return in_array($accessType->value, getAuthorization());
 }
 
 /**
@@ -68,10 +68,10 @@ function hasAccessMenu(AccessType $accessType): bool
  */
 function echoFlush(string $kode = "", string $message = "", float|null $sleep = null)
 {
-    echo "\n" . json_encode(['success' => true, 'kode' => $kode, 'message' => $message]);
-    if (!empty($usleep) || $sleep != null) usleep(1000000 * $sleep);
-    flush();
-    ob_flush();
+	echo "\n" . json_encode(['success' => true, 'kode' => $kode, 'message' => $message]);
+	if (!empty($usleep) || $sleep != null) usleep(1000000 * $sleep);
+	flush();
+	ob_flush();
 }
 
 /**
@@ -81,7 +81,7 @@ function echoFlush(string $kode = "", string $message = "", float|null $sleep = 
  */
 function toCurrency($value, int $digit = 0): string
 {
-    return number_format((float)$value, $digit);
+	return number_format((float)$value, $digit);
 }
 
 /**
@@ -90,11 +90,11 @@ function toCurrency($value, int $digit = 0): string
  */
 function fromCurrency($value): int
 {
-    list($value) = explode("]", str_replace("[>", "", $value));
-    $value = $value == "" ? "0" : $value;
+	list($value) = explode("]", str_replace("[>", "", $value));
+	$value = $value == "" ? "0" : $value;
 
-    $result = str_starts_with($value, ".") ? "0" . $value : $value;
-    return (int)str_replace(",", "", $result);
+	$result = str_starts_with($value, ".") ? "0" . $value : $value;
+	return (int)str_replace(",", "", $result);
 }
 
 /**
@@ -103,8 +103,8 @@ function fromCurrency($value): int
  */
 function convertDate(string $date = ""): ?string
 {
-    $arr = explode("-", $date);
-    return ($date == "" or $date == "0000-00-00") ? "" : $arr[2] . "/" . $arr[1] . "/" . $arr[0];
+	$arr = explode("-", $date);
+	return ($date == "" or $date == "0000-00-00") ? "" : $arr[2] . "/" . $arr[1] . "/" . $arr[0];
 }
 
 /**
@@ -113,9 +113,9 @@ function convertDate(string $date = ""): ?string
  */
 function unconvertDate(string $date = ""): ?string
 {
-    if (empty($date)) return null;
-    $arr = explode('/', $date);
-    return $arr[2] . "-" . $arr[1] . "-" . $arr[0];
+	if (empty($date)) return null;
+	$arr = explode('/', $date);
+	return $arr[2] . "-" . $arr[1] . "-" . $arr[0];
 }
 
 /**
@@ -129,25 +129,24 @@ function unconvertDate(string $date = ""): ?string
  * @throws Exception
  */
 function uploadImage(
-    UploadedFile $file,
-    string       $path,
-    ?string      $customName = null,
-    bool         $returnRelativePath = false,
-    ?int         $resizeWidth = null,
-    ?int         $resizeHeight = null
-): string
-{
-    $name = uniqid() . time() . "." . $file->getClientOriginalExtension();
-    if ($customName != null) $name = $customName;
+	UploadedFile $file,
+	string       $path,
+	?string      $customName = null,
+	bool         $returnRelativePath = false,
+	?int         $resizeWidth = null,
+	?int         $resizeHeight = null
+): string {
+	$name = uniqid() . time() . "." . $file->getClientOriginalExtension();
+	if ($customName != null) $name = $customName;
 
-    $image = Image::make($file->getRealPath());
+	$image = Image::make($file->getRealPath());
 
-    if ($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth, $resizeHeight, fn($constraint) => $constraint->aspectRatio());
+	if ($resizeHeight != null && $resizeWidth != null) $image->resize($resizeWidth, $resizeHeight, fn ($constraint) => $constraint->aspectRatio());
 
-    $store = Storage::disk('public')->put($path . DIRECTORY_SEPARATOR . $name, $image->encode());
-    if (!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...", 400);
-    if ($returnRelativePath) return Storage::path($path . "/" . $name);
-    return $name;
+	$store = Storage::disk('public')->put($path . DIRECTORY_SEPARATOR . $name, $image->encode());
+	if (!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...", 400);
+	if ($returnRelativePath) return Storage::path($path . "/" . $name);
+	return $name;
 }
 
 /**
@@ -159,21 +158,20 @@ function uploadImage(
  * @throws Exception
  */
 function uploadFile(
-    UploadedFile $file,
-    string       $path,
-    ?string      $customName = null,
-    /// Is usefully when you need relative path [c:/laragon/www/laravel/www/www/www/ww/w]
-    bool         $returnRelativePath = false
-): string
-{
-    $name = uniqid() . time() . "." . $file->getClientOriginalExtension();
-    if ($customName != null) $name = $customName;
+	UploadedFile $file,
+	string       $path,
+	?string      $customName = null,
+	/// Is usefully when you need relative path [c:/laragon/www/laravel/www/www/www/ww/w]
+	bool         $returnRelativePath = false
+): string {
+	$name = uniqid() . time() . "." . $file->getClientOriginalExtension();
+	if ($customName != null) $name = $customName;
 
-    $store = Storage::disk('public')->put($path . DIRECTORY_SEPARATOR . $name, $file);
-    if (!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...", 400);
+	$store = Storage::disk('public')->put($path . DIRECTORY_SEPARATOR . $name, $file);
+	if (!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...", 400);
 
-    if ($returnRelativePath) return Storage::disk('public')->path($path . "/" . $name);
-    return $name;
+	if ($returnRelativePath) return Storage::path($path . "/" . $name);
+	return $name;
 }
 
 /**
@@ -190,53 +188,53 @@ function uploadFile(
 function exportSpout(array $header, Collection $values, callable $callback, ExportFileType $type = ExportFileType::XLSX): array
 {
 
-    /// For debug purpose, we should check performance time
-    //    $startTimer = microtime(true);
+	/// For debug purpose, we should check performance time
+	//    $startTimer = microtime(true);
 
-    echoFlush("prepare_folder", "Sedang membuat folder penyimpanan sementara", 0.01);
-    /// Create folder if not exists, when exists do nothing
-    $folder = "temp/export";
-    $storagePath = Storage::disk('public')->path($folder);
-    File::ensureDirectoryExists($storagePath);
+	echoFlush("prepare_folder", "Sedang membuat folder penyimpanan sementara", 0.01);
+	/// Create folder if not exists, when exists do nothing
+	$folder = "temp/export";
+	$storagePath = Storage::disk('public')->path($folder);
+	File::ensureDirectoryExists($storagePath);
 
-    $writer = WriterEntityFactory::createXLSXWriter();
-    $filename = uniqid() . time() . ".xlsx";
+	$writer = WriterEntityFactory::createXLSXWriter();
+	$filename = uniqid() . time() . ".xlsx";
 
-    if ($type == ExportFileType::CSV) {
-        $writer = WriterEntityFactory::createCSVWriter();
-        $filename = uniqid() . time() . ".csv";
-    }
+	if ($type == ExportFileType::CSV) {
+		$writer = WriterEntityFactory::createCSVWriter();
+		$filename = uniqid() . time() . ".csv";
+	}
 
-    $fullpath = $storagePath . "/" . $filename;
-    $writer->openToFile($fullpath);
+	$fullpath = $storagePath . "/" . $filename;
+	$writer->openToFile($fullpath);
 
-    /// Create Header
-    $header = WriterEntityFactory::createRowFromArray($header);
-    $writer->addRow($header);
+	/// Create Header
+	$header = WriterEntityFactory::createRowFromArray($header);
+	$writer->addRow($header);
 
-    /// Create multiple row content
-    $no = 0;
-    foreach ($values->chunk(1000) as $chunk) {
-        $no = $no + count($chunk);
-        echoFlush("read_row", "Sedang membaca data ke-$no", sleep: 0.020);
+	/// Create multiple row content
+	$no = 0;
+	foreach ($values->chunk(1000) as $chunk) {
+		$no = $no + count($chunk);
+		echoFlush("read_row", "Sedang membaca data ke-$no", sleep: 0.020);
 
-        $tempArr = $chunk->map(fn($value) => WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
-        $writer->addRows($tempArr);
-    }
+		$tempArr = $chunk->map(fn ($value) => WriterEntityFactory::createRowFromArray($callback($value)))->toArray();
+		$writer->addRows($tempArr);
+	}
 
-    $writer->close();
+	$writer->close();
 
-    echoFlush("prepare_download", "Sedang menyiapkan file");
-    echo "\n";
+	echoFlush("prepare_download", "Sedang menyiapkan file");
+	echo "\n";
 
-    /// For Debug Purpose
-    //    $endTimer = microtime(true) - $startTimer;
+	/// For Debug Purpose
+	//    $endTimer = microtime(true) - $startTimer;
 
-    return [
-        'relativePath' => Storage::disk('public')->path("$folder/$filename"),
-        'url' => asset(Storage::url("$folder/$filename")),
-        'size' => formatBytes(Storage::disk('public')->size("$folder/$filename")),
-    ];
+	return [
+		'relativePath' => Storage::disk('public')->path("$folder/$filename"),
+		'url' => asset(Storage::url("$folder/$filename")),
+		'size' => formatBytes(Storage::disk('public')->size("$folder/$filename")),
+	];
 }
 
 /**
@@ -253,43 +251,43 @@ function exportSpout(array $header, Collection $values, callable $callback, Expo
 function importSpout(UploadedFile $file, callable $callback): Collection
 {
 
-    /// For debug purpose, we should check performance time
-    //    $startTimer = microtime(true);
+	/// For debug purpose, we should check performance time
+	//    $startTimer = microtime(true);
 
-    echoFlush("prepare_file", "Sedang mempersiapkan file untuk diimport", 0.0000001);
-    $uploadedFile = uploadFile(file: $file, path: 'temp/import', returnRelativePath: true);
+	echoFlush("prepare_file", "Sedang mempersiapkan file untuk diimport", 0.0000001);
+	$uploadedFile = uploadFile(file: $file, path: 'temp/import', returnRelativePath: true);
 
-    echoFlush("load_file", "Sedang mempersiapkan file untuk dibaca", 0.0000001);
-    $reader = ReaderEntityFactory::createReaderFromFile($uploadedFile);
-    $reader->setShouldFormatDates(true);
-    $reader->open($uploadedFile);
+	echoFlush("load_file", "Sedang mempersiapkan file untuk dibaca", 0.0000001);
+	$reader = ReaderEntityFactory::createReaderFromFile($uploadedFile);
+	$reader->setShouldFormatDates(true);
+	$reader->open($uploadedFile);
 
-    $tempArr = [];
-    $no = 0;
+	$tempArr = [];
+	$no = 0;
 
-    foreach ($reader->getSheetIterator() as $sheet) {
-        foreach ($sheet->getRowIterator() as $row) {
-            $cells = $row->toArray();
+	foreach ($reader->getSheetIterator() as $sheet) {
+		foreach ($sheet->getRowIterator() as $row) {
+			$cells = $row->toArray();
 
-            /// Skip First Iteration, because we know first row is header
-            if (!is_int($cells[0])) continue;
+			/// Skip First Iteration, because we know first row is header
+			if (!is_int($cells[0])) continue;
 
-            $result = $callback($cells);
-            $tempArr[] = $result;
-        }
-    }
+			$result = $callback($cells);
+			$tempArr[] = $result;
+		}
+	}
 
-    $reader->close();
+	$reader->close();
 
-    echoFlush("remove_file", "Sedang menghapus temporary file import", 0.005);
-    /// Remove Excel if already exist reading
-    Storage::delete($uploadedFile);
-    echo "\n";
+	echoFlush("remove_file", "Sedang menghapus temporary file import", 0.005);
+	/// Remove Excel if already exist reading
+	Storage::delete($uploadedFile);
+	echo "\n";
 
-    /// For Debug Purpose
-    //    $endTimer = microtime(true) - $startTimer;
-    //    dd($tempArr);
-    return collect(value: $tempArr);
+	/// For Debug Purpose
+	//    $endTimer = microtime(true) - $startTimer;
+	//    dd($tempArr);
+	return collect(value: $tempArr);
 }
 
 /**
@@ -300,10 +298,10 @@ function importSpout(UploadedFile $file, callable $callback): Collection
  */
 function formatBytes(int|float $size, int $precision = 2): string
 {
-    $base = log($size, 1024);
-    $suffixes = array('', 'K', 'M', 'G', 'T');
+	$base = log($size, 1024);
+	$suffixes = array('', 'K', 'M', 'G', 'T');
 
-    return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
+	return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
 }
 
 /**
@@ -316,21 +314,21 @@ function formatBytes(int|float $size, int $precision = 2): string
  */
 function generateCodeBasic(string $table, string $column, string $prefix, ?array $where = null, string $initializeNumber = '00000'): string
 {
-    if (empty($initializeNumber)) $initializeNumber = '00000';
+	if (empty($initializeNumber)) $initializeNumber = '00000';
 
-    $isDataEmpty = DB::table($table)->where($where)->count() <= 0;
-    if (!$isDataEmpty) {
-        $query = DB::table($table)->orderBy($column, "DESC");
-        if ($where != null) $query = $query->where($where);
+	$isDataEmpty = DB::table($table)->where($where)->count() <= 0;
+	if (!$isDataEmpty) {
+		$query = DB::table($table)->orderBy($column, "DESC");
+		if ($where != null) $query = $query->where($where);
 
-        $latestGenerateNumber = $query->limit(1)->first()->$column;
-        $initializeNumber = str_replace($prefix, '', $latestGenerateNumber);
-    }
+		$latestGenerateNumber = $query->limit(1)->first()->$column;
+		$initializeNumber = str_replace($prefix, '', $latestGenerateNumber);
+	}
 
-    $generateCode = $prefix . $initializeNumber;
-    $generateCode++;
+	$generateCode = $prefix . $initializeNumber;
+	$generateCode++;
 
-    return $generateCode;
+	return $generateCode;
 }
 
 /**
@@ -341,9 +339,9 @@ function generateCodeBasic(string $table, string $column, string $prefix, ?array
  */
 function generateUrutan(string $table, string $column, ?array $where = null): int
 {
-    $query = DB::table($table)->orderBy($column, "DESC");
-    if ($where != null) $query = $query->where($where);
-    return ($query->limit(1)->first()->$column ?? 0) + 1;
+	$query = DB::table($table)->orderBy($column, "DESC");
+	if ($where != null) $query = $query->where($where);
+	return ($query->limit(1)->first()->$column ?? 0) + 1;
 }
 
 /**
@@ -351,12 +349,12 @@ function generateUrutan(string $table, string $column, ?array $where = null): in
  */
 function generateMonths(): array
 {
-    $arr = [];
-    for ($i = 1; $i <= 12; $i++) {
-        $arr[$i] = date("F", mktime(hour: 0, month: $i));
-    }
+	$arr = [];
+	for ($i = 1; $i <= 12; $i++) {
+		$arr[$i] = date("F", mktime(hour: 0, month: $i));
+	}
 
-    return $arr;
+	return $arr;
 }
 
 /**
@@ -367,14 +365,14 @@ function generateMonths(): array
  */
 function generateYear(int $start, int $end): array
 {
-    if ($start > $end) {
-        throw new Exception("Tahun mulai tidak boleh lebih dari Tahun Selesai", 400);
-    }
+	if ($start > $end) {
+		throw new Exception("Tahun mulai tidak boleh lebih dari Tahun Selesai", 400);
+	}
 
-    $arr = [];
-    for ($i = $start; $i <= $end; $i++) {
-        $arr[$i] = $i;
-    }
+	$arr = [];
+	for ($i = $start; $i <= $end; $i++) {
+		$arr[$i] = $i;
+	}
 
-    return $arr;
+	return $arr;
 }
