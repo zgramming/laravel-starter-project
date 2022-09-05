@@ -173,7 +173,7 @@ function uploadFile(
     if (!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...", 400);
 
     if ($returnRelativePath) return Storage::disk('public')->path($path . "/" . $name);
-    return Storage::url($path . "/" . $name);
+    return $name;
 }
 
 /**
