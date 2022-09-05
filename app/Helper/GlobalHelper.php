@@ -167,7 +167,7 @@ function uploadFile(
 	$name = uniqid() . time() . "." . $file->getClientOriginalExtension();
 	if ($customName != null) $name = $customName;
 
-	$store = Storage::disk('public')->put($path . DIRECTORY_SEPARATOR . $name, $file);
+	$store = Storage::disk('public')->put($path . DIRECTORY_SEPARATOR . $name, file_get_contents($file));
 	if (!$store) throw new Exception("Gagal dalam mengupload gambar, coba beberapa saat lagi...", 400);
 
 	if ($returnRelativePath) return Storage::path($path . "/" . $name);
