@@ -35,10 +35,10 @@ Route::post("get_encryption", function () {
 
 Route::post('testing_encrypt', function (Request $request) {
     $request = request()->all();
-    $key = hex2bin(env('KEY_ENCRYPTION_LOGIN'));
-    $iv =  hex2bin(env('IV_ENCRYPTION_LOGIN'));
+    $key = hex2bin(env('MIX_KEY_ENCRYPTION_LOGIN'));
+    $iv =  hex2bin(env('MIX_IV_ENCRYPTION_LOGIN'));
     $enc = $request['auth_encryption'];
-    $dec = openssl_decrypt($enc, env('CIPHER_ENCRYPTION_LOGIN'), $key, OPENSSL_ZERO_PADDING, $iv);
+    $dec = openssl_decrypt($enc, env('MIX_CIPHER_ENCRYPTION_LOGIN'), $key, OPENSSL_ZERO_PADDING, $iv);
     $dec = trim($dec);
     dump(json_decode($dec));
 })->name('testing_encrypt');

@@ -76,8 +76,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"
     integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-{{-- <script src="{{ mix('js/aes-encryption.js') }}"></script> --}}
-<script src="{{ asset('js/example_aes_encrpty.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function(e) {
         $.ajaxSetup({
@@ -95,7 +94,7 @@
                 name: $("#username").val() || "",
                 password: $("#password").val() || "",
             })
-            const enc = exampleEncrypt(obj, key, iv);
+            const enc = encryptionAES(obj);
             const response = await $.ajax({
                 url: url,
                 method: "POST",

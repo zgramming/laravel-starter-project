@@ -1,3 +1,8 @@
+/******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+/*!****************************************!*\
+  !*** ./resources/js/aes-encryption.js ***!
+  \****************************************/
 // const stringToHex = (string) => CryptoJS.enc.Hex.parse(string);
 // window.exampleEncrypt = function (yourString, key, iv) {
 //     const ciphertext = CryptoJS.AES.encrypt(
@@ -19,3 +24,5 @@
 
 //     return ciphertext;
 // }
+/******/ })()
+;
