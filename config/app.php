@@ -15,6 +15,10 @@ return [
     |
     */
 
+    'encryption-aes-key' => env('KEY_ENCRYPTION_LOGIN'),
+    'encryption-aes-iv' => env('IV_ENCRYPTION_LOGIN'),
+    'encryption-aes-chiper' => env('CIPHER_ENCRYPTION_LOGIN'),
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
