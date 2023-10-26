@@ -16,7 +16,7 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
-        "crypto-js": "^4.1.1",
+        "crypto-js": "^4.2.0",
         "dotenv": "^16.0.3"
     }
 }
